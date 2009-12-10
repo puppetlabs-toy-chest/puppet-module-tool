@@ -1,0 +1,17 @@
+%h1 Sign In
+
+- form_tag session_path do
+  %fieldset
+    %p
+      Username:
+      = text_field_tag :username
+    %p
+      Password:
+      = password_field_tag :password
+    %p
+      = submit_tag 'Sign In'
+        
+%p
+  Don't have an account yet?
+  = link_to "Register!", new_user_path
+

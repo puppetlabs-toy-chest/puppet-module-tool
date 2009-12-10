@@ -1,0 +1,9 @@
+!!!
+%html
+  %head
+    %title Puppet "Forge"
+    = stylesheet_link_tag 'screen', :media => 'screen, projection'
+  %body
+    - flash.each do |k, v|
+      #flash{ :class => k }= v
+    =yield
