@@ -1,9 +1,119 @@
 @import "reset";
 
-body {
-   font-family: sans-serif;
+#content {
+  padding: 1.5em 0 2em;
 }
 
-fieldset { background: #e6e6e6; padding: 1.5em; }
+#footer .site-width p {
+  color: #777;
+  border-top: 3px solid #ccc;
+  padding-top: 0.5em;
+}
 
-.error { color: #EE0000; }
+div#inspector.primary-secondary-content {
+  padding-left: 400px;
+  padding-right: 0;
+}
+
+div#inspector .secondary-content {
+  margin: 0;
+  width: 100%;
+  position: relative;
+  left: auto;
+  display: table;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 2px;
+  padding: 10px;
+}
+
+#inspector .primary-content {
+  width: 360px;
+  margin-left: -360px;
+  position: relative;
+  left: -40px;
+}
+
+.header {
+  margin: -10px;
+  margin-bottom: 1em;
+  padding: 0.25em 5em 0.25em 10px;
+  background: #ccc;
+  -webkit-border-top-radius: 2px;
+  -moz-border-radius: 2px;
+}
+
+.header h2, .header input {
+  font-size: 1.25em;
+  font-weight: bold;
+  margin: 0;
+  color: #666;
+}
+
+table.inspector caption,
+.table-tools h3,
+.element h3,
+.element label {
+  font-size: 18px;
+  background: #CCC;
+  color: #666;
+  font-weight: bold;
+  padding: 2px 8px;
+}
+
+.element h3 {
+  padding: 6px 8px;
+}
+
+.grouping {
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  padding: 10px 10px 0 10px;
+  background: #F8F8F8;
+  border: 1px solid #DDD;
+  margin-bottom: 1.5em;
+}
+
+.grouping h2 {
+  background: #EEE;
+  margin: -10px -10px 10px -10px;
+  padding: 6px 10px 3px 10px;
+  border-top: 1px solid #F8F8F8;
+}
+
+.grouping .section h3 {
+  background: #EEE;
+  margin: -10px -10px 10px -10px;
+  padding: 6px 10px 6px 10px;
+  border-top: 1px solid #F8F8F8;
+}
+
+.grouping table,
+.grouping .element {
+  margin-bottom: 10px;
+}
+
+.grouping .section {
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  padding: 10px 10px 0 10px;
+  background: #F8F8F8;
+  border: 1px solid #DDD;
+  margin-bottom: 1.5em;
+}
+
+ol.timeline li {
+  list-style-type: none;
+  font-size: 0.85em;
+  line-height: 1.25em;
+  margin-bottom: 0.67em;
+  padding-left: 20px;
+  position: relative;
+}
+
+@import "typography";
+@import "tables";
+@import "forms";
+@import "header";
+@import "layout";
+@import "links";
+@import "polish";

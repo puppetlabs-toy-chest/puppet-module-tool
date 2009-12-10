@@ -14,4 +14,5 @@ spec/spec.opts
 spec/rcov.opts
 public/javascripts/all.js
 public/stylesheets
+test/
 .dotest/*
