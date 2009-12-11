@@ -3,7 +3,7 @@
 config.gem 'mocha'
 config.gem 'rspec', :lib => false
 config.gem 'rspec-rails', :lib => false
-config.gem 'shoulda', :lib => false, :source => 'http://gemcutter.org'
+config.gem 'factory_girl'
 
 # The test environment is used exclusively to run your application's
 # test suite.  You never need to work with it otherwise.  Remember that
