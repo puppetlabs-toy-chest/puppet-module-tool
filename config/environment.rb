@@ -14,7 +14,8 @@ Rails::Initializer.run do |config|
   config.gem 'warden'
   config.gem 'rails_warden'
   config.gem 'bcrypt-ruby', :lib => 'bcrypt'
-
+  config.gem 'bitmask-attribute'
+  
   # Run "rake -D time" for a list of tasks for finding time zone names.
   config.time_zone = 'UTC'
 

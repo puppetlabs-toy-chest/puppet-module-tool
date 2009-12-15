@@ -2,7 +2,8 @@
 
 config.gem 'mocha'
 config.gem 'rspec', :lib => false
-config.gem 'rspec-rails', :lib => false
+config.gem 'rspec-rails', :lib => 'spec/rails'
+config.gem 'shoulda'
 config.gem 'factory_girl'
 
 # The test environment is used exclusively to run your application's
