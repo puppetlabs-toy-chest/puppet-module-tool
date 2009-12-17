@@ -16,3 +16,5 @@ public/javascripts/all.js
 public/stylesheets
 test/
 .dotest/*
+spec/fixtures
+\#*
