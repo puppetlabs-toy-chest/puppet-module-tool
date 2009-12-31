@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
   validates_format_of :username, :with => /^[[:alnum:]]{3,}$/, :message => "should be 3 or more alphanumeric characters"
   validates_uniqueness_of :username
 
-
   def self.authenticate(username_or_email, password)
     user = first(:conditions => ["username = :q or email = :q", {:q => username_or_email}])
     user if user && user.password == password

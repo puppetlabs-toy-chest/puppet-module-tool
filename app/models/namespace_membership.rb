@@ -7,5 +7,5 @@ class NamespaceMembership < ActiveRecord::Base
   validates_presence_of :namespace_id
 
   bitmask :roles, :as => [:admin]
-  
+
 end

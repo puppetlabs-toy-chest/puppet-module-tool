@@ -1,5 +1,6 @@
 class Mod < ActiveRecord::Base
   include TitleDefaulting
+  delegate :allows?, :to => :namespace
 
   belongs_to :namespace
   validates_presence_of :namespace_id

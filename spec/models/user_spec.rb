@@ -11,21 +11,18 @@ describe User do
 
   describe ".authenticate" do
     before do
-      @user = Factory.create(:user)
+      @user = Factory(:user)
     end
     it "should authenticate" do
-      User.authenticate('bruce', 'test').should == @user
+      User.authenticate(@user.username, 'test').should == @user
     end
   end
 
   describe ".create" do
-
     before do
-      @user = Factory.create(:user)
+      @user = Factory(:user)
     end
-
     it { should validate_uniqueness_of(:username) }
-
   end
 
 end

@@ -10,7 +10,7 @@ describe Organization do
     }
   end
 
-  it { should have_many(:owned_namespaces) }
+  it { should have_many(:namespaces) }
   
   it "should create a new instance given valid attributes" do
     Organization.create!(@valid_attributes)
