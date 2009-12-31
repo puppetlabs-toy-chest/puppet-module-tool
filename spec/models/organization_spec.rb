@@ -5,8 +5,7 @@ describe Organization do
     @valid_attributes = {
       :name => "value for name",
       :title => "value for title",
-      :description => "value for description",
-      :owner_id => 1
+      :description => "value for description"
     }
   end
 

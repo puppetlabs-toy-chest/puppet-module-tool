@@ -18,3 +18,4 @@ test/
 .dotest/*
 spec/fixtures
 \#*
+tmp/gitosis-admin

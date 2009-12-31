@@ -75,5 +75,18 @@ describe Mod do
     end
 
   end
+
+  describe "#repo_path" do
+
+    before do
+      @member = Factory(:ns_member)
+      @mod = Factory(:mod, :namespace => @member.namespace)
+    end
+
+    it "should be based on the full_name" do
+      @mod.repo_path.should == "#{@mod.namespace.owner.name}/#{@mod.namespace.name}/#{@mod.name}"
+    end
+    
+  end
     
 end

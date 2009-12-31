@@ -11,5 +11,9 @@ class Mod < ActiveRecord::Base
   def full_name
     @full_name ||= [namespace.full_name, name].join('-')
   end
+
+  def repo_path
+    @repo_path ||= full_name.tr('-', '/')
+  end
   
 end
