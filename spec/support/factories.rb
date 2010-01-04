@@ -27,6 +27,7 @@ end
 Factory.define :mod do |x|
   x.sequence(:name) { |n| "name#{n}" }
   x.association :namespace
+  x.sequence(:source) { |n| "http://example.com/mod#{n}.git" }
 end
 
 

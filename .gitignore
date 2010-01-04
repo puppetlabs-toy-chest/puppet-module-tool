@@ -2,6 +2,7 @@ coverage/*
 log/*.log
 log/*.pid
 db/*.db
+db/*.sql
 db/*.sqlite3
 db/schema.rb
 tmp/**/*

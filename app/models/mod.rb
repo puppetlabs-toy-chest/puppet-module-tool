@@ -8,6 +8,8 @@ class Mod < ActiveRecord::Base
   validates_format_of :name, :with => /^[[:alnum:]]{2,}$/, :message => "should be 2 or more alphanumeric characters"
   validates_uniqueness_of :name, :scope => :namespace_id
 
+  validates_format_of :source, :with => /^git:\/\/|http:\/\/|.*?@/, :message => "location invalid (must start with http://, git://, or include a @ for SSH)"
+  
   def full_name
     @full_name ||= [namespace.full_name, name].join('-')
   end
