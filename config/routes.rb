@@ -1,6 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :users
-  map.resources :modules
+  map.resources :mods, :alias => :modules
   map.resource :session
   map.resource :pages, :collection => {
     :home => :get

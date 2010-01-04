@@ -24,11 +24,14 @@ describe Mod do
 
   it { should validate_format_of(:source).not_with('foo').with_message(/location invalid/) }
   it { should validate_format_of(:source).not_with('foo.com').with_message(/location invalid/) }
+  # TODO: support these using a public key, eventually
+  it { should validate_format_of(:source).not_with('git@github.com:bar/foo').with_message(/location invalid/) }
+  it { should validate_format_of(:source).not_with('git@github.com:bar/foo.git').with_message(/location invalid/) }
+
   it { should validate_format_of(:source).with('git://github.com/bar/foo.git') }
-  it { should validate_format_of(:source).with('http://github.com/bar/foo.git') }
-  it { should validate_format_of(:source).with('git@github.com:bar/foo') }
-  it { should validate_format_of(:source).with('git@github.com:bar/foo.git') }
-  
+  it { should validate_format_of(:source).with('http://github.com/bar/foo.git') } 
+  it { should validate_format_of(:source).with('https://github.com/bar/foo.git') }
+ 
   describe '#title' do
 
     describe 'after saving' do
