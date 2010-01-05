@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :owned_namespaces, :as => :owner, :class_name => 'Namespace'
   
   has_many :organization_memberships
-  has_many :oragnizations, :through => :organization_memberships
+  has_many :organizations, :through => :organization_memberships
   
   validates_format_of :username, :with => /^[[:alnum:]]{3,}$/, :message => "should be 3 or more alphanumeric characters"
   validates_uniqueness_of :username
@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
   def password=(new_password)
     @password = Password.create(new_password)
     write_attribute(:password, @password)
+  end
+
+  def to_param
+    name
   end
 
 end

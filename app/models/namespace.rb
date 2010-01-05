@@ -26,4 +26,8 @@ class Namespace < ActiveRecord::Base
     users.first(:conditions => {:id => user.id}) ? true : false
   end
 
+  def to_param
+    name
+  end
+
 end

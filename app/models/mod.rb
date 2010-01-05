@@ -17,5 +17,9 @@ class Mod < ActiveRecord::Base
   def repo_path
     @repo_path ||= full_name.tr('-', '/')
   end
+
+  def to_param
+    name
+  end
   
 end
