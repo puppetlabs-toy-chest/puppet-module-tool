@@ -15,6 +15,7 @@ describe Mod do
       Factory.create(:mod)
     end
     it { should validate_uniqueness_of(:name).scoped_to(:namespace_id) }
+    it { should validate_uniqueness_of(:address) }
   end
   it { should belong_to(:namespace) }
   it { should validate_presence_of(:namespace_id) }
@@ -31,7 +32,12 @@ describe Mod do
   it { should validate_format_of(:source).with('git://github.com/bar/foo.git') }
   it { should validate_format_of(:source).with('http://github.com/bar/foo.git') } 
   it { should validate_format_of(:source).with('https://github.com/bar/foo.git') }
- 
+
+  it { should validate_presence_of(:address) }
+  it { should validate_format_of(:address).with('foo-bar-baz') }
+  it { should validate_format_of(:address).not_with('foo-bar').with_message(/invalid/) }
+  it { should validate_format_of(:address).not_with('foo').with_message(/invalid/) }
+  
   describe '#title' do
 
     describe 'after saving' do
@@ -56,18 +62,6 @@ describe Mod do
 
   end
 
-  describe "#full_name" do
-
-    before do
-      @mod = Factory(:mod)
-    end
-
-    it "should start with the namespace full_name" do
-      @mod.full_name.should == "#{@mod.namespace.full_name}-#{@mod.name}"
-    end
-
-  end
-
   describe "#allows?" do
 
     before do
@@ -84,19 +78,6 @@ describe Mod do
       @mod.allows?(@other_user).should be_false
     end
 
-  end
-
-  describe "#repo_path" do
-
-    before do
-      @member = Factory(:ns_member)
-      @mod = Factory(:mod, :namespace => @member.namespace)
-    end
-
-    it "should be based on the full_name" do
-      @mod.repo_path.should == "#{@mod.namespace.owner.name}/#{@mod.namespace.name}/#{@mod.name}"
-    end
-    
   end
     
 end

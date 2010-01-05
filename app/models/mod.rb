@@ -9,17 +9,30 @@ class Mod < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :namespace_id
 
   validates_format_of :source, :with => /^(git|https?):\/\//, :message => "location invalid (must start with http://, https://, or git://)"
+
+  validates_presence_of :address
+  validates_uniqueness_of :address
+  validates_format_of :address, :with => /^[[:alnum:]]+-[[:alnum:]]+-[[:alnum:]]+$/
+  before_validation :set_address!
+  attr_protected :address
+
+  named_scope :for_address, proc { |a|
+    lookup = ModuleLookup.new(a)
+    {:conditions => ['mods.address like ?', lookup.to_sql]}
+  }
   
-  def full_name
-    @full_name ||= [namespace.full_name, name].join('-')
-  end
-
-  def repo_path
-    @repo_path ||= full_name.tr('-', '/')
-  end
-
   def to_param
     name
+  end
+
+  def address
+    @address ||= read_attribute(:address) || set_address!
+  end
+
+  def set_address!
+    if namespace
+      write_attribute(:address, [namespace.address, name].join('-'))
+    end
   end
   
 end

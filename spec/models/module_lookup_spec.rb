@@ -2,46 +2,47 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe ModuleLookup do
 
-  describe '#ready?' do
-
-    context 'when an organization_id is set' do
-      before do
-        @lookup = ModuleLookup.new(:organization_id => 1)
-      end
-      it "should be true" do
-        @lookup.should be_ready
+  context 'when three parts are present' do
+    before do
+      @lookup = ModuleLookup.new('foo-bar-baz')
+    end
+    it "should be true" do
+      @lookup.should be_specific
+    end
+    describe '#sql' do
+      it "should return a specific LIKE value" do
+        @lookup.to_sql.should == 'foo-bar-baz'
       end
     end
-
-    context 'when a user_id is set' do
-      before do
-        @lookup = ModuleLookup.new(:user_id => 1)
-      end
-      it "should be true" do
-        @lookup.should be_ready
-      end
-    end
-
-    context 'when an organization_id and user_id are set' do
-      before do
-        @lookup = ModuleLookup.new(:organization_id => 1, :user_id => 2)
-      end
-      it "should be true" do
-        @lookup.should be_ready
-      end
-    end
-
-    context 'when neither organization_id and user_id are set' do
-      before do
-        @lookup = ModuleLookup.new({})
-      end
-      it "should be false" do
-        @lookup.should_not be_ready
-      end
-    end
-
-
   end
 
+  context 'when two parts are present' do
+    before do
+      @lookup = ModuleLookup.new('foo-bar')
+    end
+    it "should be false" do
+      @lookup.should_not be_specific
+    end
+    describe '#sql' do
+      it "should return a glob LIKE value" do
+        @lookup.to_sql.should == 'foo-bar-%'
+      end
+    end
+  end
+
+  context 'when one part is present' do
+    before do
+      @lookup = ModuleLookup.new('foo')
+    end
+    it "should be true" do
+      @lookup.should_not be_specific
+    end
+    describe '#sql' do
+      it "should return a specific LIKE value" do
+        @lookup.to_sql.should == 'foo-%'
+      end
+    end
+
+  end
 
 end

@@ -14,10 +14,16 @@ describe Namespace do
       Factory(:namespace)
     end
     it { should validate_uniqueness_of(:name).scoped_to([:owner_id, :owner_type]) }
+    it { should validate_uniqueness_of(:address) }
   end
   it { should validate_format_of(:name).with('foo') }
   it { should validate_format_of(:name).not_with('bad_char').with_message(/alphanumeric/) }
   it { should validate_format_of(:name).not_with('1').with_message(/2 or more/) }
+
+  it { should validate_presence_of(:address) }
+  it { should validate_format_of(:address).with('foo-bar') }
+  it { should validate_format_of(:address).not_with('foo').with_message(/invalid/) }
+  it { should validate_format_of(:address).not_with('foo-bar-baz').with_message(/invalid/) }
 
   describe '#title' do
 
@@ -38,18 +44,6 @@ describe Namespace do
         @namespace.title.should == @namespace.name.titleize
       end
 
-    end
-
-  end
-
-  describe "#full_name" do
-
-    before do
-      @namespace = Factory(:namespace)
-    end
-
-    it "should include the owner name" do
-      @namespace.full_name.should == "#{@namespace.owner.name}-#{@namespace.name}"
     end
 
   end

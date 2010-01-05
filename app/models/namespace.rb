@@ -14,9 +14,11 @@ class Namespace < ActiveRecord::Base
   has_many :namespace_memberships
   has_many :users, :through => :namespace_memberships
 
-  def full_name
-    @full_name ||= [owner.name, name].join('-')
-  end
+  validates_presence_of :address
+  validates_uniqueness_of :address
+  validates_format_of :address, :with => /^[[:alnum:]]+-[[:alnum:]]+$/
+  before_validation :set_address!
+  attr_protected :address
 
   def default?
     name == DEFAULT_NAME
@@ -28,6 +30,16 @@ class Namespace < ActiveRecord::Base
 
   def to_param
     name
+  end
+
+  def address
+    @address ||= read_attribute(:address) || set_address!
+  end
+
+  def set_address!
+    if owner
+      write_attribute(:address, [owner.name, name].join('-'))
+    end
   end
 
 end
