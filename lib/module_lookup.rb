@@ -1,8 +1,10 @@
 class ModuleLookup
 
+  delegate :empty?, :to => :text
+  
   attr_reader :text
   def initialize(text)
-    @text = text
+    @text = text || ''
   end
 
   def components

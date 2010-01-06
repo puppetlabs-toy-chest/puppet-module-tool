@@ -22,7 +22,7 @@ class Mod < ActiveRecord::Base
   }
   
   def to_param
-    name
+    address
   end
 
   def address

@@ -29,7 +29,7 @@ class Namespace < ActiveRecord::Base
   end
 
   def to_param
-    name
+    address
   end
 
   def address

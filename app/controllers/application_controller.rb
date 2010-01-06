@@ -4,24 +4,7 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-
-  # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
-
-  private
-
-  def require_user
-    unless authenticated?
-      redirect_to new_session_path
-    end
-  end
-
-  def require_no_user
-    if authenticated?
-      notify "Please sign-in."
-      redirect_to
-    end
-  end
+  filter_parameter_logging :password # Scrub sensitive parameters from your log
 
   def notify_of(*args)
     message = args.pop

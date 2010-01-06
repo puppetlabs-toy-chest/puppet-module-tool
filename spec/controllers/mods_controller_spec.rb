@@ -22,4 +22,26 @@ describe ModsController do
 
   end
 
+  describe "#show" do
+
+    context "with a valid address" do
+      before do
+        @mod1 = Factory(:mod, :name => 'foo')
+        get :show, :id => @mod1.to_param
+      end
+      it "should find the module" do
+        response.should be_success
+      end
+    end
+    context "with an invalid address" do
+      before do
+        get :show, :id => 'this-doesnot-exist'
+      end
+      it "should return a 404" do
+        response.response_code.should == 404
+      end      
+    end
+
+  end
+
 end

@@ -10,14 +10,14 @@
           %h1= link_to "Puppet 'Forge'", root_path
           %ul#global-navigation.navigation
             %li= tab_to_unless_current "Home", root_path
-            %li= tab_to_unless_current "Modules", modules_path
+            %li= tab_to_unless_current "Modules", mods_path
           %ul#secondary-navigation.navigation
-            - unless user
+            - unless user_signed_in?
               %li= link_to "Register", new_user_path
-              %li= link_to "Log In", new_session_path
+              %li= link_to "Log In", new_user_session_path
             - else
-              %li= link_to "My Account", user
-              %li= link_to "Logout", session_path, :method => :delete
+              %li= link_to "My Account", current_user
+              %li= link_to "Logout", user_session_path, :method => :delete
           
       #content
         .site-width
