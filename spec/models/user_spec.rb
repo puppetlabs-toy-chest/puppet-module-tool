@@ -9,15 +9,6 @@ describe User do
   it { should validate_format_of(:username).not_with('bad_char').with_message(/alphanumeric/) }
   it { should validate_format_of(:username).not_with('12').with_message(/3 or more/) }
 
-  describe ".authenticate" do
-    before do
-      @user = Factory(:user)
-    end
-    it "should authenticate" do
-      User.authenticate(@user.username, 'test').should == @user
-    end
-  end
-
   describe ".create" do
     before do
       @user = Factory(:user)

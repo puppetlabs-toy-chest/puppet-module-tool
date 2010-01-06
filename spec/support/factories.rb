@@ -1,7 +1,7 @@
 Factory.define :user do |x|
   x.sequence(:username) { |n| "user#{n}" }
-  x.sequence(:email) { |n| 'user#{n}@example.com'}
-  x.password 'test'
+  x.sequence(:email) { |n| "user#{n}@example.com" }
+  x.password 'testthis'
 end
 
 Factory.define :organization do |x|
