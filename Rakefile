@@ -5,12 +5,13 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "puppet-modules"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "bruce@codefluency.com"
+    gem.summary = %Q{Puppet module manager}
+    gem.description = %Q{Puppet module manager}
+    gem.email = "bruce@reductivelabs.com"
     gem.homepage = "http://github.com/bruce/puppet-modules"
     gem.authors = ["Bruce Williams"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_dependency 'main'
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

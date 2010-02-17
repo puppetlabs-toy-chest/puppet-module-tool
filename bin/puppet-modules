@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require 'main'
+
+$LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
+
+Main do
+
+  option 'repository', 'r' do
+    cast :uri
+    default URI.parse('http://modules.puppetlabs.com')
+    argument :required
+  end
+  
+  mode :install do
+    argument :name do
+      required
+    end
+    def run
+      p params
+      require 'puppet/applications/module_installer'
+      installer = Puppet::Applications::ModuleInstaller.new(params[:repository].value, params[:name].value)
+      installer.run
+    end
+  end
+
+end  
