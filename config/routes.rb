@@ -9,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.vanity '/:id', :controller => 'users', :action => 'show'
   map.module '/:user_id/:id', :controller => 'mods', :action => 'show'
+  map.formatted_module '/:user_id/:id.:extension', :controller => 'mods', :action => 'show'
   
   map.resource :pages, :collection => {
     :home => :get
