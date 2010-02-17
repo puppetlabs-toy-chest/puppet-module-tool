@@ -1,29 +1,21 @@
-!!!
-%html
-  %head
-    %title Puppet "Forge"
-    = stylesheet_link_tag 'screen', :media => 'screen, projection'
-  %body
-    #puppet-forge
-      #header
-        .site-width
-          %h1= link_to "Puppet 'Forge'", root_path
-          %ul#global-navigation.navigation
-            %li= tab_to_unless_current "Home", root_path
-            %li= tab_to_unless_current "Modules", mods_path
-          %ul#secondary-navigation.navigation
-            - unless user_signed_in?
-              %li= link_to "Register", new_user_path
-              %li= link_to "Log In", new_user_session_path
-            - else
-              %li= link_to "My Account", current_user
-              %li= link_to "Logout", user_session_path, :method => :delete
-          
-      #content
-        .site-width
-          - flash.each do |k, v|
-            #flash{ :class => k }= v
-          = yield
-      #footer
-        .site-width
-          %p &copy; Copyright 2009 Reductive Labs
+= render :partial => 'shared/header'
+
+#masthead
+  .site-width
+    %h1 Puppet Modules
+
+#content
+  .site-width
+    .primary-secondary-content
+      .primary-content 
+        = yield
+      .secondary-content
+        - session_nav
+        - category_list
+        .section#tags
+          %h3 Popular Tags
+          - tag_cloud(Mod.tag_counts_on(:tags), %w(css1 css2 css3 css4)) do |tag, css_class| 
+            = link_to tag.name, tag, :class => css_class
+        = yield :sidebar
+
+= render :partial => 'shared/footer'

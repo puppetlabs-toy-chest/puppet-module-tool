@@ -15,6 +15,7 @@ Rails::Initializer.run do |config|
   config.gem 'devise'
   config.gem 'bcrypt-ruby', :lib => 'bcrypt'
   config.gem 'bitmask-attribute', :version => '>= 1.1.0'
+  config.gem 'acts-as-taggable-on'
   
   # Run "rake -D time" for a list of tasks for finding time zone names.
   config.time_zone = 'UTC'

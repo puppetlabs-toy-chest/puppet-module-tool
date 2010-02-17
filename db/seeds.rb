@@ -5,3 +5,8 @@
 #   
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Major.create(:name => 'Daley', :city => cities.first)
+
+Categories.each do |title, name|
+  puts "Creating tag '#{name}'"
+  Tag.create!(:name => name.to_s)
+end

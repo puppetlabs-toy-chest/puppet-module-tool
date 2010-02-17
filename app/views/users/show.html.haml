@@ -1,0 +1,16 @@
+%h2= @user.username
+
+- if viewing_own?
+  %p
+    = link_to 'Edit your profile', @user, :class => 'gateway'
+
+= count @user.mods
+
+- if viewing_own?
+  %p= link_to "Add a module", [:new, current_user, :mod], :class => 'gateway'
+
+- if @user.mods.any?
+  %ul#mods
+    - @user.mods do |mod|
+      %li= link_to mod.name, [user, mod]
+

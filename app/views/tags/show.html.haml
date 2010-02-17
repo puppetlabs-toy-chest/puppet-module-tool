@@ -1,0 +1,9 @@
+%h2
+  - if @category
+    = @category
+  - else
+    Modules tagged
+    = surround "&ldquo;", "&rdquo;" do
+      = @tag.name
+
+= render :partial => 'mods/list'

@@ -1,0 +1,18 @@
+- form_for [current_user, @mod] do |f|
+  = f.error_messages
+  %p
+    = f.label :name
+    = f.text_field :name
+  %p
+    = f.label :source
+    = f.text_field :source
+
+  %p= f.label :description
+  %p= f.text_area :description
+
+  %p
+    = f.label :tag_list, "Tags"
+    = f.text_field :tag_list
+    
+  %p
+    = f.submit(@mod.new_record? ? 'Add module' : 'Update module')

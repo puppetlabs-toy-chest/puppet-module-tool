@@ -1,0 +1,12 @@
+= count @mods
+
+%ul#mods
+  - @mods.each do |mod|
+    %li
+      %h3= link_to mod.full_name, [mod.owner, mod]
+      %p.meta
+        %span
+          = tag_list mod
+      %p.introduction= mod.description
+
+= will_paginate @mods
