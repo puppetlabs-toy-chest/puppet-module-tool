@@ -1,6 +1,5 @@
 %h2= @mod.full_name
-
 - if viewing_own?
   %p= link_to "Edit module", [:edit, @user, @mod], :class => 'gateway'
+= render :partial => 'mods/intro', :locals => {:mod => @mod}
 
-%p.introduction= @mod.description

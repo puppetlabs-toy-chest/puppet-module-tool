@@ -45,8 +45,11 @@ module ApplicationHelper
 
   def category_list
     haml_tag :div, :class => 'section' do
-      haml_tag :h3, "Categories"
+      haml_tag :h3, "Modules"
       haml_tag :ul, :class => 'local-navigation' do
+        haml_tag :li, :class => 'important'  do
+          haml_concat link_to("All Modules", mods_path)
+        end
         Categories.each do |title, tag|
           haml_tag :li, :class => (@tag && @tag.name == tag.to_s) ? :active : :inactive do
             haml_concat link_to(title, "/tags/#{tag}")
