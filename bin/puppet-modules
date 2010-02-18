@@ -17,10 +17,21 @@ Main do
       required
     end
     def run
-      p params
       require 'puppet/applications/module_installer'
       installer = Puppet::Applications::ModuleInstaller.new(params[:repository].value, params[:name].value)
       installer.run
+    end
+  end
+
+  mode :release do
+    argument :filename do
+      required
+      validate { |value| File.file?(value) }
+    end
+    def run
+      require 'puppet/applications/module_releaser'
+      releaser = Puppet::Applications::ModuleReleaser.new(params[:repository].value, params[:filename].value)
+      releaser.run
     end
   end
 
