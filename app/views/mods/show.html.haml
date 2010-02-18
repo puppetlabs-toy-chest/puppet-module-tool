@@ -1,5 +1,24 @@
-%h2= @mod.full_name
 - if viewing_own?
-  %p= link_to "Edit module", [:edit, @user, @mod], :class => 'gateway'
+  %p= link_to "Edit module", [:edit, @user, @mod], :class => 'section-link'
+%h2= @mod.full_name
+
 = render :partial => 'mods/intro', :locals => {:mod => @mod}
 
+- if @release
+  %h3
+    Latest Release: 
+    = link_to @release.version, vanity_release_path(@user, @mod, @release)
+- else
+  %h3 This module has not been released.
+
+- content_for :sidebar do
+  .section#releases
+    - if viewing_own?
+      = link_to 'Add a release', new_user_mod_release_path(@user, @mod), :class => 'section-link'
+    %h3 Releases
+    - if @releases.any?
+      %ul
+        - @releases.each do |release|
+          %li= link_to release.version, vanity_release_path(@user, @mod, release)
+    - else
+      %p.blank No releases have been made for this module.

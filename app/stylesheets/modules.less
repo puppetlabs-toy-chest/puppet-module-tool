@@ -55,18 +55,62 @@ body#modules .secondary-content h4 {
 #mods > li:last-child { border-bottom: 0; }
 
 #session-navigation a { margin: 0 10px 0 0; }
+#session-navigation { border-bottom: 2px solid #eee; padding-bottom: 0.5em; margin-bottom: 0.5em; }
 
 .meta { font-size: 0.85em; margin: 0 0 10px 0; }
 
 li.important a { font-weight: bold; }
 
+label { font-weight: bold; font-size: 1.1em; }
+input[type=text] { font-weight: bold; }
+input[type=text], textarea { font-size: 16px; padding: 8px; }
+
 /* @group Tags */
 
 #tags a { padding: 4px; }
 
-.css1 { font-size: 1.0em; }
-.css2 { font-size: 1.2em; }
-.css3 { font-size: 1.4em; }
+.css1 { font-size: 1.0em;
+        filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	-khtml-opacity: 0.5;
+	opacity: 0.5;
+ }
+.css2 { font-size: 1.2em;
+   filter:alpha(opacity=65);
+   -moz-opacity:0.65;
+   -khtml-opacity: 0.65;
+   opacity: 0.65;
+}
+.css3 { font-size: 1.4em;
+   filter:alpha(opacity=80);
+   -moz-opacity:0.8;
+   -khtml-opacity: 0.8;
+   opacity: 0.8;
+}
 .css4 { font-size: 1.6em; }
 
+
 /* @end */
+
+input[type=hidden] { display: none; }
+
+.section-link { 
+   -moz-background-clip: border;
+   -moz-background-inline-policy: continuous;
+   -moz-background-origin: padding;
+   background: #EFFFE7 none repeat scroll 0 0;
+   display: inline-block;
+   font-size: 0.85em;
+   float: right;
+   padding: 0.5em 0.75em;
+   color: #87BD6C;
+
+}
+
+.primary-content {
+  p, input, textarea { 
+     max-width: 520px;
+  }
+}
+
+input[type=submit] { padding-top: 10px; padding-bottom: 10px; font-size: 18px; font-weight: bold; }

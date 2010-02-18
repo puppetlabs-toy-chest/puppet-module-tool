@@ -8,14 +8,18 @@
   .site-width
     .primary-secondary-content
       .primary-content 
+        - unless flash.empty?
+          - flash.each do |name, value|
+            %div{ :class => name }
+              %p= value
         = yield
       .secondary-content
         - session_nav
+        = yield :sidebar
         - category_list
         .section#tags
           %h3 Popular Tags
           - tag_cloud(Mod.tag_counts_on(:tags), %w(css1 css2 css3 css4)) do |tag, css_class| 
             = link_to tag.name, tag, :class => css_class
-        = yield :sidebar
 
 = render :partial => 'shared/footer'

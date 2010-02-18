@@ -45,9 +45,10 @@ module ApplicationHelper
 
   def category_list
     haml_tag :div, :class => 'section' do
+      haml_concat link_to('Add a module', new_mod_path, :class => 'section-link')
       haml_tag :h3, "Modules"
       haml_tag :ul, :class => 'local-navigation' do
-        haml_tag :li, :class => 'important'  do
+        haml_tag :li, :class => (controller.controller_name == 'mods' && action_name == 'index' ? 'important active' : 'important inactive')  do
           haml_concat link_to("All Modules", mods_path)
         end
         Categories.each do |title, tag|
@@ -71,13 +72,13 @@ module ApplicationHelper
     end
   end
 
-  def count(collection)
+  def count(name, collection)
     method = collection.respond_to?(:count) ? :count : :size
     count = collection.send(method)
     if count == 0
-      content_tag :p, "No modules found.", :class => 'blank'
+      content_tag :p, "No #{name.pluralize} found.", :class => 'blank'
     else
-      content_tag :p, "#{pluralize count, 'module'} found."
+      content_tag :p, "#{pluralize count, name} found."
     end
   end
 

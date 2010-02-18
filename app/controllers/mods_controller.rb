@@ -2,7 +2,8 @@ class ModsController < ApplicationController
 
   before_filter :find_user
   before_filter :find_mod, :only => [:show, :edit, :update, :destroy]
-
+  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy]
+  
   def index
     @mods = Mod.paginate :page => params[:page], :order => 'name DESC'
     respond_to do |format|
@@ -12,7 +13,7 @@ class ModsController < ApplicationController
   end
 
   def new
-    @mod = current_user.mods.new
+    @mod = Mod.new
   end
 
   def create
@@ -27,6 +28,8 @@ class ModsController < ApplicationController
   end
 
   def show
+    @releases = @mod.releases.ordered.paginate :page => params[:page], :order => 'version desc'
+    @release = @releases.first
     respond_to do |format|
       format.json { render :json => serialize(@mod) }
       format.html

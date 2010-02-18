@@ -1,0 +1,26 @@
+- form_for [@release.mod.owner, @release.mod, @release], :html => {:multipart => true} do |f|
+  = f.error_messages
+  %p= f.label :version
+  %p.introduction
+    The version number for this release.  Only use numbers, dots, and letters.
+    - if @release.new_record?
+      %b
+        - if @mod.releases.any?
+          The most recent version is
+          = succeed '.' do
+            = @mod.releases.current.version
+        - else
+          This is the first release for this module.
+  %p= f.text_field :version, :value => guess_next_version
+  %p= f.label :notes
+  %p.introduction Release notes.  Document changes in the release.
+  %p= f.text_area :notes, :rows => 5
+  %p= f.label :file
+  %p.introduction
+    Attach the file to release.  This file must be a tarball
+    = surround '(', ').' do
+      %b *.tar.gz
+      or
+      %b *.tgz
+  %p= f.file_field :file
+  %p= f.submit(@release.new_record? ? "Add release" : "Update release")

@@ -1,11 +1,9 @@
-= count @mods
+= count 'module', @mods
 
 %ul#mods
   - @mods.each do |mod|
     %li
       %h3= link_to mod.full_name, module_path(mod.owner, mod)
       = render :partial => 'mods/intro', :locals => {:mod => mod}
-      %p
-        = link_to "More information&hellip;", module_path(mod.owner, mod), :class => 'gateway'
 
 = will_paginate @mods

@@ -1,0 +1,9 @@
+= count 'release', @releases
+
+%ul#releases
+  - @releases.each do |release|
+    %li
+      %p= link_to release.version, vanity_release_path(@mod.owner, @mod, release)
+      %p.introduction= release.notes
+
+= will_paginate @releases
