@@ -1,21 +1,36 @@
 #!/usr/bin/env ruby
 
 require 'main'
+require 'versionomy'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
 
-Main do
-
-  option 'repository', 'r' do
+repository_option = proc do
+  option :repository, :r do
+    description "The URL to the module repository site"
     cast :uri
     default URI.parse('http://modules.puppetlabs.com')
     argument :required
   end
+end
+
+path_argument = proc do
+  argument :path do
+    description "The path to the module"
+    optional
+    argument :required
+    default Dir.pwd
+    validate { |value| File.directory?(value) }
+  end
+end
+
+Main do
   
   mode :install do
     argument :name do
       required
     end
+    instance_eval(&repository_option)
     def run
       require 'puppet/applications/module_installer'
       installer = Puppet::Applications::ModuleInstaller.new(params[:repository].value, params[:name].value)
@@ -28,11 +43,40 @@ Main do
       required
       validate { |value| File.file?(value) }
     end
+    instance_eval(&repository_option)
     def run
       require 'puppet/applications/module_releaser'
       releaser = Puppet::Applications::ModuleReleaser.new(params[:repository].value, params[:filename].value)
       releaser.run
     end
+  end
+
+  mode :build do
+    description "Build a module for release"
+    instance_eval(&path_argument)
+    option :version, :v do
+      description "The version number for the release"
+      required
+      argument :required
+      validate { |value| Versionomy.parse(value) rescue nil }
+    end
+    def run
+      require 'puppet/applications/module_builder'
+      builder = Puppet::Applications::ModuleBuilder.new(params[:path].value, params[:version].value)
+      builder.run
+    end
+  end
+
+  mode :metadata do
+    description "Display metadata for the module"
+    instance_eval(&path_argument)
+    def run
+      require 'pp'
+      require 'puppet/applications/module_documenter'
+      generator = Puppet::Applications::MetadataGenerator.new(params[:path].value)
+      pp generator.run
+    end
+    
   end
 
 end  
