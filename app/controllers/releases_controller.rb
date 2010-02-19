@@ -8,17 +8,8 @@ class ReleasesController < ApplicationController
   end
 
   def find
-    # TODO: Extract this to a query helper object
-    if params[:version]
-      version, matcher = params[:version].split(' ').reverse
-      matcher ||= '=='
-      @release = @mod.releases.ordered.detect do |release|
-        release_version = Versionomy.parse(release.version)
-        release_version.send(matcher, version)
-      end
-    else
-      @release = @mod.releases.first
-    end
+    @query = ReleaseQuery.new(@mod, params[:version])
+    @release = @query.execute
     respond_to do |format|
       format.json do
         if @release
