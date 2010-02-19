@@ -10,7 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.devise_for :users
   map.resources :users do |users|
     users.resources :mods, :as => 'modules' do |mods|
-      mods.resources :releases, :id => nil, :requirements => {:id => /.+/}
+      mods.resources :releases, :id => nil, :requirements => {:id => /.+/}, :collection => {:find => :get}
     end
   end
 

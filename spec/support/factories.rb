@@ -9,4 +9,6 @@ Factory.define :mod do |x|
   x.sequence(:source) { |n| "http://example.com/mod#{n}.git" }
 end
 
+Factory.define(:release) { }
+
 

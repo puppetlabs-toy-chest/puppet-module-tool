@@ -7,7 +7,8 @@ describe ModsController do
     context "via JSON, querying" do
 
       before do
-        @mod1 = Factory(:mod, :name => 'foo')
+        @user = Factory(:user)
+        @mod1 = Factory(:mod, :name => 'foo', :owner_id => @user.id, :owner_type => 'User')
         get :index
       end
 
