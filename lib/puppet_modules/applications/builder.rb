@@ -1,16 +1,15 @@
-require 'puppet/applications/metadata_generator'
+require 'puppet/modules/applications/metadata_generator'
 require 'fileutils'
 
 module Puppet
 
   module Applications
 
-    class ModuleBuilder
+    class Builder
 
       def initialize(path, version)
         @path = path
         @version = version
-        @metadata_generator = MetadataGenerator.new(@path)
         @pkg_path = File.join(@path, 'pkg')
       end
 
@@ -57,9 +56,8 @@ module Puppet
       end
 
       def add_metadata
-        File.open(File.join(build_path, 'metadata.json'), 'w') do |file|
-          file.puts(PSON.dump(@metadata_generator.run))
-        end
+        generator = MetadataGenerator.new(build_path)
+        generator.run
       end
 
       def module_name

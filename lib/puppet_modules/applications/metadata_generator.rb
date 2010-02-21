@@ -1,14 +1,15 @@
-require 'puppet'
-
-module Puppet
+module PuppetModules
 
   module Applications
 
-    class MetadataGenerator
+    class MetadataGenerator < Application
 
-      def initialize(path)
+      requires 'puppet'
+
+      def initialize(path, writing=true)
         @path = path
         $LOAD_PATH.unshift(File.join(path, 'lib'))
+        @writing = writing
       end
 
       def run
@@ -24,7 +25,14 @@ module Puppet
             type_hash[:providers] = provider_doc(type)
           end
         end
-        metadata
+        data = PSON.dump(metadata)
+        if @writing
+          File.open(File.join(@path, 'metadata.json'), 'w') do |f|
+            f.data
+          end
+        else
+          puts data
+        end
       end
 
       def attr_doc(type, kind)
@@ -50,5 +58,4 @@ module Puppet
     end
 
   end
-
 end
