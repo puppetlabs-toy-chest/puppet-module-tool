@@ -6,12 +6,14 @@ module PuppetModules
 
       requires 'open-uri', 'pathname', 'tmpdir', 'puppet'
 
-      def initialize(name, version_requirement = nil)
+      def initialize(name, version_requirement = nil, force = false)
         @username, @module_name = name.split('/')
         @version_requirement = version_requirement
+        @force = force
       end
 
       def run
+        check_clobber!
         match = find_match
         if match['file']
           cache_path = PuppetModules.repository.retrieve(match['file'])
@@ -27,7 +29,12 @@ module PuppetModules
             end
             # grab the first directory
             extracted = build_dir.children.detect { |c| c.directory? }
+            if @force
+              FileUtils.rm_rf @module_name rescue nil
+            end
             FileUtils.cp_r extracted, @module_name
+            (extracted + 'REVISION').open('w') do |f|
+            end
           ensure
             build_dir.rmtree
           end
@@ -38,6 +45,16 @@ module PuppetModules
       end
 
       private
+
+      def check_clobber!
+        if File.directory?(@module_name) && !@force
+          header "Existing module '#{@module_name}' found"
+          response = prompt "Overwrite module installed at ./#{@module_name}? [y/N]"
+          unless response =~ /y/i
+            abort "Aborted installation."
+          end
+        end
+      end
 
       def find_match
         url = PuppetModules.repository.uri + "/users/#{@username}/modules/#{@module_name}/releases/find.json"

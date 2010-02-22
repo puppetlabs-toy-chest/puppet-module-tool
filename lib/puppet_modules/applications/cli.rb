@@ -36,12 +36,18 @@ module PuppetModules
               optional
               argument :required
             end
+            option :force, :f do
+              description "Force overwrite of existing module, if any"
+              optional
+              cast :bool
+              default false
+            end
             instance_eval(&repository_option)
             def run
               if params[:repository].given?
                 PuppetModules.repository = params[:repository].value
               end
-              installer = PuppetModules::Applications::Installer.new(params[:name].value, params[:version].value)
+              installer = PuppetModules::Applications::Installer.new(params[:name].value, params[:version].value, params[:force].value)
               installer.run
             end
           end
@@ -69,6 +75,13 @@ module PuppetModules
               PuppetModules::Applications::Releaser.run(params[:module].value,
                                                         params[:filename].value,
                                                         params[:version].value)
+            end
+          end
+
+          mode :clean do
+            description "Clears module cache (all repositories)"
+            def run
+              PuppetModules::Applications::Cleaner.run
             end
           end
 

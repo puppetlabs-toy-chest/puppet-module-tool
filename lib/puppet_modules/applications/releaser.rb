@@ -57,10 +57,6 @@ module PuppetModules
                                        'release[file]'    => upload)
       end
 
-      def header(text)
-        puts('=' * text.size, text, "-" * text.size)
-      end
-
       def parse_version
         name = File.basename(@filename, '.tar.gz')
         name.split('-', 3).last
@@ -75,14 +71,6 @@ module PuppetModules
         rescue
           abort "Invalid version format: #{@version}"
         end
-      end
-
-      def prompt(question, quiet = false)
-        print "#{question}: "
-        system 'stty -echo' if quiet
-        $stdin.gets.strip
-      ensure
-        system 'stty echo' if quiet
       end
 
     end

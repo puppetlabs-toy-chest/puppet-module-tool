@@ -7,6 +7,7 @@ module PuppetModules
     autoload :MetadataGenerator, 'puppet_modules/applications/metadata_generator'
     autoload :Installer,         'puppet_modules/applications/installer'
     autoload :Releaser,          'puppet_modules/applications/releaser'
+    autoload :Cleaner,           'puppet_modules/applications/cleaner'
     
   end
 end
