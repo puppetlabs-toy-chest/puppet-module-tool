@@ -1,11 +1,11 @@
-require 'puppet/modules/applications/metadata_generator'
+require 'puppet_modules/applications/metadata_generator'
 require 'fileutils'
 
-module Puppet
+module PuppetModules
 
   module Applications
 
-    class Builder
+    class Builder < Application
 
       def initialize(path, version)
         @path = path

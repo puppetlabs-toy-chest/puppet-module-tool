@@ -30,7 +30,7 @@ module PuppetModules
         data = PSON.dump(metadata)
         if @writing
           File.open(File.join(@path, 'metadata.json'), 'w') do |f|
-            f.data
+            f.write data
           end
         else
           puts data
