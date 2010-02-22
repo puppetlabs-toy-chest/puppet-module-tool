@@ -2,7 +2,8 @@ module PuppetModules
   module Applications
 
     class Application
-      extend PuppetModules::Utils::WhinyRequire
+      extend Utils::WhinyRequire
+      include Utils::Interrogation
 
       def self.requires(*requires)
         whiny_require(*requires)
@@ -12,24 +13,13 @@ module PuppetModules
         new(*args).run
       end
 
+      def repository
+        PuppetModules.repository
+      end
+
       def run
         raise NotImplementedError, "Should be implemented in child classes."
       end
-
-      private
-
-      def header(text)
-        puts('=' * text.size, text, "-" * text.size)
-      end
-
-      def prompt(question, quiet = false)
-        print "#{question}: "
-        system 'stty -echo' if quiet
-        $stdin.gets.strip
-      ensure
-        system 'stty echo' if quiet
-      end
-
       
     end
 

@@ -33,8 +33,7 @@ module PuppetModules
               FileUtils.rm_rf @module_name rescue nil
             end
             FileUtils.cp_r extracted, @module_name
-            (extracted + 'REVISION').open('w') do |f|
-            end
+            tag_revision(match['version'])
           ensure
             build_dir.rmtree
           end
@@ -45,6 +44,15 @@ module PuppetModules
       end
 
       private
+
+      def tag_revision(version)
+        File.open("#{@module_name}/REVISION", 'w') do |f|
+          f.puts "module: #{@username}/#{@module_name}"
+          f.puts "version: #{version}"
+          f.puts "url: #{repository.uri + "#{@username}/#{@module_name}/#{version}"}"
+          f.puts "installed: #{Time.now}"
+        end
+      end
 
       def check_clobber!
         if File.directory?(@module_name) && !@force

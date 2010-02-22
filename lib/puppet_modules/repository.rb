@@ -4,6 +4,7 @@ module PuppetModules
 
   class Repository
     include Utils::URI
+    include Utils::Interrogation
 
     DEFAULT = 'http://modules.puppetlabs.com'
 
@@ -11,6 +12,22 @@ module PuppetModules
     def initialize(url=DEFAULT)
       @uri = normalize(url)
       @cache = Cache.new(self)
+    end
+
+    def contact(request, options = {}, &block)
+      if options[:authenticate]
+        authenticate(request)
+      end
+      Net::HTTP.start(@uri.host, @uri.port) do |http|
+        http.request(request)
+      end
+    end
+
+    def authenticate(request)
+      header "Authenticating for #{PuppetModules.repository}"
+      email = prompt('Email Address')
+      password = prompt('Password', true)
+      request.basic_auth(email, password)
     end
 
     def retrieve(path)

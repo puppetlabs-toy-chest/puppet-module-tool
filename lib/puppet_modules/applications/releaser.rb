@@ -4,7 +4,7 @@ module PuppetModules
 
     class Releaser < Application
 
-      requires ['net/http/post/multipart', 'multipart_post']
+      requires 'puppet', ['net/http/post/multipart', 'multipart_post']
       
       def initialize(address, filename, version = nil)
         @filename = filename
@@ -21,19 +21,14 @@ module PuppetModules
 
       def upload
         File.open(@filename) do |file|
-          url = PuppetModules.repository.uri + "/users/#{@username}/modules/#{@module_name}/releases.json"
-          req = request(url, file)
-          email, password = authenticate
-          req.basic_auth(email, password)
-          puts
-          header "Releasing to #{PuppetModules.repository}"
-          res = Net::HTTP.start(url.host, url.port) do |http|
-            http.request(req)
-          end
+          req = request("/users/#{@username}/modules/#{@module_name}/releases.json", file)
+          res = PuppetModules.repository.contact(req, :authenticate => true)
+          puts "\n---"
           if res.is_a?(Net::HTTPOK)
             puts "Released #{@version}"
           else
-            puts "Could not release #{@version} (HTTP #{res.code})"
+            error = PSON.parse(res.body)['error'] rescue "HTTP #{res.code}"
+            puts "Could not release #{@version} (#{error})"
           end
         end
       end
@@ -43,16 +38,9 @@ module PuppetModules
         $stdin.gets =~ /y/i
       end
 
-      def authenticate
-        header "Authenticating for #{PuppetModules.repository}"
-        email = prompt('Email Address')
-        password = prompt('Password', true)
-        [email, password]
-      end
-
-      def request(url, file)
+      def request(path, file)
         upload = UploadIO.new(file, 'application/x-gzip', @filename)
-        Net::HTTP::Post::Multipart.new(url.path,
+        Net::HTTP::Post::Multipart.new(path,
                                        'release[version]' => @version,
                                        'release[file]'    => upload)
       end
