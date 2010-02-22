@@ -8,6 +8,8 @@
   %h3
     Latest Release: 
     = link_to @release.version, vanity_release_path(@user, @mod, @release)
+    = link_to "Download", @release.file.url, :class => 'download-link'
+
 - else
   %h3 This module has not been released.
 

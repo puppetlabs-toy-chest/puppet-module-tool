@@ -8,5 +8,21 @@ module ReleasesHelper
     nil
   end
 
+  def label_doc(obj)
+    if obj['doc'].blank?
+      haml_tag :b do
+        haml_concat obj['name']
+      end
+    else
+      haml_tag :b do
+        haml_concat obj['name'] + ':&nbsp;'
+      end
+      haml_concat obj['doc']
+    end
+  end
+
+  def link_to_dependency(dep)
+    link_to dep['name'], "/#{dep['name']}"
+  end
   
 end

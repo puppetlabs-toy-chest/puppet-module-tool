@@ -5,10 +5,12 @@ class ModsController < ApplicationController
   before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy]
   
   def index
-    @mods = Mod.paginate :page => params[:page], :order => 'name DESC'
+    @mods = search_scope
     respond_to do |format|
       format.json { render :json => serialize(@mods) }
-      format.html
+      format.html do
+        @mods = @mods.paginate :page => params[:page], :order => 'name DESC'
+      end
     end
   end
 
@@ -50,12 +52,20 @@ class ModsController < ApplicationController
   end
   
   private
+  
+  def search_scope
+    if params[:q]
+      Mod.with_releases.matching(params[:q])
+    else
+      Mod.with_releases
+    end
+  end
 
   # Serialize one or more modules to JSON
   def serialize(obj)
     obj.to_json(
                 :only => [:name, :source],
-                :methods => [:full_name]
+                :methods => [:full_name, :version]
                 )
   end
 

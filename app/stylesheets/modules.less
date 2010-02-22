@@ -4,23 +4,23 @@ Additional CSS, build on top of Andrew's design.  It may make sense to integrate
 */
 
 
-body#modules div#header li#resources-tab > a {
+body#modules header li#resources-tab > a {
    color: white;
    border-top-color: #a965a9;
    background: #2e283c;
 }
 
-body#modules div#header li#blog-tab > a span.subtitle {
+body#modules header li#blog-tab > a span.subtitle {
    color: #aaa;
 }
 
 /* @group Modules */
 
-body#modules div#content > div.site-width > div.primary-secondary-content:first-child {
+body#modules #content > div.site-width > div.primary-secondary-content:first-child {
    padding-right: 340px;
 }
 
-body#modules div#content > div.site-width > div.primary-secondary-content:first-child > .secondary-content {
+body#modules #content > div.site-width > div.primary-secondary-content:first-child > .secondary-content {
    width: 280px;
    margin-right: -360px;
    left: 40px;
@@ -46,6 +46,8 @@ body#modules .secondary-content h4 {
 
 /* @end */
 
+.active { background: #FFF6E5; }
+
 #mods > li {
    border-bottom: 2px solid #EEEEEE;
    padding-bottom: 0.25em;
@@ -62,8 +64,8 @@ body#modules .secondary-content h4 {
 li.important a { font-weight: bold; }
 
 label { font-weight: bold; font-size: 1.1em; }
-input[type=text] { font-weight: bold; }
-input[type=text], textarea { font-size: 16px; padding: 8px; }
+input[type=text], input[type=password] { font-weight: bold; }
+input[type=text], input[type=password], textarea { font-size: 16px; padding: 8px; }
 
 /* @group Tags */
 
@@ -89,6 +91,8 @@ input[type=text], textarea { font-size: 16px; padding: 8px; }
 }
 .css4 { font-size: 1.6em; }
 
+body#modules form input[type=checkbox] { display: inline; }
+
 
 /* @end */
 
@@ -107,10 +111,34 @@ input[type=hidden] { display: none; }
 
 }
 
+.download-link { 
+   background: #EFFFE7 none repeat scroll 0 0;
+   display: inline-block;
+   font-size: 1.2em;
+   padding: 0.5em 0.75em;
+   color: #87BD6C;
+   -webkit-border-radius: 6px;
+   -moz-border-radius: 6px;
+   border-radius: 6px;     
+}
+
+
 .primary-content {
   p, input, textarea { 
      max-width: 520px;
   }
 }
 
-input[type=submit] { padding-top: 10px; padding-bottom: 10px; font-size: 18px; font-weight: bold; }
+input[type=submit] { padding-top: 10px; padding-bottom: 10px;
+font-size: 18px; font-weight: bold; }
+
+section#metadata h4 { border-bottom: 2px #eee solid; margin-bottom: 10px; }
+
+section#metadata ul { 
+  list-style: square;
+  padding-left: 10px;
+  margin: 10px 0 0 10px;
+}
+section#metadata h5 { font-weight: bold; }
+
+#search { width: 100%; }

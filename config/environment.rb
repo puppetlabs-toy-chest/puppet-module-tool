@@ -19,6 +19,7 @@ Rails::Initializer.run do |config|
   config.gem 'ajaxful_rating'
   config.gem 'paperclip'
   config.gem 'versionomy'
+  config.gem 'archive-tar-minitar', :lib => 'archive/tar/minitar'
   
   # Run "rake -D time" for a list of tasks for finding time zone names.
   config.time_zone = 'UTC'

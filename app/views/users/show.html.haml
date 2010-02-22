@@ -2,6 +2,6 @@
 
 - if viewing_own?
   %p
-    = link_to 'Edit your profile', @user, :class => 'gateway'
+    = link_to 'Edit your profile', [:edit, @user], :class => 'gateway'
 
 = render :partial => 'mods/list'

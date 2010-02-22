@@ -6,4 +6,6 @@
 - unless @release.notes.blank?
   %p.introduction= @release.notes
 
-%p.download= link_to @release.file_file_name, @release.file.url
+%p= link_to "Download", @release.file.url, :class => 'download-link'
+
+= render :partial => 'metadata'
