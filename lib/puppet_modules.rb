@@ -7,6 +7,9 @@ module PuppetModules
   autoload :Applications, 'puppet_modules/applications'
   autoload :Utils,        'puppet_modules/utils'
   autoload :Cache,        'puppet_modules/cache'
+  autoload :Dependency,   'puppet_modules/dependency'
+  autoload :Metadata,     'puppet_modules/metadata'
+  autoload :Modulefile,   'puppet_modules/modulefile'
 
   def self.repository
     @repository ||= Repository.new

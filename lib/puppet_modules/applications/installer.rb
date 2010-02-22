@@ -1,10 +1,12 @@
+require 'open-uri'
+require 'pathname'
+require 'tmpdir'
+
 module PuppetModules
 
   module Applications
 
     class Installer < Application
-
-      requires 'open-uri', 'pathname', 'tmpdir', 'puppet'
 
       def initialize(name, version_requirement = nil, force = false)
         @username, @module_name = name.split('/')

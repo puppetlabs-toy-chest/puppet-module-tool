@@ -26,6 +26,22 @@ module PuppetModules
         end
 
         Main do
+
+          mode :search do
+            description "Search the module repository"
+            argument :term do
+              description "Search term"
+              required
+            end
+            instance_eval(&repository_option)
+            def run
+              if params[:repository].given?
+                PuppetModules.repository = params[:repository].value
+              end
+              searcher = PuppetModules::Applications::Searcher.new(params[:term].value)
+              searcher.run
+            end
+          end
           
           mode :install do
             argument :name do
@@ -53,6 +69,7 @@ module PuppetModules
           end
 
           mode :release do
+            description "Add a module version to the module repository"
             argument :module do
               description "Full module name (eg, username/name)"
               required
@@ -78,6 +95,28 @@ module PuppetModules
             end
           end
 
+          mode :unrelease do
+            description "Remove a module version from the repository"
+            argument :module do
+              description "Full module name (eg, username/name)"
+              required
+              argument :required
+            end
+            option :version, :v do
+              description "Release version number"
+              required
+              argument :required
+            end
+            instance_eval(&repository_option)
+            def run
+              if params[:repository].given?
+                PuppetModules.repository = params[:repository].value
+              end
+              PuppetModules::Applications::Unreleaser.run(params[:module].value,
+                                                          params[:version].value)
+            end
+          end
+          
           mode :clean do
             description "Clears module cache (all repositories)"
             def run
@@ -121,3 +160,4 @@ module PuppetModules
 
   end
 end
+

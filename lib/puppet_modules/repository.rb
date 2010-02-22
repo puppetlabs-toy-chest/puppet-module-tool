@@ -1,3 +1,4 @@
+require 'net/http'
 require 'digest/sha1'
 
 module PuppetModules

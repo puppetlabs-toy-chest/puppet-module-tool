@@ -3,15 +3,31 @@ module PuppetModules
     module Interrogation
 
       def header(text)
-        puts('=' * text.size, text, "-" * text.size)
+        $stderr.puts('=' * text.size, text, "-" * text.size)
+      end
+
+      def say(*args)
+        $stderr.puts(*args)
+      end
+
+      def subheader(line)
+        say line, ('-' * line.size)
+      end
+
+      def confirms?(question)
+        $stderr.print "#{question} [y/N]: "
+        $stdin.gets =~ /y/i
       end
 
       def prompt(question, quiet = false)
-        print "#{question}: "
+        $stderr.print "#{question}: "
         system 'stty -echo' if quiet
         $stdin.gets.strip
       ensure
-        system 'stty echo' if quiet
+        if quiet
+          system 'stty echo'
+          say "\n---------"
+        end
       end
 
     end

@@ -13,18 +13,20 @@ module PuppetModules
       end
 
       def run
-        metadata = {:types => []}
+        metadata = Metadata.new
+        Modulefile.evaluate(metadata, File.join(@path, 'Modulefile'))
         Dir[File.join(@path, 'lib/puppet/type/*.rb')].each do |filename|
           type_name = File.basename(filename, '.rb')
           type = Puppet::Type.type(type_name.to_sym)
           type_hash = {:name => type_name, :doc => type.doc}
-          metadata[:types] << type_hash
+          metadata.types << type_hash
           type_hash[:properties] = attr_doc(type, :property)
           type_hash[:parameters] = attr_doc(type, :param)
           if type.providers.size > 0
             type_hash[:providers] = provider_doc(type)
           end
         end
+        
         data = PSON.dump(metadata)
         if @writing
           File.open(File.join(@path, 'metadata.json'), 'w') do |f|

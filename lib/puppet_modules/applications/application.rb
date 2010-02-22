@@ -1,3 +1,6 @@
+require 'puppet'
+require 'net/http'
+
 module PuppetModules
   module Applications
 
@@ -19,6 +22,16 @@ module PuppetModules
 
       def run
         raise NotImplementedError, "Should be implemented in child classes."
+      end
+
+      def discuss(response, success, failure)
+        case response
+        when Net::HTTPOK
+          say success
+        else
+          errors = PSON.parse(response.body)['error'] rescue "HTTP #{response.code}, #{response.body}"
+          say "#{failure} (#{errors})"
+        end
       end
       
     end

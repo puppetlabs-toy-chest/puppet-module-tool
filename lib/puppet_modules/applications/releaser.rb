@@ -4,7 +4,7 @@ module PuppetModules
 
     class Releaser < Application
 
-      requires 'puppet', ['net/http/post/multipart', 'multipart_post']
+      requires ['net/http/post/multipart', 'multipart_post']
       
       def initialize(address, filename, version = nil)
         @filename = filename
@@ -14,35 +14,28 @@ module PuppetModules
       end
 
       def run
-        upload if verify
+        upload if confirms?("Release #{File.basename(@filename)} as version #{@version} of #{@username}/#{@module_name}?")
       end
 
       private
 
       def upload
         File.open(@filename) do |file|
-          req = request("/users/#{@username}/modules/#{@module_name}/releases.json", file)
-          res = PuppetModules.repository.contact(req, :authenticate => true)
-          puts "\n---"
-          if res.is_a?(Net::HTTPOK)
-            puts "Released #{@version}"
-          else
-            error = PSON.parse(res.body)['error'] rescue "HTTP #{res.code}"
-            puts "Could not release #{@version} (#{error})"
-          end
+          request = build_request(file)
+          response = PuppetModules.repository.contact(request, :authenticate => true)
+          discuss response, "Released #{@version}", "Could not release #{@version}"
         end
       end
 
-      def verify
-        print "Release #{File.basename(@filename)} as version #{@version} of #{@username}/#{@module_name} [y/N]: "
-        $stdin.gets =~ /y/i
-      end
-
-      def request(path, file)
+      def build_request(file)
         upload = UploadIO.new(file, 'application/x-gzip', @filename)
-        Net::HTTP::Post::Multipart.new(path,
+        Net::HTTP::Post::Multipart.new(upload_path,
                                        'release[version]' => @version,
                                        'release[file]'    => upload)
+      end
+
+      def upload_path
+        "/users/#{@username}/modules/#{@module_name}/releases.json"
       end
 
       def parse_version
