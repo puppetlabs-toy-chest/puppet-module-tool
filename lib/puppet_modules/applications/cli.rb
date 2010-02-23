@@ -68,30 +68,31 @@ module PuppetModules
             end
           end
 
+          mode :generate do
+            description "Generate a new module structure"
+            argument :name do
+              required
+              argument :required
+            end
+            def run
+              installer = PuppetModules::Applications::Generator.new(params[:name].value)
+              installer.run
+            end
+          end
+
           mode :release do
             description "Add a module version to the module repository"
-            argument :module do
-              description "Full module name (eg, username/name)"
-              required
-              argument :required
-            end
             argument :filename do
+              description "File to release.\nMust conform to USERNAME-MODULENAME-VERSION.tar.gz naming convention."
               required
               validate { |value| File.file?(value) }
-            end
-            option :version, :v do
-              description "Release version number (will parse version number from filename if not given)"
-              optional
-              argument :required
             end
             instance_eval(&repository_option)
             def run
               if params[:repository].given?
                 PuppetModules.repository = params[:repository].value
               end
-              PuppetModules::Applications::Releaser.run(params[:module].value,
-                                                        params[:filename].value,
-                                                        params[:version].value)
+              PuppetModules::Applications::Releaser.run(params[:filename].value)
             end
           end
 
@@ -127,32 +128,11 @@ module PuppetModules
           mode :build do
             description "Build a module for release"
             instance_eval(&path_argument)
-            option :version, :v do
-              description "The version number for the release"
-              required
-              argument :required
-              validate { |value| Versionomy.parse(value) rescue nil }
-            end
             def run
-              PuppetModules::Applications::Builder.run(params[:path].value, params[:version].value)
+              PuppetModules::Applications::Builder.run(params[:path].value)
             end
           end
-
-          mode :metadata do
-            description "Write metadata for the module"
-            instance_eval(&path_argument)
-            option 'write-file', :w do
-              description "Write file (set to false/0 to output to standard out)"
-              cast :bool
-              argument :required
-              default true
-            end
-            def run
-              PuppetModules::Applications::MetadataGenerator.run(params[:path].value, params['write-file'].value)
-            end
-            
-          end
-
+          
         end  
         
       end

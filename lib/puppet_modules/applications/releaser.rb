@@ -6,10 +6,9 @@ module PuppetModules
 
       requires ['net/http/post/multipart', 'multipart_post']
       
-      def initialize(address, filename, version = nil)
+      def initialize(filename)
         @filename = filename
-        @username, @module_name = address.split('/')
-        @version = version || parse_version
+        parse_filename!
         validate!
       end
 
@@ -38,11 +37,6 @@ module PuppetModules
         "/users/#{@username}/modules/#{@module_name}/releases.json"
       end
 
-      def parse_version
-        name = File.basename(@filename, '.tar.gz')
-        name.split('-', 3).last
-      end
-
       def validate!
         unless @username && @module_name
           abort "Username and Module name not provided"
@@ -52,6 +46,10 @@ module PuppetModules
         rescue
           abort "Invalid version format: #{@version}"
         end
+      end
+
+      def parse_filename!
+        @username, @module_name, @version = File.basename(@filename,'.tar.gz').split('-', 3)
       end
 
     end

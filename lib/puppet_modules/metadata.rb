@@ -4,10 +4,16 @@ module PuppetModules
 
     attr_reader :full_name, :username, :name
     attr_accessor :version
+
+    def initialize(settings = {})
+      settings.each do |key, value|
+        send("#{key}=", value)
+      end
+    end
     
     def full_name=(full_name)
       @full_name = full_name
-      @username, @name = full_name.split('/')
+      @username, @name = full_name.split(/[\/\-]/)
     end
 
     def dependencies
@@ -18,6 +24,14 @@ module PuppetModules
       @types ||= []
     end
 
+    def dashed_name
+      [@username, @name].join('-')
+    end
+
+    def release_name
+      [@username, @name, @version].join('-')
+    end
+
     def to_pson(*args)
       {
         :name         => @full_name,
@@ -26,7 +40,7 @@ module PuppetModules
         :types        => types
       }.to_pson(*args)
     end
-    
+
   end
   
 end

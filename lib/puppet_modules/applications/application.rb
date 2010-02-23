@@ -33,6 +33,29 @@ module PuppetModules
           say "#{failure} (#{errors})"
         end
       end
+
+      def metadata(require_modulefile = false)
+        unless @metadata
+          unless @path
+            abort "Could not determine module path"
+          end
+          @metadata = Metadata.new
+          contents = ContentsDescription.new(@path)
+          contents.annotate(@metadata)
+          modulefile_path = File.join(@path, 'Modulefile')
+          if File.file?(modulefile_path)
+            Modulefile.evaluate(@metadata, modulefile_path)
+          elsif require_modulefile
+            abort "No Modulefile found."
+          end
+        end
+        @metadata
+      end
+
+      def load_modulefile!
+        @metadata = nil
+        metadata(true)
+      end
       
     end
 

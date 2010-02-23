@@ -4,7 +4,7 @@ module PuppetModules
     autoload :Application,       'puppet_modules/applications/application'
     autoload :CLI,               'puppet_modules/applications/cli'
     autoload :Builder,           'puppet_modules/applications/builder'
-    autoload :MetadataGenerator, 'puppet_modules/applications/metadata_generator'
+    autoload :Generator,         'puppet_modules/applications/generator'
     autoload :Installer,         'puppet_modules/applications/installer'
     autoload :Releaser,          'puppet_modules/applications/releaser'
     autoload :Unreleaser,        'puppet_modules/applications/unreleaser'
