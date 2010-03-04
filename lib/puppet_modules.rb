@@ -2,14 +2,19 @@ require 'pathname'
 require 'fileutils'
 
 module PuppetModules
-  
+
+  VERSION = '0.0.1'
+
+  autoload :CLI,                 'puppet_modules/cli'
   autoload :Applications,        'puppet_modules/applications'
   autoload :Cache,               'puppet_modules/cache'
+  autoload :Commands,            'puppet_modules/commands'
   autoload :ContentsDescription, 'puppet_modules/contents_description'
   autoload :Dependency,          'puppet_modules/dependency'
   autoload :Metadata,            'puppet_modules/metadata'
   autoload :Modulefile,          'puppet_modules/modulefile'
   autoload :Repository,          'puppet_modules/repository'
+  autoload :Skeleton,            'puppet_modules/skeleton'
   autoload :Utils,               'puppet_modules/utils'
 
   def self.root

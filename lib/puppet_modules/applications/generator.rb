@@ -7,8 +7,50 @@ module PuppetModules
 
     class Generator < Application
 
+      attr_reader :skeleton
+      def initialize(full_name)
+        @metadata = Metadata.new(:full_name => full_name)
+        @skeleton = Skeleton.new
+      end
+      
+      def run
+        if destination.directory?
+          abort "#{destination} already exists."
+        end
+        header "Generating module at #{Dir.pwd}/#{@metadata.dashed_name}"
+        skeleton.path.find do |path|
+          if path == skeleton
+            destination.mkpath
+          else
+            node = Node.on(path, self)
+            if node
+              node.install!
+              say node.target
+            else
+              say "Could not generate from #{path}"
+            end
+          end
+        end
+      end
+      
+      def destination
+        @destination ||= Pathname.new(@metadata.dashed_name)
+      end
+
       class Node
-        def initialize(generator, source)
+        def self.types
+          @types ||= []
+        end
+        def self.inherited(klass)
+          types << klass
+        end
+        def self.on(path, generator)
+          klass = types.detect { |t| t.matches?(path) }
+          if klass
+            klass.new(path, generator)
+          end
+        end
+        def initialize(source, generator)
           @generator = generator
           @source = source
         end
@@ -16,7 +58,7 @@ module PuppetModules
           @source.read
         end
         def target
-          target = @generator.destination + @source.relative_path_from(@generator.skeleton)
+          target = @generator.destination + @source.relative_path_from(@generator.skeleton.path)
           components = target.to_s.split(File::SEPARATOR).map do |part|
             part == 'NAME' ? @generator.metadata.name : part
           end
@@ -28,18 +70,18 @@ module PuppetModules
       end
 
       class DirectoryNode < Node
+        def self.matches?(path)
+          path.directory?
+        end
         def install!
           target.mkpath
         end
       end
 
-      class FileNode < Node
-        def install!
-          FileUtils.cp(@source, target)
-        end
-      end
-
       class ParsedFileNode < Node
+        def self.matches?(path)
+          path.file? && path.extname == '.erb'
+        end
         def target
           path = super
           path.parent + path.basename('.erb')
@@ -53,44 +95,15 @@ module PuppetModules
         end
       end
 
-      def initialize(full_name)
-        @metadata = Metadata.new(:full_name => full_name)
-      end
-      
-      def run
-        if destination.directory?
-          abort "#{destination} already exists."
+      class FileNode < Node
+        def self.matches?(path)
+          path.file?
         end
-        header "Generating module at #{Dir.pwd}/#{@metadata.dashed_name}"
-        skeleton.find do |path|
-          if path == skeleton
-            destination.mkpath
-          else
-            n = node(path)
-            n.install!
-            say n.target
-          end
+        def install!
+          FileUtils.cp(@source, target)
         end
       end
       
-      def destination
-        @destination ||= Pathname.new(@metadata.dashed_name)
-      end
-
-      def skeleton
-        @skeleton ||= PuppetModules.root + 'templates' + 'generator'
-      end
-
-      def node(path)
-        if path.directory?
-          DirectoryNode.new(self, path)
-        elsif path.extname == '.erb'
-          ParsedFileNode.new(self, path)
-        else
-          FileNode.new(self, path)
-        end
-      end
-
     end
     
   end
