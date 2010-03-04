@@ -40,3 +40,8 @@ module PuppetModules
 
 end
 
+# Add vendored code to $LOAD_PATH
+Dir[PuppetModules.root + 'vendor/*/lib'].each do |path|
+  $LOAD_PATH.unshift(path)
+end
+
