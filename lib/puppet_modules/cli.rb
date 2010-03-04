@@ -5,7 +5,8 @@ rescue LoadError
 end
 
 class PuppetModules::CLI < Thor
-
+  include Thor::Actions
+  
   map '-V' => :version
   
   def self.method_option_repository
@@ -14,7 +15,7 @@ class PuppetModules::CLI < Thor
 
   desc "version", "Show the version information for this tool"
   def version
-    PuppetModules::VERSION
+    say PuppetModules.version
   end
 
   desc "generate MODULE_NAME", "Generate boilerplate for a new module (eg, 'user/modname')"

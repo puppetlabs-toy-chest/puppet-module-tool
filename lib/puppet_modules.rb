@@ -3,8 +3,6 @@ require 'fileutils'
 
 module PuppetModules
 
-  VERSION = '0.0.1'
-
   autoload :CLI,                 'puppet_modules/cli'
   autoload :Applications,        'puppet_modules/applications'
   autoload :Cache,               'puppet_modules/cache'
@@ -19,6 +17,10 @@ module PuppetModules
 
   def self.root
     @root ||= Pathname.new(__FILE__).parent + '..'
+  end
+
+  def self.version
+    @version ||= (root + 'VERSION').read
   end
 
   def self.repository
