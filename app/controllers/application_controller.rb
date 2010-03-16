@@ -6,7 +6,10 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password # Scrub sensitive parameters from
   # your log
   before_filter :http_authenticate
+  before_filter :set_mailer_host
 
+  private
+  
   def notify_of(*args)
     message = args.pop
     type = args.shift || :notice
@@ -22,4 +25,8 @@ class ApplicationController < ActionController::Base
     warden.custom_failure! if performed?
   end
 
+  def set_mailer_host
+    ActionMailer::Base.default_url_options[:host] = request.host
+  end
+  
 end
