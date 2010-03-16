@@ -12,7 +12,7 @@ Rails::Initializer.run do |config|
   config.gem 'haml'
   config.gem 'will_paginate'
   config.gem 'warden'
-  config.gem 'devise'
+  config.gem 'devise', :version => '>= 1.0.0'
   config.gem 'bcrypt-ruby', :lib => 'bcrypt'
   config.gem 'bitmask-attribute', :version => '>= 1.1.0'
   config.gem 'acts-as-taggable-on'

@@ -20,8 +20,8 @@ namespace :deploy do
 end
 
 desc "Make symlink for database yaml"
-after 'deploy:symlink', :symlink_database_yml
+before 'deploy:finalize_update', :symlink_database_yml
 
 task :symlink_database_yml do
-  run "ln -nfs #{shared_path}/config/database.yml #{current_path}/config/database.yml" 
+  run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml" 
 end
