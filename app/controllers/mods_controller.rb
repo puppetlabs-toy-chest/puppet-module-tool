@@ -21,11 +21,11 @@ class ModsController < ApplicationController
   def create
     @mod = current_user.mods.new(params[:mod])
     if @mod.save
-      notify_of :error, "Could not save module"
-      render :action => 'new'
-    else
       notify_of "Module added"
       redirect_to module_path(current_user, @mod)
+    else
+      notify_of :error, "Could not save module"
+      render :action => 'new'
     end
   end
 
