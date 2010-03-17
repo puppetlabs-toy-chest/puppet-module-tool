@@ -9,7 +9,7 @@ Usage
 
 For usage information, see:
 
-    $ ./bin/puppet-modules --help
+    $ ./bin/puppet-modules
 
 For individual commands, use `help`, for example:
 
