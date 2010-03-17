@@ -73,9 +73,21 @@ class PuppetModules::CLI < Thor
   end
 
   desc "register MODULE_NAME", "Register a new module (eg, 'user/modname')"
+  method_option_repository
   def register(module_name)
     set_repository
     PuppetModules::Applications::Registrar.run(module_name)
+  end
+
+  desc "changes [PATH_TO_MODULE]", "Show modified files in an installed module"
+  def changes(path)
+    PuppetModules::Applications::Checksummer.run(path)
+  end
+
+  desc "unpack FILENAME [ENVIRONMENT_PATH]", "Unpack filename as a module"
+  method_option :force, :alias => :f, :desc => "Overwrite existing module, if any"
+  def unpack(filename, environment_path = Dir.pwd)
+    PuppetModules::Applications::Unpacker.run(filename, environment_path, options[:force])
   end
 
   no_tasks do

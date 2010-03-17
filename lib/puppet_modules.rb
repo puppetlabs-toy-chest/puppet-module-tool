@@ -6,7 +6,7 @@ module PuppetModules
   autoload :CLI,                 'puppet_modules/cli'
   autoload :Applications,        'puppet_modules/applications'
   autoload :Cache,               'puppet_modules/cache'
-  autoload :Commands,            'puppet_modules/commands'
+  autoload :Checksums,           'puppet_modules/checksums'
   autoload :ContentsDescription, 'puppet_modules/contents_description'
   autoload :Dependency,          'puppet_modules/dependency'
   autoload :Metadata,            'puppet_modules/metadata'
@@ -14,6 +14,17 @@ module PuppetModules
   autoload :Repository,          'puppet_modules/repository'
   autoload :Skeleton,            'puppet_modules/skeleton'
   autoload :Utils,               'puppet_modules/utils'
+
+  ARTIFACTS = ['pkg', /^\./, /^~/, /^#/]
+
+  def self.artifact?(path)
+    case File.basename(path)
+    when *ARTIFACTS
+      true
+    else
+      false
+    end
+  end
 
   def self.root
     @root ||= Pathname.new(__FILE__).parent + '..'

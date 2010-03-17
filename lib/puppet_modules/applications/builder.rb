@@ -6,8 +6,6 @@ module PuppetModules
 
     class Builder < Application
 
-      ARTIFACTS = ['pkg', /^\./, /^~/, /^#/]
-
       def initialize(path)
         @path = path
         @pkg_path = File.join(@path, 'pkg')
@@ -61,7 +59,7 @@ module PuppetModules
       def copy_contents
         Dir[File.join(@path, '*')].each do |path|
           case File.basename(path)
-          when *ARTIFACTS
+          when *PuppetModules::ARTIFACTS
             next
           else
             FileUtils.cp_r path, build_path
@@ -70,7 +68,7 @@ module PuppetModules
       end
 
       def add_metadata
-        File.open(File.join(@path, 'metadata.json'), 'w') do |f|
+        File.open(File.join(build_path, 'metadata.json'), 'w') do |f|
           f.write PSON.dump(metadata)
         end
       end

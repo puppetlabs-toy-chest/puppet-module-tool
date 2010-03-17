@@ -42,6 +42,8 @@ module PuppetModules
           @metadata = Metadata.new
           contents = ContentsDescription.new(@path)
           contents.annotate(@metadata)
+          checksums = Checksums.new(@path)
+          checksums.annotate(@metadata)
           modulefile_path = File.join(@path, 'Modulefile')
           if File.file?(modulefile_path)
             Modulefile.evaluate(@metadata, modulefile_path)

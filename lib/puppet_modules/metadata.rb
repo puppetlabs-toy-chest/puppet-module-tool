@@ -24,6 +24,10 @@ module PuppetModules
       @types ||= []
     end
 
+    def checksums
+      @checksums ||= {}
+    end
+
     def dashed_name
       [@username, @name].join('-')
     end
@@ -37,7 +41,8 @@ module PuppetModules
         :name         => @full_name,
         :version      => @version,
         :dependencies => dependencies,
-        :types        => types
+        :types        => types,
+        :checksums    => checksums
       }.to_pson(*args)
     end
 
