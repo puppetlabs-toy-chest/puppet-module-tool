@@ -1,7 +1,7 @@
 Puppet Module Tools
 ===================
 
-This is a collection of tools used to author and publish Puppet
+This is a collection of tools used to author, publish, and manage Puppet
 modules.
 
 Usage

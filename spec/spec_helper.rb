@@ -4,6 +4,10 @@ require 'puppet_modules'
 require 'spec'
 require 'spec/autorun'
 
+Dir[File.join(File.dirname(__FILE__), 'support', '*.rb')].each do |support_file|
+  require support_file
+end
+
 Spec::Runner.configure do |config|
-  
+  config.mock_with :mocha
 end
