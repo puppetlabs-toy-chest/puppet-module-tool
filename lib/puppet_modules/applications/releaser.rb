@@ -1,11 +1,12 @@
+require 'net/http/post/multipart'
+require 'versionomy'
+
 module PuppetModules
 
   module Applications
 
     class Releaser < Application
 
-      requires ['net/http/post/multipart', 'multipart_post']
-      
       def initialize(filename)
         @filename = filename
         parse_filename!
