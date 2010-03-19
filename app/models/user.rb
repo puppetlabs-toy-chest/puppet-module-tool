@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username
 
   has_many :mods, :as => :owner
+  has_many :watches
+  has_many :watched_mods, :through => :watches, :source => :mod
 
   def name
     username

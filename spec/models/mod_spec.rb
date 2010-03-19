@@ -16,18 +16,24 @@ describe Mod do
     it { should validate_uniqueness_of(:name).scoped_to([:owner_id, :owner_type]) }
   end
 
+  describe "adding a watch" do
+    before do
+      @user = Factory(:user)
+      @mod = Factory(:mod)
+    end
+    it "should add a watched mod" do
+      @user.watches.create(:mod_id => @mod.id)
+      @mod.watchers.should include(@user)
+    end
+  end
+
+
   it { should validate_format_of(:name).with('foo') }
   it { should validate_format_of(:name).not_with('bad_char').with_message(/alphanumeric/) }
   it { should validate_format_of(:name).not_with('1').with_message(/2 or more/) }
 
-  it { should validate_format_of(:project_url).not_with('foo').with_message(/location invalid/) }
-  it { should validate_format_of(:project_url).not_with('foo.com').with_message(/location invalid/) }
-  # TODO: support these using a public key, eventually
-  it { should validate_format_of(:project_url).not_with('git@github.com:bar/foo').with_message(/location invalid/) }
-  it { should validate_format_of(:project_url).not_with('git@github.com:bar/foo.git').with_message(/location invalid/) }
-
-  it { should validate_format_of(:project_url).with('git://github.com/bar/foo.git') }
-  it { should validate_format_of(:project_url).with('http://github.com/bar/foo.git') } 
-  it { should validate_format_of(:project_url).with('https://github.com/bar/foo.git') }
+  it { should validate_format_of(:project_url).not_with('foo').with_message(/not appear to be valid/) }
+  it { should validate_format_of(:project_url).with('http://github.com/bar/foo') } 
+  it { should validate_format_of(:project_url).with('https://github.com/bar/foo') }
     
 end

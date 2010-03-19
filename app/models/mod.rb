@@ -12,6 +12,9 @@ class Mod < ActiveRecord::Base
     end
   end
 
+  has_many :watches
+  has_many :watchers, :through => :watches, :source => :user
+
   named_scope :with_releases, :joins => :releases, :group => 'mods.id', :include => :releases
   named_scope :matching, proc { |q| {:conditions => ['name like ?', "%#{q}%"]} }
   

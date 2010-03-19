@@ -11,4 +11,5 @@ end
 
 Factory.define(:release) { }
 
+Factory.define(:watch) { }
 

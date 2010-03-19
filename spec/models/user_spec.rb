@@ -13,4 +13,15 @@ describe User do
     it { should validate_uniqueness_of(:username) }
   end
 
+  describe "adding a watch" do
+    before do
+      @user = Factory(:user)
+      @mod = Factory(:mod)
+    end
+    it "should add a watched mod" do
+      @user.watches.create(:mod_id => @mod.id)
+      @user.watched_mods.should include(@mod)
+    end
+  end
+
 end
