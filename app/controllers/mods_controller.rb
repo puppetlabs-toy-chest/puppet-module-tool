@@ -64,7 +64,7 @@ class ModsController < ApplicationController
   # Serialize one or more modules to JSON
   def serialize(obj)
     obj.to_json(
-                :only => [:name, :source],
+                :only => [:name, :project_url],
                 :methods => [:full_name, :version]
                 )
   end

@@ -6,7 +6,7 @@ end
 
 Factory.define :mod do |x|
   x.sequence(:name) { |n| "name#{n}" }
-  x.sequence(:source) { |n| "http://example.com/mod#{n}.git" }
+  x.sequence(:project_url) { |n| "http://example.com/mod#{n}" }
 end
 
 Factory.define(:release) { }

@@ -18,6 +18,9 @@ class Mod < ActiveRecord::Base
   validates_format_of :name, :with => /^[[:alnum:]]{2,}$/, :message => "should be 2 or more alphanumeric characters"
   validates_uniqueness_of :name, :scope => [:owner_id, :owner_type]
 
+  validates_url_format_of(:project_url, :allow_nil => true)
+  validates_url_format_of(:project_feed_url, :allow_nil => true)
+  
   def full_name
     "#{owner.username}/#{name}"
   end

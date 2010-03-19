@@ -7,9 +7,12 @@
     = succeed '.' do
       %b= [current_user.username, '/', '&lt;name&gt;'].join('')
   %p= f.text_field :name
-  %p= f.label :source, "Project URL"
+  %p= f.label :project_url, "Project URL"
   %p.introduction Where can people go to collaborate with you on your module?  If provided, this should be a valid URL.
-  %p= f.text_field :source
+  %p= f.text_field :project_url
+  %p= f.label :project_feed_url, "Project Feed URL"
+  %p.introduction Do you have an RSS/Atom feed that can be used to track the project's progress?
+  %p= f.text_field :project_feed_url
   %p= f.label :description
   %p.introduction
     Provide some information on your module.

@@ -1,3 +1,6 @@
+- content_for :head do
+  = project_feed_link(@mod)
+
 - if viewing_own?
   %p= link_to "Edit module", [:edit, @user, @mod], :class => 'section-link'
 %h2= @mod.full_name
