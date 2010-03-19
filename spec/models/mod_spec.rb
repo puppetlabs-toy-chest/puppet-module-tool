@@ -27,7 +27,6 @@ describe Mod do
     end
   end
 
-
   it { should validate_format_of(:name).with('foo') }
   it { should validate_format_of(:name).not_with('bad_char').with_message(/alphanumeric/) }
   it { should validate_format_of(:name).not_with('1').with_message(/2 or more/) }

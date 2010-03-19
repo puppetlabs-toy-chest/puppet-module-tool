@@ -1,12 +1,13 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :watches
 
   map.resources :releases
 
-
   map.root :controller => 'pages', :action => 'home'
   
-  map.resources :mods, :as => 'modules'
+  map.resources :mods, :as => 'modules' do
+    map.resources :watches
+  end
+  
   map.resources :tags
 
   map.devise_for :users
