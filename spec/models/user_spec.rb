@@ -24,4 +24,26 @@ describe User do
     end
   end
 
+  describe '#watching?' do
+    before do
+      @user = Factory(:user)
+      @mod = Factory(:mod)
+    end
+
+    context "for a mod that the user is watching" do
+      before do
+        @user.watches.create :mod => @mod
+      end
+      it "should be true" do
+        @user.should be_watching(@mod)
+      end
+    end
+    
+    context "for a mod that the user is not watching" do
+      it "should be false" do
+        @user.should_not be_watching(@mod)
+      end
+    end
+  end
+  
 end

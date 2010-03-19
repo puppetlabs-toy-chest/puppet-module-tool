@@ -17,4 +17,8 @@ class User < ActiveRecord::Base
     username
   end
 
+  def watching?(mod)
+    watched_mods.include?(mod)
+  end
+  
 end
