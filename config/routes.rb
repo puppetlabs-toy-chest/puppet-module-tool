@@ -4,8 +4,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.root :controller => 'pages', :action => 'home'
   
-  map.resources :mods, :as => 'modules' do
-    map.resources :watches
+  map.resources :mods, :as => 'modules' do |mods|
+    mods.resources :watches
   end
   
   map.resources :tags

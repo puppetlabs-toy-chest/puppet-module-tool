@@ -17,6 +17,7 @@
   %h3 This module has not been released.
 
 - content_for :sidebar do
+  = render :partial => 'mods/watching'
   .section#releases
     - if viewing_own?
       = link_to 'Add a release', new_user_mod_release_path(@user, @mod), :class => 'section-link'

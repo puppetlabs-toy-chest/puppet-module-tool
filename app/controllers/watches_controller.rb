@@ -5,7 +5,23 @@ class WatchesController < ApplicationController
 
   def create
     current_user.watches.create(:mod_id => @mod.id)
-    redirect_to module_path(@mod.owner, @mod)
+    respond_to do |format|
+      format.html do
+        redirect_to module_path(@mod.owner, @mod)
+      end
+      format.js
+    end
+  end
+
+  def destroy
+    @watch = current_user.watches.find(params[:id])
+    @watch.destroy
+    respond_to do |format|
+      format.html do
+        redirect_to module_path(@mod.owner, @mod)
+      end
+      format.js
+    end
   end
 
   private
