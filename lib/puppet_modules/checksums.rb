@@ -8,7 +8,7 @@ module PuppetModules
     end
 
     def checksum(path)
-      Digest::MD5.hexdigest(descendant.read)
+      Digest::MD5.hexdigest(path.read)
     end
 
     def data

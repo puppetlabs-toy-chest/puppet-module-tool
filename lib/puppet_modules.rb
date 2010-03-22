@@ -15,7 +15,7 @@ module PuppetModules
   autoload :Skeleton,            'puppet_modules/skeleton'
   autoload :Utils,               'puppet_modules/utils'
 
-  ARTIFACTS = ['pkg', /^\./, /^~/, /^#/]
+  ARTIFACTS = ['pkg', /^\./, /^~/, /^#/, 'coverage']
 
   def self.artifact?(path)
     case File.basename(path)
