@@ -16,7 +16,7 @@ module PuppetModules
 
       def run
         if match['file']
-          cache_path = PuppetModules.repository.retrieve(match['file'])
+          cache_path = PuppetModules.config.repository.retrieve(match['file'])
           Unpacker.run(cache_path, Dir.pwd, @force)
         else
           abort "Malformed response from module repository."
@@ -27,7 +27,7 @@ module PuppetModules
 
       def match
         unless @match
-          url = PuppetModules.repository.uri + "/users/#{@username}/modules/#{@module_name}/releases/find.json"
+          url = PuppetModules.config.repository.uri + "/users/#{@username}/modules/#{@module_name}/releases/find.json"
           if @version_requirement
             url.query = "version=#{URI.escape(@version_requirement)}"
           end

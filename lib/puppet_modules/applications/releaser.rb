@@ -22,7 +22,7 @@ module PuppetModules
       def upload
         File.open(@filename) do |file|
           request = build_request(file)
-          response = PuppetModules.repository.contact(request, :authenticate => true)
+          response = PuppetModules.config.repository.contact(request, :authenticate => true)
           discuss response, "Released #{@version}", "Could not release #{@version}"
         end
       end

@@ -7,6 +7,7 @@ module PuppetModules
   autoload :Applications,        'puppet_modules/applications'
   autoload :Cache,               'puppet_modules/cache'
   autoload :Checksums,           'puppet_modules/checksums'
+  autoload :Configuration,       'puppet_modules/configuration'
   autoload :ContentsDescription, 'puppet_modules/contents_description'
   autoload :Dependency,          'puppet_modules/dependency'
   autoload :Metadata,            'puppet_modules/metadata'
@@ -34,12 +35,8 @@ module PuppetModules
     @version ||= (root + 'VERSION').read
   end
 
-  def self.repository
-    @repository ||= Repository.new
-  end
-  
-  def self.repository=(url)
-    @repository = Repository.new(url)
+  def self.config
+    @config ||= Configuration.evaluate(dotdir + 'config.rb')
   end
 
   def self.dotdir

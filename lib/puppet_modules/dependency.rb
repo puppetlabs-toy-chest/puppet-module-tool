@@ -6,7 +6,7 @@ module PuppetModules
       @full_name = full_name
       @username, @name = full_name.split('/')
       @version_requirement = version_requirement
-      @repository = repository ? Repository.new(repository) : PuppetModules.repository
+      @repository = repository ? Repository.new(repository) : PuppetModules.config.repository
     end
 
     def to_pson(*args)

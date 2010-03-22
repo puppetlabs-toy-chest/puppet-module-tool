@@ -25,7 +25,7 @@ module PuppetModules
     end
 
     def authenticate(request)
-      header "Authenticating for #{PuppetModules.repository}"
+      header "Authenticating for #{PuppetModules.config.repository}"
       email = prompt('Email Address')
       password = prompt('Password', true)
       request.basic_auth(email, password)

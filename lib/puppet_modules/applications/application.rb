@@ -12,7 +12,7 @@ module PuppetModules
       end
 
       def repository
-        PuppetModules.repository
+        PuppetModules.config.repository
       end
 
       def run

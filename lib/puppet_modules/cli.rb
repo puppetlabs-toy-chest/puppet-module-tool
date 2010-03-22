@@ -10,7 +10,12 @@ class PuppetModules::CLI < Thor
   map '-V' => :version
   
   def self.method_option_repository
-    method_option :repository, :default => "http://modules.puppetlabs.com", :desc => "Module repository to use"
+    method_option :repository, :default => PuppetModules::Repository::DEFAULT, :desc => "Module repository to use"
+  end
+
+  def self.start
+    PuppetModules.config
+    super
   end
 
   desc "version", "Show the version information for this tool"
@@ -92,7 +97,7 @@ class PuppetModules::CLI < Thor
 
   no_tasks do
     def set_repository
-      PuppetModules.repository = options[:repository]
+      PuppetModules.config.repository = options[:repository]
     end
   end
   
