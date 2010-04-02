@@ -1,7 +1,6 @@
-%h2= @user.username
-
-- if viewing_own?
-  %p
-    = link_to 'Edit your profile', [:edit, @user], :class => 'gateway'
+%h2
+  = @user.display_name
+  = surround '(', ')' do
+    = @user.username
 
 = render :partial => 'mods/list'

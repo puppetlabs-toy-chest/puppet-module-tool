@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
     users.resources :mods, :as => 'modules' do |mods|
       mods.resources :releases, :id => nil, :requirements => {:id => /.+/}, :collection => {:find => :get}
     end
+    users.resources :timeline_events, :as => 'events'
   end
 
   # Some vanity URLs

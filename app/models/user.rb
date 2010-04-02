@@ -7,7 +7,11 @@ class User < ActiveRecord::Base
 
   has_many :mods, :as => :owner
   has_many :watches
-  has_many :watched_mods, :through => :watches, :source => :mod
+  has_many :watched_mods, :through => :watches, :source => :mod do
+    def timeline
+      TimelineEvent.for_mods(*self)
+    end
+  end
 
   def name
     username
@@ -19,6 +23,6 @@ class User < ActiveRecord::Base
 
   def watching?(mod)
     watched_mods.include?(mod)
-  end
+  end  
   
 end

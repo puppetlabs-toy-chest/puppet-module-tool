@@ -60,18 +60,6 @@ module ApplicationHelper
     end
   end
 
-  def session_nav
-    haml_tag :p, :id => 'session-navigation' do
-      if current_user
-        haml_concat link_to("Welcome, #{current_user.username}", vanity_path(current_user), :class => 'gateway')
-        haml_concat link_to("Sign out", destroy_user_session_path, :class => 'gateway')
-      else
-        haml_concat link_to("Sign in", new_user_session_path, :class => 'gateway')
-        haml_concat link_to("Register", new_user_path, :class => 'gateway')
-      end
-    end
-  end
-
   def count(name, collection)
     method = collection.respond_to?(:count) ? :count : :size
     count = collection.send(method)

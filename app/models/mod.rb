@@ -23,6 +23,12 @@ class Mod < ActiveRecord::Base
 
   validates_url_format_of(:project_url, :allow_blank => true)
   validates_url_format_of(:project_feed_url, :allow_blank => true)
+
+  has_many :release_events, :as => :secondary_subject do
+    def new_releases
+      self.all(:conditions => {:event_type => :new_release})
+    end
+  end
   
   def full_name
     "#{owner.username}/#{name}"

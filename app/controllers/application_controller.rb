@@ -28,5 +28,13 @@ class ApplicationController < ActionController::Base
   def set_mailer_host
     ActionMailer::Base.default_url_options[:host] = request.host
   end
+
+  def after_sign_in_path_for(resource)
+    if resource.is_a?(User)
+      user_timeline_events_path(resource)
+    else
+      super
+    end
+  end
   
 end

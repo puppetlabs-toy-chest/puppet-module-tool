@@ -1,0 +1,14 @@
+%div#session-navigation
+  - if current_user
+    %p
+      Welcome,
+      = link_to(current_user.display_name, [:edit, current_user])
+      = surround '(', ')' do
+        = link_to("Sign Out", destroy_user_session_path)
+    %ul
+      %li= link_to("Activity", user_timeline_events_path(current_user))
+      %li= link_to("Your Modules", current_user)
+  - else
+    %ul
+      %li= link_to("Sign in", new_user_session_path)
+      %li= link_to("Register", new_user_path)

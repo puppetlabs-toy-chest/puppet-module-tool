@@ -14,9 +14,11 @@
               %p= value
         = yield
       .secondary-content
-        - session_nav
-        - form_tag mods_path, :method => 'get' do
-          = text_field_tag :q, params[:q], :id => 'search'
+        = render :partial => 'shared/session'
+        .section#search
+          %h3 Search Modules
+          - form_tag mods_path, :method => 'get' do
+            = text_field_tag :q, params[:q], :id => 'search'
         = yield :sidebar
         - category_list
         .section#tags

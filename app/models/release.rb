@@ -10,6 +10,13 @@ class Release < ActiveRecord::Base
 
   serialize :metadata
 
+  fires(:new_release,
+        :on => :create,
+        :secondary_subject => :mod,
+        :actor => :owner)
+
+  delegate :owner, :to => :mod
+
   def to_param
     version
   end
