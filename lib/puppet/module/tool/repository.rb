@@ -7,8 +7,6 @@ module Puppet::Module::Tool
     include Utils::URI
     include Utils::Interrogation
 
-    DEFAULT = 'http://modules.puppetlabs.com'
-
     attr_reader :uri, :cache
     def initialize(url=DEFAULT)
       @uri = normalize(url)
