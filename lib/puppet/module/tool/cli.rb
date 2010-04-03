@@ -37,8 +37,8 @@ class Puppet::Module::Tool::CLI < Thor
   end
 
   desc "build [PATH_TO_MODULE]", "Build a module for release"
-  def build(path = Dir.pwd)
-    Puppet::Module::Tool::Applications::Builder.run(path, options)
+  def build(path = nil)
+    Puppet::Module::Tool::Applications::Builder.run(find_module_root(path), options)
   end
 
   desc "release FILENAME", "Release a module tarball (.tar.gz)"
@@ -76,8 +76,8 @@ class Puppet::Module::Tool::CLI < Thor
   end
 
   desc "changes [PATH_TO_MODULE]", "Show modified files in an installed module"
-  def changes(path)
-    Puppet::Module::Tool::Applications::Checksummer.run(path, options)
+  def changes(path = nil)
+    Puppet::Module::Tool::Applications::Checksummer.run(find_module_root(path), options)
   end
 
   desc "unpack FILENAME [ENVIRONMENT_PATH]", "Unpack filename as a module"
@@ -86,4 +86,15 @@ class Puppet::Module::Tool::CLI < Thor
     Puppet::Module::Tool::Applications::Unpacker.run(filename, environment_path, options)
   end
 
+  no_tasks do
+    def find_module_root(path)
+      Pathname.new(File.expand_path(path || Dir.pwd)).ascend do |path|
+        if (path + 'Modulefile').exist?
+          return path
+        end
+      end
+      abort "Could not find a module under #{path}"
+    end
+  end
+  
 end

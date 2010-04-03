@@ -17,10 +17,11 @@ module Puppet::Module::Tool
         create_directory
         copy_contents
         add_metadata
-        header 'Building tarball'
+        header "Building #{@path} for release"
         tar
         gzip
-        say filename('tar.gz')
+        relative = Pathname.new(File.join(@pkg_path, filename('tar.gz'))).relative_path_from(Pathname.new(Dir.pwd))
+        say "Done. Now you probably want to:\n  $ pmt release #{relative}"
       end
 
       private
