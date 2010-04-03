@@ -4,8 +4,9 @@ module Puppet::Module::Tool
 
     class Searcher < Application
 
-      def initialize(term)
+      def initialize(term, options = {})
         @term = term
+        super(options)
       end
 
       def run

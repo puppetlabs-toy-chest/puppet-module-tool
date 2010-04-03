@@ -3,8 +3,9 @@ module Puppet::Module::Tool
 
     class Checksummer < Application
 
-      def initialize(path)
+      def initialize(path, options = {})
         @path = Pathname.new(path)
+        super(options)
       end
       
       def run

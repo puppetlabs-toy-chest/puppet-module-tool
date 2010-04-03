@@ -1,4 +1,3 @@
-require 'puppet'
 require 'net/http'
 
 module Puppet::Module::Tool
@@ -9,6 +8,13 @@ module Puppet::Module::Tool
 
       def self.run(*args)
         new(*args).run
+      end
+
+      attr_accessor :options
+
+      def initialize(options = {})
+        @options = options
+        Puppet::Module::Tool.prepare_settings(options)
       end
 
       def repository
@@ -53,8 +59,23 @@ module Puppet::Module::Tool
         @metadata = nil
         metadata(true)
       end
-      
-    end
 
+      # Use to extract and validate a module name and version from a
+      #filename
+      # Note: Must have @filename set to use this
+      def parse_filename!
+        @username, @module_name, @version = File.basename(@filename,'.tar.gz').split('-', 3)
+        unless @username && @module_name
+          abort "Username and Module name not provided"
+        end
+        begin
+          Versionomy.parse(@version)
+        rescue
+          abort "Invalid version format: #{@version}"
+        end
+      end
+    end
+    
   end
+  
 end

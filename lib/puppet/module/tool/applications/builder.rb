@@ -6,9 +6,10 @@ module Puppet::Module::Tool
 
     class Builder < Application
 
-      def initialize(path)
-        @path = path
+      def initialize(path, options)
+        @path = File.expand_path(path)
         @pkg_path = File.join(@path, 'pkg')
+        super(options)
       end
 
       def run

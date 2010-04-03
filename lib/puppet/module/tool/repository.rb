@@ -40,7 +40,10 @@ module Puppet::Module::Tool
     end
 
     def cache_key
-      @cache_key ||= Digest::SHA1.hexdigest(@uri.to_s)
+      @cache_key ||= [
+                      @uri.to_s.gsub(/[^[:alnum:]]+/, '_').sub(/_$/, ''),
+                      Digest::SHA1.hexdigest(@uri.to_s)
+                    ].join('-')
     end
     
   end

@@ -7,10 +7,13 @@ module Puppet::Module::Tool
 
     class Generator < Application
 
-      attr_reader :skeleton
-      def initialize(full_name)
+      def initialize(full_name, options)
         @metadata = Metadata.new(:full_name => full_name)
-        @skeleton = Skeleton.new
+        super(options)
+      end
+
+      def skeleton
+        @skeleton ||= Skeleton.new
       end
       
       def run

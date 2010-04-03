@@ -3,8 +3,9 @@ module Puppet::Module::Tool
 
     class Registrar < Application
 
-      def initialize(full_name)
-        @username, @module_name = full_name.split(/[\/\-]/, 2) 
+      def initialize(full_name, options = {})
+        @username, @module_name = full_name.split(/[\/\-]/, 2)
+        super(options)
         validate!
       end
 

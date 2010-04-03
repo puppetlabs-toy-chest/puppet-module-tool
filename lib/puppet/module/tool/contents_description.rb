@@ -4,7 +4,6 @@ module Puppet::Module::Tool
 
     def initialize(path)
       @path = path
-      $LOAD_PATH.unshift(File.join(path, 'lib'))
     end
 
     def annotate(metadata)
@@ -17,14 +16,19 @@ module Puppet::Module::Tool
       unless @data
         @data = {:types => []}
         Dir[File.join(@path, 'lib/puppet/type/*.rb')].each do |filename|
+          require filename
           type_name = File.basename(filename, '.rb')
           type = Puppet::Type.type(type_name.to_sym)
-          type_hash = {:name => type_name, :doc => type.doc}
-          @data[:types] << type_hash
-          type_hash[:properties] = attr_doc(type, :property)
-          type_hash[:parameters] = attr_doc(type, :param)
-          if type.providers.size > 0
-            type_hash[:providers] = provider_doc(type)
+          if type
+            type_hash = {:name => type_name, :doc => type.doc}
+            @data[:types] << type_hash
+            type_hash[:properties] = attr_doc(type, :property)
+            type_hash[:parameters] = attr_doc(type, :param)
+            if type.providers.size > 0
+              type_hash[:providers] = provider_doc(type)
+            end
+          else
+            puts "Could not find/load type: #{type_name}"
           end
         end
       end

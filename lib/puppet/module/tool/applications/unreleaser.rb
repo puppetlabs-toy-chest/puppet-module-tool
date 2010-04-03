@@ -3,18 +3,22 @@ module Puppet::Module::Tool
 
     class Unreleaser < Application
 
-      def initialize(address, version)
+      def initialize(address, options = {})
         @address = address
         @username, @module_name = address.split('/')
-        @version = version
         validate!
+        super(options)
+      end
+
+      def version
+        options[:version]
       end
 
       def run
-        if confirms?("Unrelease #{@address} #{@version}?")
-          request = Net::HTTP::Delete.new("/users/#{@username}/modules/#{@module_name}/releases/#{@version}")
+        if confirms?("Unrelease #{@address} #{version}?")
+          request = Net::HTTP::Delete.new("/users/#{@username}/modules/#{@module_name}/releases/#{version}")
           response = repository.contact(request, :authenticate => true)
-          discuss response, "Unreleased #{@address} #{@version}", "Could not unrelease #{@address} #{@version}"
+          discuss response, "Unreleased #{@address} #{version}", "Could not unrelease #{@address} #{version}"
         end
       end
 
@@ -25,9 +29,9 @@ module Puppet::Module::Tool
           abort "Username and Module name not provided"
         end
         begin
-          Versionomy.parse(@version)
+          Versionomy.parse(version)
         rescue
-          abort "Invalid version format: #{@version}"
+          abort "Invalid version format: #{version}"
         end
       end
 

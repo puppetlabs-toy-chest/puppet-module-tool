@@ -12,10 +12,15 @@ module Puppet::Module::Tool
       filename = File.basename(url.to_s)
       cached_file = path + filename
       unless cached_file.file?
-        uri = normalize(url)
-        data = uri.read
-        cached_file.open('wb') { |f| f.write data }
-        data
+        if url.scheme == 'file'
+          FileUtils.cp(url.path, cached_file)
+        else
+          # TODO: Handle HTTPS
+          uri = normalize(url)
+          data = uri.read
+          cached_file.open('wb') { |f| f.write data }
+          data
+        end
       end
       cached_file
     end

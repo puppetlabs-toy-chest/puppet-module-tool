@@ -23,79 +23,67 @@ class Puppet::Module::Tool::CLI < Thor
   desc "generate MODULE_NAME", "Generate boilerplate for a new module (eg, 'user/modname')"
   method_option_repository
   def generate(name)
-    set_repository
-    Puppet::Module::Tool::Applications::Generator.run(name)
+    Puppet::Module::Tool::Applications::Generator.run(name, options)
   end
 
   desc "freeze", "Freeze the module skeleton (to customize for `generate`)"
   def freeze
-    Puppet::Module::Tool::Applications::Freezer.run
+    Puppet::Module::Tool::Applications::Freezer.run(options)
   end
 
   desc "clean", "Clears module cache (all repositories)"
   def clean
-    Puppet::Module::Tool::Applications::Cleaner.run
+    Puppet::Module::Tool::Applications::Cleaner.run(options)
   end
 
   desc "build [PATH_TO_MODULE]", "Build a module for release"
   def build(path = Dir.pwd)
-    Puppet::Module::Tool::Applications::Builder.run(path)
+    Puppet::Module::Tool::Applications::Builder.run(path, options)
   end
 
   desc "release FILENAME", "Release a module tarball (.tar.gz)"
   method_option_repository
   def release(filename)
-    set_repository
-    Puppet::Module::Tool::Applications::Releaser.run(filename)
+    Puppet::Module::Tool::Applications::Releaser.run(filename, options)
   end
 
   desc "unrelease MODULE_NAME", "Unrelease a module (eg, 'user/modname')"
   method_option :version, :alias => :v, :required => true, :desc => "The version to unrelease"
   method_option_repository
   def unrelease(module_name)
-    set_repository
     Puppet::Module::Tool::Applications::Unreleaser.run(module_name,
-                                                options[:version])
+                                                       options)
   end
 
-  desc "install MODULE_NAME [OPTIONS]", "Install a module (eg, 'user/modname') from a repository"
+  desc "install MODULE_NAME_OR_FILE [OPTIONS]", "Install a module (eg, 'user/modname') from a repository or file"
   method_option :version, :alias => :v, :desc => "Version to install (can be a requirement, eg '>= 1.0.3', defaults to latest version)"
   method_option :force, :alias => :f, :type => :boolean, :desc => "Force overwrite of existing module, if any"
   method_option_repository
-  def install(module_name)
-    set_repository
-    Puppet::Module::Tool::Applications::Installer.run(module_name, options[:version], options[:force])
+  def install(name)
+    Puppet::Module::Tool::Applications::Installer.run(name, options)
   end
 
   desc "search TERM", "Search the module repository for a module matching TERM"
   method_option_repository
   def search(term)
-    set_repository
-    Puppet::Module::Tool::Applications::Searcher.run(term)
+    Puppet::Module::Tool::Applications::Searcher.run(term, options)
   end
 
   desc "register MODULE_NAME", "Register a new module (eg, 'user/modname')"
   method_option_repository
   def register(module_name)
-    set_repository
-    Puppet::Module::Tool::Applications::Registrar.run(module_name)
+    Puppet::Module::Tool::Applications::Registrar.run(module_name, options)
   end
 
   desc "changes [PATH_TO_MODULE]", "Show modified files in an installed module"
   def changes(path)
-    Puppet::Module::Tool::Applications::Checksummer.run(path)
+    Puppet::Module::Tool::Applications::Checksummer.run(path, options)
   end
 
   desc "unpack FILENAME [ENVIRONMENT_PATH]", "Unpack filename as a module"
   method_option :force, :alias => :f, :desc => "Overwrite existing module, if any"
   def unpack(filename, environment_path = Dir.pwd)
-    Puppet::Module::Tool::Applications::Unpacker.run(filename, environment_path, options[:force])
+    Puppet::Module::Tool::Applications::Unpacker.run(filename, environment_path, options)
   end
 
-  no_tasks do
-    def set_repository
-      Puppet.settings.set_value(:modulerepository, options[:modulerepository], :cli)
-    end
-  end
-  
 end

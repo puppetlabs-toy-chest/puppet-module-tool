@@ -7,16 +7,20 @@ module Puppet::Module::Tool
 
     class Unpacker < Application
 
-      def initialize(filename, environment_path, force = false)
+      def initialize(filename, environment_path, options = {})
         @filename = Pathname.new(filename)
         @environment_path = Pathname.new(environment_path)
-        @force = force
-        parse_components!
+        parse_filename!
+        super(options)
+      end
+
+      def force?
+        options[:force]
       end
 
       def run
         check_clobber!
-        build_dir = Pathname.new(File.join(Dir.tmpdir, "modules-#{Digest::SHA1.hexdigest(@filename.basename)}"))
+        build_dir = Pathname.new(File.join(Dir.tmpdir, "pmt-unpacker-#{Digest::SHA1.hexdigest(@filename.basename)}"))
         build_dir.mkpath
         begin
           FileUtils.cp @filename, build_dir
@@ -28,7 +32,7 @@ module Puppet::Module::Tool
           end
           # grab the first directory
           extracted = build_dir.children.detect { |c| c.directory? }
-          if @force
+          if force?
             FileUtils.rm_rf @module_name rescue nil
           end
           FileUtils.cp_r extracted, @module_name
@@ -41,10 +45,6 @@ module Puppet::Module::Tool
 
       private
 
-      def parse_components!
-        @username, @module_name, @version = @filename.basename('.tar.gz').to_s.split('-', 3)
-      end
-
       def tag_revision
         File.open("#{@module_name}/REVISION", 'w') do |f|
           f.puts "module: #{@username}/#{@module_name}"
@@ -55,7 +55,7 @@ module Puppet::Module::Tool
       end
 
       def check_clobber!
-        if File.directory?(@module_name) && !@force
+        if File.directory?(@module_name) && !force?
           header "Existing module '#{@module_name}' found"
           response = prompt "Overwrite module installed at ./#{@module_name}? [y/N]"
           unless response =~ /y/i

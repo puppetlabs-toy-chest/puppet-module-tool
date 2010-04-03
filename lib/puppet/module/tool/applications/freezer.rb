@@ -3,14 +3,13 @@ module Puppet::Module::Tool
 
     class Freezer < Application
 
-      def initialize(*args)
-        super
-        @skeleton = Skeleton.new
+      def skeleton
+        @skeleton ||= Skeleton.new
       end
         
       def run
-        header "Freezing in #{@skeleton.custom_path}"
-        @skeleton.freeze!
+        header "Freezing in #{skeleton.custom_path}"
+        skeleton.freeze!
         say "Done.  Modify these files for the `generate` task."
       end
       

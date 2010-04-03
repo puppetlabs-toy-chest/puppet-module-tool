@@ -7,7 +7,7 @@ rescue LoadError
   abort "You must have Puppet installed to run PMT"
 end
 
-require 'puppet/module/tool/settings'
+require 'versionomy'
 
 module Puppet::Module::Tool
 
@@ -24,6 +24,8 @@ module Puppet::Module::Tool
   autoload :Utils,               'puppet/module/tool/utils'
 
   ARTIFACTS = ['pkg', /^\./, /^~/, /^#/, 'coverage']
+
+  extend Utils::Settings
 
   def self.artifact?(path)
     case File.basename(path)
@@ -61,4 +63,3 @@ end
 Dir[Puppet::Module::Tool.root + 'vendor/*/lib'].each do |path|
   $LOAD_PATH.unshift(path)
 end
-
