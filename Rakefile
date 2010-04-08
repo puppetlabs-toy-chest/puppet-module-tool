@@ -4,12 +4,12 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "puppet-modules"
-    gem.summary = %Q{Puppet module manager}
-    gem.description = %Q{Puppet module manager}
-    gem.email = "bruce@reductivelabs.com"
-    gem.homepage = "http://github.com/bruce/puppet-modules"
-    gem.authors = ["Bruce Williams"]
+    gem.name = "pmt"
+    gem.summary = %Q{Puppet module tool}
+    gem.description = %Q{Tool used to manage and release Puppet (http://puppetlabs.com) modules}
+    gem.email = "dev@reductivelabs.com"
+    gem.homepage = "http://github.com/puppetlabs/pmt"
+    gem.authors = ["Puppet Community"]
     gem.add_development_dependency "rspec", ">= 1.2.9"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
