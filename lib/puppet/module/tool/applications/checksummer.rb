@@ -11,13 +11,10 @@ module Puppet::Module::Tool
       def run
         if metadata_file.exist?
           sums = Checksums.new(@path)
-          sums.each do |child_path, canonical_checksum|
+          (metadata['checksums'] || {}).each do |child_path, canonical_checksum|
             path = @path + child_path
-            print child_path + ': '
-            if canonical_checksum == sums.checksum(path)
-              puts "Not changed."
-            else
-              puts "Changed."
+            if canonical_checksum != sums.checksum(path)
+              say child_path
             end
           end
         else

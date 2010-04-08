@@ -80,12 +80,6 @@ class Puppet::Module::Tool::CLI < Thor
     Puppet::Module::Tool::Applications::Checksummer.run(find_module_root(path), options)
   end
 
-  desc "unpack FILENAME [ENVIRONMENT_PATH]", "Unpack filename as a module"
-  method_option :force, :alias => :f, :desc => "Overwrite existing module, if any"
-  def unpack(filename, environment_path = Dir.pwd)
-    Puppet::Module::Tool::Applications::Unpacker.run(filename, environment_path, options)
-  end
-
   no_tasks do
     def find_module_root(path)
       Pathname.new(File.expand_path(path || Dir.pwd)).ascend do |path|

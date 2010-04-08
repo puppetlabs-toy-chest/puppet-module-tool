@@ -40,7 +40,7 @@ module Puppet::Module::Tool
         ensure
           build_dir.rmtree
         end
-        puts "Installed #{@username}/#{@module_name} #{@version} as #{@module_name}"
+        say "Installed #{@username}/#{@module_name} #{@version} as #{@module_name}"
       end
 
       private

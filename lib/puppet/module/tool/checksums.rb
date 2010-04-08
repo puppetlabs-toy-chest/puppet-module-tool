@@ -2,6 +2,7 @@ require 'digest/md5'
 
 module Puppet::Module::Tool
   class Checksums
+    include Enumerable
 
     def initialize(path)
       @path = Pathname.new(path)
@@ -24,6 +25,10 @@ module Puppet::Module::Tool
         end
       end
       @data
+    end
+
+    def each(&block)
+      data.each(&block)
     end
 
     def annotate(metadata)
