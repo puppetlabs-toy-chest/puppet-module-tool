@@ -1,6 +1,6 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'puppet_modules'
+require 'puppet/module/tool'
 require 'spec'
 require 'spec/autorun'
 

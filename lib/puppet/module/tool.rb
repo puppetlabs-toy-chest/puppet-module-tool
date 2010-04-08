@@ -37,7 +37,7 @@ module Puppet::Module::Tool
   end
 
   def self.root
-    @root ||= Pathname.new(__FILE__).parent + '..'
+    @root ||= Pathname.new(__FILE__).ascend { |p| break p if (p + 'Rakefile').exist? }
   end
 
   def self.version
