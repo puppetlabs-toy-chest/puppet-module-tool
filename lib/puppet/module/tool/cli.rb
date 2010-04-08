@@ -80,6 +80,12 @@ class Puppet::Module::Tool::CLI < Thor
     Puppet::Module::Tool::Applications::Checksummer.run(find_module_root(path), options)
   end
 
+  desc "repository", "Show currently configured repository"
+  def repository
+    Puppet::Module::Tool.prepare_settings(options)
+    say Puppet.settings[:modulerepository]
+  end
+
   no_tasks do
     def find_module_root(path)
       Pathname.new(File.expand_path(path || Dir.pwd)).ascend do |path|

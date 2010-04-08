@@ -15,7 +15,7 @@ module Puppet::Module::Tool
         if url.scheme == 'file'
           FileUtils.cp(url.path, cached_file)
         else
-          # TODO: Handle HTTPS
+          # TODO: Handle HTTPS; probably should use repository.contact
           uri = normalize(url)
           data = uri.read
           cached_file.open('wb') { |f| f.write data }

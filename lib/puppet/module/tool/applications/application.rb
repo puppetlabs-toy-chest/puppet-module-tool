@@ -27,7 +27,7 @@ module Puppet::Module::Tool
 
       def discuss(response, success, failure)
         case response
-        when Net::HTTPOK
+        when Net::HTTPOK, Net::HTTPCreated
           say success
         else
           errors = PSON.parse(response.body)['error'] rescue "HTTP #{response.code}, #{response.body}"

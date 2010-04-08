@@ -4,13 +4,19 @@ module Puppet::Module::Tool
     class Registrar < Application
 
       def initialize(full_name, options = {})
+        @full_name = full_name
         @username, @module_name = full_name.split(/[\/\-]/, 2)
         super(options)
         validate!
       end
 
       def run
-        abort "Sorry, this doesn't work yet."
+        if confirms?("Register #{@full_name}?")
+          request = Net::HTTP::Post.new("/users/#{@username}/modules.json")
+          request.set_form_data 'mod[name]' => @module_name
+          response = repository.contact(request, :authenticate => true)
+          discuss response, "Registered #{@full_name}", "Could not register #{@full_name}"
+        end
       end
 
       private
