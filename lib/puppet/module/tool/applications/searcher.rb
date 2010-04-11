@@ -22,7 +22,7 @@ module Puppet::Module::Tool
             subheader "#{matches.size} found."
           end
           matches.each do |match|
-            puts "#{match['name']} (#{match['version']})"
+            puts "#{match['full_name']} (#{match['version']})"
           end
         else
           say "Could not execute search (HTTP #{response.code})"

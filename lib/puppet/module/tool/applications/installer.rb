@@ -29,7 +29,7 @@ module Puppet::Module::Tool
         case @source
         when :repository
           if match['file']
-            cache_path = Puppet::Module::Tool.config.repository.retrieve(match['file'])
+            cache_path = repository.retrieve(match['file'])
             Unpacker.run(cache_path, Dir.pwd, options)
           else
             abort "Malformed response from module repository."
@@ -46,8 +46,9 @@ module Puppet::Module::Tool
       private
 
       def match
+        p repository.uri
         unless @match
-          url = Puppet::Modules::Tool.repository.uri + "/users/#{@username}/modules/#{@module_name}/releases/find.json"
+          url = repository.uri + "/users/#{@username}/modules/#{@module_name}/releases/find.json"
           if @version_requirement
             url.query = "version=#{URI.escape(@version_requirement)}"
           end

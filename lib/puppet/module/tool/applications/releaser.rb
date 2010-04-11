@@ -25,7 +25,7 @@ module Puppet::Module::Tool
       def upload
         File.open(@filename) do |file|
           request = build_request(file)
-          response = Puppet::Module::Tool.repository.contact(request, :authenticate => true)
+          response = repository.contact(request, :authenticate => true)
           discuss response, "Released #{version}", "Could not release #{version}"
         end
       end
