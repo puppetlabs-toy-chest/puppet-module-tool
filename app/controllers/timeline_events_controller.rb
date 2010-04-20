@@ -4,8 +4,9 @@ class TimelineEventsController < ApplicationController
   before_filter :find_user
   
   def index
-    @timeline = scope.timeline.paginate(:page => params[:page],
-                                        :order => 'created_at desc')
+    # TODO Implement the +scope+ object.
+    # @timeline = scope.timeline.paginate(:page => params[:page], :order => 'created_at desc')
+    @timeline = []
   end
 
   private
