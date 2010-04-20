@@ -1,11 +1,8 @@
+# General settings
 set :application, "modulesite"
-set :repository,  "git@github.com:bruce/puppet-modulesite.git"
-
-set :user,        "deploy"
-set :deploy_to,   "/var/www/apps/#{application}"
 set :use_sudo, false
-
-set :scm, :git
+ssh_options[:compression] = false
+default_run_options[:pty] = true
 
 # If you are using Passenger mod_rails uncomment this:
 # if you're still using the script/reapear helper you will need
