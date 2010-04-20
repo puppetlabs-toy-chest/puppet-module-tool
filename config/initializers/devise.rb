@@ -43,7 +43,7 @@ Devise.setup do |config|
   # config.timeout_in = 10.minutes
 
   # Configure the e-mail address which will be shown in DeviseMailer.
-  config.mailer_sender = "Puppet Modules <modules@puppetlabs.com>"
+  config.mailer_sender = "modules@puppetlabs.com"
 
   # Load and configure the ORM. Supports :active_record, :data_mapper and :mongo_mapper.
   # require 'devise/orm/mongo_mapper'
