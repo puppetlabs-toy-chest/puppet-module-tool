@@ -22,10 +22,8 @@ Rails::Initializer.run do |config|
   config.gem 'archive-tar-minitar', :lib => 'archive/tar/minitar'
   config.gem 'diff-lcs', :lib => 'diff/lcs'
   if %w[test development].include? RAILS_ENV
-    config.gem 'mocha'
     config.gem 'rspec', :lib => false
     config.gem 'rspec-rails', :lib => 'spec/rails'
-    config.gem 'shoulda'
     config.gem 'factory_girl'
   end
   
