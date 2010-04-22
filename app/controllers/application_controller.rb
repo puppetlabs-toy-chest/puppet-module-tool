@@ -9,13 +9,25 @@ class ApplicationController < ActionController::Base
   before_filter :set_mailer_host
 
   private
-  
+
+  #===[ Utilities ]=======================================================
+
   def notify_of(*args)
     message = args.pop
     type = args.shift || :notice
     flash[type] = message
   end
   alias_method :notify, :notify_of
+
+  def after_sign_in_path_for(resource)
+    if resource.is_a?(User)
+      user_timeline_events_path(resource)
+    else
+      super
+    end
+  end
+
+  #===[ Filters ]=========================================================
 
   def http_authenticate
     authenticate_with_http_basic do |email, password|
@@ -29,12 +41,4 @@ class ApplicationController < ActionController::Base
     ActionMailer::Base.default_url_options[:host] = request.host
   end
 
-  def after_sign_in_path_for(resource)
-    if resource.is_a?(User)
-      user_timeline_events_path(resource)
-    else
-      super
-    end
-  end
-  
 end
