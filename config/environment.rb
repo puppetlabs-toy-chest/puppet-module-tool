@@ -8,6 +8,7 @@ require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
 
+  # Gems
   config.gem 'less', :lib => false
   config.gem 'haml'
   config.gem 'will_paginate'
@@ -16,7 +17,6 @@ Rails::Initializer.run do |config|
   config.gem 'bcrypt-ruby', :lib => 'bcrypt'
   config.gem 'bitmask-attribute', :version => '>= 1.1.0'
   config.gem 'acts-as-taggable-on'
-  config.gem 'ajaxful_rating'
   config.gem 'paperclip'
   config.gem 'versionomy'
   config.gem 'archive-tar-minitar', :lib => 'archive/tar/minitar'
