@@ -31,6 +31,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Redirect back to previous page user visited, else to +path+.
+  def redirect_back_or_to(path)
+    begin
+      redirect_to :back
+    rescue ActionController::RedirectBackError => e
+      redirect_to path
+    end
+  end
+  helper_method :redirect_back_or_to
+
   #===[ Filters ]=========================================================
 
   def http_authenticate
