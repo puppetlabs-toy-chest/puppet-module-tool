@@ -1,5 +1,3 @@
-require 'zlib'
-
 class Release < ActiveRecord::Base
 
   has_attached_file :file, :url => "/system/releases/:bucket/:owner/:owner-:mod_name-:version.tar.gz"

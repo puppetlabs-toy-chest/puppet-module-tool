@@ -22,6 +22,9 @@ Rails::Initializer.run do |config|
   config.gem 'archive-tar-minitar', :lib => 'archive/tar/minitar'
   config.gem 'diff-lcs', :lib => 'diff/lcs'
   
+  # Libraries
+  require 'zlib'
+
   # Run "rake -D time" for a list of tasks for finding time zone names.
   config.time_zone = 'UTC'
 
