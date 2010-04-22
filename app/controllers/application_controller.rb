@@ -2,9 +2,13 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  helper :all # include all helpers, all the time
-  filter_parameter_logging :password # Scrub sensitive parameters from
-  # your log
+  # Include all helpers, all the time
+  helper :all
+
+  # Scrub sensitive parameters from your log
+  filter_parameter_logging :password
+
+  # Filters
   before_filter :http_authenticate
   before_filter :set_mailer_host
 
