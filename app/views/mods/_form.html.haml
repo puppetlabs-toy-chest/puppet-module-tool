@@ -1,11 +1,11 @@
-- form_for [current_user, @mod] do |f|
+- form_for [@user, @mod] do |f|
   = f.error_messages
   %p= f.label :name
   %p.introduction
     The name of the module.  This should be short, descriptive, and only consist of letters and numbers.
     Once created, the official name for your module will be
     = succeed '.' do
-      %b= [current_user.username, '/', '&lt;name&gt;'].join('')
+      %b= [h(@user.username), '/', '&lt;name&gt;'].join('')
   %p= f.text_field :name
   %p= f.label :project_url, "Project URL"
   %p.introduction Where can people go to collaborate with you on your module?  If provided, this should be a valid URL.
@@ -18,7 +18,8 @@
     Provide some information on your module.
     How do you use it?  Keep it general; you can add notes for specific releases later.
     You can use 
-    = link_to "markdown", 'http://daringfireball.net/projects/markdown/'
+    -# TODO Provide local copy of Markdown docs rather than linking to external resource
+    = link_to "markdown", 'http://daringfireball.net/projects/markdown/', :popup => true
     formatting.
   %p= f.text_area :description, :rows => 5
   %p= f.label :tag_list, "Tags"
