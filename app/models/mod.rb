@@ -18,8 +18,10 @@
 
 class Mod < ActiveRecord::Base
 
+  # Plugins
   acts_as_taggable_on :tags
 
+  # Associations
   belongs_to :owner, :polymorphic => true
   has_many :releases do
     def ordered
@@ -33,21 +35,23 @@ class Mod < ActiveRecord::Base
   has_many :watches
   has_many :watchers, :through => :watches, :source => :user
 
+  has_many :release_events, :as => :secondary_subject do
+    def new_releases
+      self.all(:conditions => {:event_type => :new_release})
+    end
+  end
+
+  # Scopes
   named_scope :with_releases, :joins => :releases, :group => 'mods.id', :include => :releases
   named_scope :matching, proc { |q| {:conditions => ['name like ?', "%#{q}%"]} }
-  
+
+  # Validations
   validates_format_of :name, :with => /^[[:alnum:]]{2,}$/, :message => "should be 2 or more alphanumeric characters"
   validates_uniqueness_of :name, :scope => [:owner_id, :owner_type]
 
   validates_url_format_of(:project_url, :allow_blank => true)
   validates_url_format_of(:project_feed_url, :allow_blank => true)
 
-  has_many :release_events, :as => :secondary_subject do
-    def new_releases
-      self.all(:conditions => {:event_type => :new_release})
-    end
-  end
-  
   def full_name
     "#{owner.username}/#{name}"
   end
