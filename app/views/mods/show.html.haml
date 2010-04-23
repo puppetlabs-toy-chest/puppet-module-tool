@@ -2,19 +2,21 @@
   = project_feed_link(@mod)
 
 - if viewing_own?
-  %p= link_to "Edit module", [:edit, @user, @mod], :class => 'section-link'
-%h2= @mod.full_name
+  %p
+    = link_to "Delete module", [@user, @mod], :class => 'section-link', :method => :delete, :confirm => "Delete module '#{h @mod.name}'?"
+    = link_to "Edit module", [:edit, @user, @mod], :class => 'section-link'
+
+%h2&= @mod.full_name
 
 = render :partial => 'mods/intro', :locals => {:mod => @mod}
 
-- if @release
-  %h3
+%h3
+  - if @release
     Latest Release: 
     = link_to @release.version, vanity_release_path(@user, @mod, @release)
     = link_to "Download", @release.file.url, :class => 'download-link'
-
-- else
-  %h3 This module has not been released.
+  - else
+    This module has not been released.
 
 - content_for :sidebar do
   = render :partial => 'mods/watching'
