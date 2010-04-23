@@ -1,7 +1,17 @@
 Factory.define :user do |f|
   f.sequence(:username) { |n| "user#{n}" }
-  f.sequence(:email) { |n| "user#{n}@efample.com" }
-  f.password 'testthis'
+  f.sequence(:email) { |n| "user#{n}@example.com" }
+  f.password 'mypassword'
+  f.display_name { |record| record.username.capitalize }
+  # TODO Figure out why these two lines aren't enough to confirm a user
+  ### f.confirmed_at Time.now
+  ### f.confirmation_token nil
+  f.after_build do |record|
+    # NOTE: Confirm user record so that #sign_in test helper works
+    # TODO Figure out why `record.confirm!` must be called twice
+    record.confirm!
+    record.confirm!
+  end
 end
 
 Factory.define :mod do |f|
