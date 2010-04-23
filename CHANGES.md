@@ -1,6 +1,16 @@
 puppet-module-site changes
 ==========================
 
+r0.0.2
+------
+
+* Fixed the modules model and controllers, these had numerous security vulnerabilities and logic errors. Refactored these and added access controls, error checking and comprehensive specs.
+* Fixed styling, the page headerings are now shown and button-like links have spacing between them.
+* Added ability to delete modules.
+* Added `annotate_models` plugin and annotated the models.
+* Added `rdiscount` gem dependency for rendering Markdown.
+* Removed gem dependencies `shoulda` and `mocha`.
+
 r0.0.1
 ------
 
