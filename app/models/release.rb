@@ -1,3 +1,20 @@
+# == Schema Information
+# Schema version: 20100320030102
+#
+# Table name: releases
+#
+#  id                :integer         not null, primary key
+#  version           :string(255)
+#  mod_id            :integer
+#  notes             :text
+#  created_at        :datetime
+#  updated_at        :datetime
+#  file_file_name    :string(255)
+#  file_content_type :string(255)
+#  file_file_size    :integer
+#  metadata          :text
+#
+
 class Release < ActiveRecord::Base
 
   has_attached_file :file, :url => "/system/releases/:bucket/:owner/:owner-:mod_name-:version.tar.gz"

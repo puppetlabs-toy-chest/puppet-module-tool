@@ -1,3 +1,21 @@
+# == Schema Information
+# Schema version: 20100320030102
+#
+# Table name: mods
+#
+#  id               :integer         not null, primary key
+#  name             :string(255)
+#  namespace_id     :integer
+#  description      :text
+#  created_at       :datetime
+#  updated_at       :datetime
+#  project_url      :string(255)
+#  address          :string(255)
+#  owner_type       :string(255)
+#  owner_id         :integer
+#  project_feed_url :string(255)
+#
+
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Mod do

@@ -1,3 +1,21 @@
+# == Schema Information
+# Schema version: 20100320030102
+#
+# Table name: mods
+#
+#  id               :integer         not null, primary key
+#  name             :string(255)
+#  namespace_id     :integer
+#  description      :text
+#  created_at       :datetime
+#  updated_at       :datetime
+#  project_url      :string(255)
+#  address          :string(255)
+#  owner_type       :string(255)
+#  owner_id         :integer
+#  project_feed_url :string(255)
+#
+
 class Mod < ActiveRecord::Base
 
   acts_as_taggable_on :tags
