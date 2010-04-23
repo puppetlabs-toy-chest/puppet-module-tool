@@ -1,3 +1,8 @@
-%h2 All Modules
+%h2
+  - if @user
+    All modules for user
+    &= @user.username
+  - else
+    All Modules
 
 = render :partial => 'mods/list'
