@@ -5,7 +5,7 @@
     The name of the module.  This should be short, descriptive, and only consist of letters and numbers.
     Once created, the official name for your module will be
     = succeed '.' do
-      %b= [h(@user.username), '/', '&lt;name&gt;'].join('')
+      %b= [h((@user || current_user).username), '/', '&lt;name&gt;'].join('')
   %p= f.text_field :name
   %p= f.label :project_url, "Project URL"
   %p.introduction Where can people go to collaborate with you on your module?  If provided, this should be a valid URL.
