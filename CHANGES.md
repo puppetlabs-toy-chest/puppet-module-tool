@@ -1,6 +1,12 @@
 puppet-module-site changes
 ==========================
 
+Next
+----
+
+* Fixed the new module form, it failed if the user wasn't specified.
+* Fixed the show module page, it failed if the feed URL was invalid.
+
 r0.0.2
 ------
 
