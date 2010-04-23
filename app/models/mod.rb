@@ -52,6 +52,9 @@ class Mod < ActiveRecord::Base
   validates_url_format_of(:project_url, :allow_blank => true)
   validates_url_format_of(:project_feed_url, :allow_blank => true)
 
+  # Protection
+  attr_protected :id, :owner, :owner_id, :owner_type
+
   def full_name
     "#{owner.username}/#{name}"
   end
