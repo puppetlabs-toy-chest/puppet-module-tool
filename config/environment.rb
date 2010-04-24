@@ -21,7 +21,7 @@ Rails::Initializer.run do |config|
   config.gem 'versionomy'
   config.gem 'archive-tar-minitar', :lib => 'archive/tar/minitar'
   config.gem 'diff-lcs', :lib => 'diff/lcs'
-  config.gem 'rdiscount'
+  config.gem 'maruku'
   if %w[test development].include? RAILS_ENV
     config.gem 'rspec', :lib => false
     config.gem 'rspec-rails', :lib => 'spec/rails'

@@ -6,6 +6,7 @@ Next
 
 * Fixed the new module form, it failed if the user wasn't specified.
 * Fixed the show module page, it failed if the feed URL was invalid.
+* Switched to 'maruku' gem, a pure Ruby Markdown parser.
 
 r0.0.2
 ------
