@@ -13,7 +13,7 @@ class ModsController < ApplicationController
     @mods = search_scope
     respond_to do |format|
       format.json do
-        render :json => serialize(@mods)
+        render :json => json_for(@mods)
       end
       format.html do
         @mods = @mods.paginate :page => params[:page], :order => 'name DESC'
@@ -40,7 +40,7 @@ class ModsController < ApplicationController
     @releases = @mod.releases.ordered.paginate :page => params[:page], :order => 'version desc'
     @release = @releases.first
     respond_to do |format|
-      format.json { render :json => serialize(@mod) }
+      format.json { render :json => json_for(@mod) }
       format.html
     end
   end
@@ -81,12 +81,12 @@ class ModsController < ApplicationController
       base.with_releases
   end
 
-  # Serialize one or more modules to JSON
-  def serialize(obj)
+  # Serialize one or more mods to JSON.
+  def json_for(obj)
     obj.to_json(
-                :only => [:name, :project_url],
-                :methods => [:full_name, :version]
-                )
+      :only => [:name, :project_url],
+      :methods => [:full_name, :version]
+    )
   end
 
   #===[ Helpers ]=========================================================

@@ -61,18 +61,25 @@ describe ModsController do
 
     end
 
-    context "via JSON, querying" do
+    context "with JSON query" do
 
       before do
-        @user = Factory(:user)
-        @mod1 = Factory(:mod, :name => 'foo', :owner => @user)
-        get :index
+        @release = Factory :release
+        @mod = @release.mod
+        @user = @release.owner
       end
 
-      it "should return JSON" do
+      it "should return mods" do
+        get :index
+
         response.should be_success
-        doc = JSON.parse(response.body)
-        doc.should be_a_kind_of(Array)
+        data = response_json
+        data.should be_a_kind_of(Array)
+        item = data.first
+        item['name'].should        == @mod.name
+        item['version'].should     == @release.version
+        item['full_name'].should   == @mod.full_name
+        item['project_url'].should == @mod.project_url
       end
 
     end
@@ -242,34 +249,34 @@ describe ModsController do
 
   describe "#show" do
     it "should show a user's module that has releases" do
-      @user = Factory(:user)
-      @mod1 = Factory(:mod, :name => 'foo', :owner => @user)
-      @release1 = Factory(:release, :mod => @mod1)
+      release = Factory :release
+      user = release.owner
+      mod = release.mod
 
-      get :show, :user_id => @user.name, :id => @mod1.name
+      get :show, :user_id => user.to_param, :id => mod.name
 
       response.should be_success
-      assigns[:user].should == @user
-      assigns[:mod].should == @mod1
+      assigns[:user].should == user
+      assigns[:mod].should == mod
       flash[:error].should be_blank
     end
 
     it "should show a user's module that has no releases" do
-      @user = Factory(:user)
-      @mod1 = Factory(:mod, :name => 'foo', :owner => @user)
+      user = Factory(:user)
+      mod1 = Factory(:mod, :name => 'foo', :owner => user)
 
-      get :show, :user_id => @user.name, :id => @mod1.name
+      get :show, :user_id => user.to_param, :id => mod1.to_param
 
       response.should be_success
-      assigns[:user].should == @user
-      assigns[:mod].should == @mod1
+      assigns[:user].should == user
+      assigns[:mod].should == mod1
       flash[:error].should be_blank
     end
 
     it "should display error if module doesn't exist" do
-      @user = Factory(:user)
+      user = Factory(:user)
 
-      get :show, :user_id => @user.name, :id => "invalid_module_name"
+      get :show, :user_id => user.to_param, :id => "invalid_module_name"
 
       response.should redirect_to(vanity_path(@user))
       assigns[:user].should == @user
@@ -286,7 +293,19 @@ describe ModsController do
       flash[:error].should_not be_blank
     end
 
-    describe "#edit" do
+    it "should return record as JSON" do
+      release = Factory :release
+      mod = release.mod
+      user = release.owner
+
+      get :show, :user_id => user.to_param, :id => mod.to_param, :format => 'json'
+
+      item = response_json
+      item.should be_a_kind_of(Hash)
+      item['name'].should        == mod.name
+      item['version'].should     == release.version
+      item['full_name'].should   == mod.full_name
+      item['project_url'].should == mod.project_url
     end
   end
 
