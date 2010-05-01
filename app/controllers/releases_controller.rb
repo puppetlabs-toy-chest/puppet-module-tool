@@ -1,9 +1,14 @@
 class ReleasesController < ApplicationController
 
-  before_filter :find_mod
-  before_filter :find_release, :only => [:show, :destroy]
-  before_filter :authenticate_user!, :only => [:create, :update, :destroy]
-  before_filter :restrict_user!, :only => [:create, :update, :destroy]
+  assign_records_for User, Mod, Release
+  before_filter :assign_records
+
+  before_filter :ensure_user!,    :except => [:index, :find]
+  before_filter :ensure_mod!,     :except => [:index, :find]
+  before_filter :ensure_release!, :except => [:new, :create, :find]
+
+  before_filter :authenticate_user!, :except => [:index, :show, :find]
+  before_filter :authorize_change!,  :except => [:index, :show, :find]
   
   def new
     @release = @mod.releases.new
@@ -67,36 +72,24 @@ class ReleasesController < ApplicationController
 
   private
 
-  def find_mod
-    @user = User.find_by_username(params[:user_id])
-    @mod = @user.mods.find_by_name(params[:mod_id])
-  end
+  #===[ Helpers ]=========================================================
 
-  def find_release
-    @release = @mod.releases.find_by_version(params[:id])
-    unless @release
-      respond_to do |format|
-        format.json do
-          render :json => {:error => "No such release version"}.to_json, :status => 404
-        end
-        format.html do
-          render :status => 404
-        end
-      end
+  # Is the current user allowed to change this record?
+  def can_change?
+    if @release_found.nil?
+      return(@mod && current_user && @mod.owner == current_user)
+    else
+      return(@release && current_user && @release.owner == current_user)
     end
   end
+  helper_method :can_change?
 
-  def restrict_user!
-    unless @user == current_user
-      respond_to do |format|
-        format.json do
-          render :status => 500, :json => {:error => "You do not have access to that module."}.to_json
-        end
-        format.html do
-          notify_of :error, "You do not have access to that module."
-          redirect_to module_path(@user, @mod)
-        end
-      end
+  #===[ Filters ]=========================================================
+
+  # Only allow owner to change this record, else redirect with an error.
+  def authorize_change!
+    unless can_change?
+      respond_with_forbidden("You must be the owner of this module to change it")
     end
   end
   

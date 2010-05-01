@@ -2,6 +2,181 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe ReleasesController do
 
+  describe "#new" do
+    describe "when anonymous" do
+      it "should forbid access" do
+        mod = Factory :mod
+        get :new, :user_id => mod.owner.to_param, :mod_id => mod.to_param
+
+        response_should_redirect_to_login
+      end
+    end
+
+    describe "when logged in" do
+      before do
+        @mod = Factory :mod
+        @owner = @mod.owner
+        @other_user = Factory :user
+      end
+
+      it "should allow user to see new release form for their own module" do
+        sign_in @owner
+        get :new, :user_id => @owner.to_param, :mod_id => @mod.to_param
+
+        response.should be_success
+        flash[:error].should be_nil
+        assigns[:mod].should == @mod
+        assigns[:release].should be_a_new_record
+      end
+
+      it "should not allow user to see new release form  for another's module" do
+        sign_in @other_user
+        get :new, :user_id => @owner.to_param, :mod_id => @mod.to_param
+
+        response_should_be_forbidden
+      end
+
+      it "should not allow user to see new release form for an invalid module" do
+        sign_in @owner
+        get :new, :user_id => @owner.to_param, :mod_id => "invalid_module"
+
+        response_should_be_not_found
+      end
+    end
+  end
+
+  describe "#create" do
+    describe "when anonymous" do
+      it "should forbid access" do
+        mod = Factory :mod
+        post :create, :user_id => mod.owner.to_param, :mod_id => mod.to_param
+
+        response_should_redirect_to_login
+      end
+    end
+
+    describe "when logged in" do
+      before do
+        @mod = Factory :mod
+        @owner = @mod.owner
+        @other_user = Factory :user
+        @attributes = Factory.attributes_for :release, :mod => @mod
+      end
+
+      it "should allow user to create release for their module" do
+        pending "upload with a file" # TODO complete
+
+        sign_in @owner
+        post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => @attributes
+
+        release = assigns[:release]
+        release.should_not be_a_new_record
+        response.should redirect_to(user_module_releases_path(release.owner, release.mod, release))
+      end
+
+      it "should not allow user to create release with invalid attachment" do
+        pending "upload with an invalid file" # TODO complete
+
+        sign_in @owner
+        post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => @attributes
+
+        response.should be_success
+        flash[:error].should_not be_nil
+        assigns[:mod].should == @mod
+        assigns[:release].should be_a_new_record
+      end
+
+      it "should not allow user to create release with invalid attributes" do
+        attributes = @attributes.merge(:version => nil)
+        sign_in @owner
+        post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => attributes
+
+        response.should be_success
+        flash[:error].should_not be_nil
+        assigns[:mod].should == @mod
+        assigns[:release].should be_a_new_record
+      end
+
+
+      it "should not allow user to create release for another's module" do
+        sign_in @other_user
+        post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => @attributes
+
+        response_should_be_forbidden
+      end
+
+      it "should not allow user to create release for an invalid module" do
+        sign_in @owner
+        post :create, :user_id => @owner.to_param, :mod_id => "invalid_module", :release => @attributes
+
+        response_should_be_not_found
+      end
+    end
+  end
+
+  describe "#destroy" do
+    before do
+      @release = Factory :release
+      @mod = @release.mod
+      @owner = @mod.owner
+      @other_user = Factory :user
+    end
+
+    describe "when anonymous" do
+      it "should refuse and demand a login" do
+        delete :destroy, :user_id => @owner.to_param, :mod_id => @mod.to_param, :id => @release.to_param
+
+        response_should_redirect_to_login
+      end
+    end
+
+    describe "when logged-in" do
+      it "should allow owner to delete a release" do
+        sign_in @owner
+        delete :destroy, :user_id => @owner.to_param, :mod_id => @mod.to_param, :id => @release.to_param
+
+        response.should redirect_to module_path(@owner, @mod)
+      end
+
+      it "should not allow a user to delete another's release" do
+        sign_in @other_user
+        delete :destroy, :user_id => @owner.to_param, :mod_id => @mod.to_param, :id => @release.to_param
+
+        response_should_be_forbidden
+      end
+    end
+
+  end
+
+  describe "#show" do
+    it "should display a valid release" do
+      release = Factory :release
+      get :show, :user_id => release.mod.owner.to_param, :mod_id => release.mod.to_param, :id => release.to_param
+
+      response.should be_success
+      flash[:error].should be_nil
+      assigns[:release].should == release
+    end
+
+    it "should fail on an invalid release" do
+      mod = Factory :mod
+      get :show, :user_id => mod.owner.to_param, :mod_id => mod.to_param, :id => "invalid_release"
+
+      response_should_be_not_found
+    end
+
+    it "should fail on an invalid module" do
+      user = Factory :user
+      get :show, :user_id => user.to_param, :mod_id => "invalid_mod", :id => "invalid_release"
+
+      response_should_be_not_found
+    end
+
+    it "should fail on an invalid user" do
+      get :show, :user_id => "invalid_user", :mod_id => "invalid_mod", :id => "invalid_release"
+    end
+  end
+
   describe "#find" do
 
     before do
@@ -13,19 +188,19 @@ describe ReleasesController do
       context "using a simple version requirement" do
         before { get :find, :mod_id => @mod1.to_param, :user_id => @user1.to_param, :format => 'json', :version => '1.1.0' }
         it "should respond with a 404" do
-          response.response_code.should == 404
+          response_should_be_not_found
         end
       end
       context "using a complex version requirement" do
         before { get :find, :mod_id => @mod1.to_param, :user_id => @user1.to_param, :format => 'json', :version => '> 1.0.0' }
         it "should respond with a 404" do
-          response.response_code.should == 404
+          response_should_be_not_found
         end
       end
       context "without version requirement" do
         before { get :find, :mod_id => @mod1.to_param, :user_id => @user1.to_param, :format => 'json' }
         it "should respond with a 404" do
-          response.response_code.should == 404
+          response_should_be_not_found
         end
       end
     end
