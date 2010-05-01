@@ -52,9 +52,7 @@ describe ModsController do
         it "should display error if user doesn't exist" do
           get :index, :user_id => "invalid_user_name"
 
-          response.should be_success
-          assigns[:user].should be_nil
-          flash[:error].should_not be_blank
+          response.response_code.should == 404
         end
 
       end
@@ -168,8 +166,7 @@ describe ModsController do
         sign_in @user1
         get :edit, :user_id => @user1.name, :id => "invalid_module_name"
 
-        response.should be_redirect
-        flash[:error].should_not be_blank
+        response.response_code.should == 404
       end
     end
 
@@ -232,8 +229,7 @@ describe ModsController do
         sign_in @user1
         get :update, :user_id => @user1.name, :id => "invalid_module_name"
 
-        response.should be_redirect
-        flash[:error].should_not be_blank
+        response.response_code.should == 404
       end
     end
 
@@ -278,19 +274,13 @@ describe ModsController do
 
       get :show, :user_id => user.to_param, :id => "invalid_module_name"
 
-      response.should redirect_to(vanity_path(@user))
-      assigns[:user].should == @user
-      assigns[:mod].should be_nil
-      flash[:error].should_not be_blank
+      response.response_code.should == 404
     end
 
     it "should display error if user doesn't exist" do
       get :show, :user_id => "invalid_user_name", :id => "invalid_module_name"
 
-      response.should redirect_to(mods_path)
-      assigns[:user].should be_nil
-      assigns[:mod].should be_nil
-      flash[:error].should_not be_blank
+      response.response_code.should == 404
     end
 
     it "should return record as JSON" do

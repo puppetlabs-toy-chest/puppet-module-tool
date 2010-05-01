@@ -19,9 +19,134 @@ class ApplicationController < ActionController::Base
 
   private
 
+  #===[ Assigns ]=========================================================
+
+  # Array of ActiveRecord classes to assign records to.
+  class_inheritable_accessor :assign_records_by
+
+  # Assign records from the request for the given +classes+.
+  #
+  # Example:
+  #   class MyController < ApplicationController
+  #     assign_records_for User, Mod, Release
+  #     ...
+  #   end
+  def self.assign_records_for(*classes)
+    self.assign_records_by = classes
+  end
+
+  # Assign records from the request, based on the classes set for a controller 
+  # by ::assign_records_for.
+  #
+  # If `::assgin_records_for User`, this will assign:
+  # * @user: A User record, if one was found.
+  # * @user_key: The param value passed by the request that was used to find the
+  #   record, e.g. if `param[:user_id]` was "myusername", this will be "myusername".
+  # * @user_found: Boolean indicating if the record was searched for and found,
+  #   if no search was performed, will be nil.
+  def assign_records
+    log = []
+    tail = nil
+    last = assign_records_by.size - 1
+    self.assign_records_by.each_with_index do |type, i|
+      base = type.name.tableize.singularize
+      param_key = (i == last ? "id" : "#{base}_id").to_sym
+      model_key = \
+        if type == User
+          :username
+        elsif type == Mod
+          :name
+        elsif type == Release
+          :version
+        else
+          raise ArgumentError, "Unknown type: #{type}"
+        end
+      tail = tail ? tail.send(type.name.tableize) : type
+      # log << "Tail: #{tail}"
+      log << "* Looking for #{type.name} using param key #{param_key.inspect} ..."
+      if param_value = params[param_key]
+        log << "- Found param value #{param_value.inspect}"
+        self.instance_variable_set("@#{base}_key", param_value)
+        if record = tail.find(:first, :conditions => {model_key => param_value})
+          self.instance_variable_set("@#{base}", record)
+          self.instance_variable_set("@#{base}_found", true)
+          log << "- Found record #{type.name}##{record.id} and assigned to @#{base}"
+          tail = record
+        else
+          self.instance_variable_set("@#{base}_found", false)
+          log << "- No record not found"
+          break
+        end
+      else
+        log << "- No param value not found"
+        break
+      end
+    end
+  ensure
+    Rails.logger.debug("** assign_records for #{request.path.inspect}:")
+    for entry in log
+      Rails.logger.debug("   #{entry}")
+    end
+  end
+
+  # Ensure that a record of the given +type+ was assigned by #assign_records.
+  def ensure_record!(type)
+    name = type.name.tableize.singularize
+    label = type == Mod ? "module" : name
+    value = self.instance_variable_get("@#{name}_key")
+    found = self.instance_variable_get("@#{name}_found")
+
+    unless found
+      message = "Could not find #{label}"
+      message << " #{value.inspect}" if value.present?
+      respond_with_not_found message
+    end
+  end
+
+  # Ensure that a User record was assigned to this request.
+  def ensure_user!
+    ensure_record! User
+  end
+
+  # Ensure that a Mod record was assigned to this request.
+  def ensure_mod!
+    ensure_record! Mod
+  end
+
+  # Ensure that a Release record was assigned to this request.
+  def ensure_release!
+      ensure_record! Release
+  end
+
   #===[ Utilities ]=======================================================
 
-  # Notify the user with a cookie-based flash notification. 
+  # Render response for a resource that was not found.
+  #
+  # Arguments:
+  # * message: A message to display. Required.
+  # * body: A body to display if rendering an HTML page. Optional.
+  #
+  # Examples:
+  #
+  #   # Respond with a just a message:
+  #   respond_with_not_found("Foo not found")
+  #
+  #   # Respond with a message and a body with link for the HTML page:
+  #   respond_with_not_found("Foo not found, link_to("See other foos!", foos_path))
+  def respond_with_not_found(message, body=nil)
+    message = "404 Not Found: #{message}"
+    respond_to do |format|
+      format.html do
+        @message = message
+        @body = body
+        render 'errors/404', :status => :not_found
+      end
+      format.json { render :json => { :error => message }, :status => :not_found }
+      format.xml  { render :xml  => { :error => message }, :status => :not_found }
+    end
+  end
+
+  # Notify the user with a cookie-based flash notification.
   #
   # Examples:
   #

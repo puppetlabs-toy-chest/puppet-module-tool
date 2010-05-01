@@ -1,14 +1,17 @@
 class ModsController < ApplicationController
 
-  before_filter :assign_user, :only => :index
-  before_filter :assign_user_or_redirect, :except => [:index, :new, :create]
-  before_filter :assign_mod_or_redirect, :except => [:index, :new, :create]
+  assign_records_for User, Mod
+  before_filter :assign_records
+
+  before_filter :ensure_user!, :except => [:index, :new, :create]
+  before_filter :ensure_mod!,  :except => [:index, :new, :create]
+
   before_filter :authenticate_user!, :except => [:index, :show]
   before_filter :authorize_change_or_redirect, :except => [:index, :show, :new, :create]
 
   def index
-    if @user_assigned_status == false
-      notify_of :error, "Could not find user '#{params[:user_id]}'"
+    if @user_found == false
+      return ensure_user!
     end
     @mods = search_scope
     respond_to do |format|
@@ -98,39 +101,6 @@ class ModsController < ApplicationController
   helper_method :can_change?
 
   #===[ Filters ]=========================================================
-
-  # Assign a @user record and @user_assigned_status.
-  #
-  # The @user_assigned_status values are:
-  # * true => User was specified by request and found.
-  # * false => User was specified by request but not found.
-  # * nil => User was not specified by request and is thus not set.
-  def assign_user
-    if params[:user_id]
-      @user = User.find_by_username(params[:user_id])
-      @user_assigned_status = @user.present?
-    else
-      @user = nil
-      @user_assigned_status = nil
-    end
-  end
-
-  # Assign a @user record or redirect with an error.
-  def assign_user_or_redirect
-    assign_user if @user_assigned_status.nil?
-    unless @user
-      notify_of :error, "Could not find user '#{params[:user_id]}'"
-      redirect_back_or_to mods_path
-    end
-  end
-
-  # Assign a @mod record or redirect with an error.
-  def assign_mod_or_redirect
-    unless @mod = @user.mods.find_by_name(params[:id])
-      notify_of :error, "Could not find module '#{params[:id]}'"
-      redirect_back_or_to vanity_path(@user)
-    end
-  end
 
   # Only allow owner to change this record, else redirect with an error.
   def authorize_change_or_redirect
