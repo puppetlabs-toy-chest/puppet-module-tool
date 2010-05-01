@@ -16,10 +16,23 @@ class ApplicationController < ActionController::Base
 
   #===[ Utilities ]=======================================================
 
-  def notify_of(*args)
-    message = args.pop
-    type = args.shift || :notice
-    flash[type] = message
+  # Notify the user with a cookie-based flash notification. 
+  #
+  # Examples:
+  #
+  #   # Message for default notification level:
+  #   notify_of "Hello"
+  #
+  #   # Message for specific notifcation level:
+  #   notify_of :error, "OH NOES!"
+  def notify_of(level_or_message, message=nil)
+    if message
+      level = level_or_message
+    else
+      level = :notice
+      message = level_or_message
+    end
+    flash[level] = message
   end
   alias_method :notify, :notify_of
 

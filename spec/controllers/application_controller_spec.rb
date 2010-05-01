@@ -21,6 +21,23 @@ describe ApplicationController do
       end
     end
 
+    context "notify" do
+      it "should notify with default level when given just a message" do
+        message = "Hello!"
+        @controller.send(:notify_of, message)
+
+        @controller.send(:flash)[:notice].should == message
+      end
+
+      it "should notify with specific level when given a message and level" do
+        message = "Hello!"
+        level = :greeting
+        @controller.send(:notify_of, level, message)
+
+        @controller.send(:flash)[level].should == message
+      end
+    end
+
   end
 
 end
