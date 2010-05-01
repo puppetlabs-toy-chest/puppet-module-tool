@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
   end
   alias_method :notify, :notify_of
 
+  # Redirect user to this path after they sign in using Devise.
   def after_sign_in_path_for(resource)
     if resource.is_a?(User)
       user_timeline_events_path(resource)
