@@ -5,6 +5,7 @@
   %p
     = link_to "Delete module", [@user, @mod], :class => 'section-link', :method => :delete, :confirm => "Delete module '#{h @mod.name}'?"
     = link_to "Edit module", [:edit, @user, @mod], :class => 'section-link'
+    = link_to "Add release", new_user_mod_release_path(@user, @mod), :class => 'section-link'
 
 %h2&= @mod.full_name
 
