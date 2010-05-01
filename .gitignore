@@ -1,4 +1,5 @@
 coverage/*
+coverage.info
 log/*.log
 log/*.pid
 db/*.db
@@ -23,7 +24,9 @@ spec/fixtures
 \#*
 tmp/gitosis-adminpublic/system
 public/system
+*.bak
 *.diff
 *.tmp
 *.swp
+*~
 nbproject
