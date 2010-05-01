@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
   # Sign-in a user using HTTP Basic authentication.
   def http_authenticate
     authenticate_with_http_basic do |email, password|
-      @user = User.authenticate(:email => email, :password => password)
+      @user = User.authenticate(:email => email, :password => password) if password
     end
     sign_in @user if @user
     warden.custom_failure! if performed?
