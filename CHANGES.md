@@ -6,6 +6,7 @@ Next
 
 * Fixed how controllers load related records for users, modules and releases.
 * Fixed how controllers ensure that required records are loaded and handle errors.
+* Fixed how controllers authorize access to records and handle errors.
 * Fixed the new module form, it failed if the user wasn't specified.
 * Fixed the show module page, it failed if the feed URL was invalid.
 * Fixed mailer to generate URLs that include port and protocol if necessary.

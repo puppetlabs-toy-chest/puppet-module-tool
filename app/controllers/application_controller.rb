@@ -120,29 +120,49 @@ class ApplicationController < ActionController::Base
 
   #===[ Utilities ]=======================================================
 
-  # Render response for a resource that was not found.
+  # Render response for a resource that was not found. See #respond_with_error 
+  # for documentation on the +message+ and +body+ arguments.
+  def respond_with_not_found(message, body=nil)
+    respond_with_error(:not_found, message, body)
+  end
+
+  # Render response for a resource that was forbidden. See #respond_with_error
+  # for documentation on the +message+ and +body+ arguments.
+  def respond_with_forbidden(message, body=nil)
+    respond_with_error(:forbidden, message, body)
+  end
+
+  # Render response for an error.
   #
   # Arguments:
-  # * message: A message to display. Required.
-  # * body: A body to display if rendering an HTML page. Optional.
+  # * status: An HTTP status symbol, e.g. :not_found. Required.
+  # * message: A message string to display. Required.
+  # * body: A body string to display if rendering an HTML page. Optional.
   #
   # Examples:
   #
   #   # Respond with a just a message:
-  #   respond_with_not_found("Foo not found")
+  #   respond_with_error(:not_found, "Foo not found")
   #
   #   # Respond with a message and a body with link for the HTML page:
-  #   respond_with_not_found("Foo not found, link_to("See other foos!", foos_path))
-  def respond_with_not_found(message, body=nil)
-    message = "404 Not Found: #{message}"
+  #   respond_with_not_found(:not_found, "Foo not found, "Sad, isn't it?")
+  def respond_with_error(status, message, body=nil)
+    case status
+    when :not_found, :forbidden
+      status_string = CGI::HTTP_STATUS[status.to_s.upcase]
+    else
+      raise ArgumentError, "Unknown status: #{status}"
+    end
+
+    message = "#{status_string}: #{message}"
     respond_to do |format|
       format.html do
         @message = message
         @body = body
-        render 'errors/404', :status => :not_found
+        render "errors/#{status}", :status => status
       end
-      format.json { render :json => { :error => message }, :status => :not_found }
-      format.xml  { render :xml  => { :error => message }, :status => :not_found }
+      format.json { render :json => { :error => message }, :status => status }
+      format.xml  { render :xml  => { :error => message }, :status => status }
     end
   end
 
