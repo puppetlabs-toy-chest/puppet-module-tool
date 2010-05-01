@@ -42,6 +42,7 @@ class ApplicationController < ActionController::Base
 
   #===[ Filters ]=========================================================
 
+  # Sign-in a user using HTTP Basic authentication.
   def http_authenticate
     authenticate_with_http_basic do |email, password|
       @user = User.authenticate(:email => email, :password => password)
