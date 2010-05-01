@@ -10,6 +10,7 @@ Next
 * Switched to 'maruku' gem, a pure Ruby Markdown parser.
 * Added `rake spec:rcov:save` to save code coverage data, and `rake spec:rcov:diff` to display uncovered code since save.
 * Added `cap db:use` to download remote `production` database and replace local `development` database with it.
+* Added unified response utility methods to simplify specs.
 
 r0.0.2
 ------
