@@ -7,7 +7,7 @@ class ModsController < ApplicationController
   before_filter :ensure_mod!,  :except => [:index, :new, :create]
 
   before_filter :authenticate_user!, :except => [:index, :show]
-  before_filter :authorize_change_or_redirect, :except => [:index, :show, :new, :create]
+  before_filter :authorize_change!,  :except => [:index, :show]
 
   def index
     if @user_found == false
@@ -96,17 +96,22 @@ class ModsController < ApplicationController
 
   # Is the current user allowed to change this record?
   def can_change?
-    return(@mod && current_user && @mod.owner == current_user)
+    if @mod_found == true
+      return(current_user && @mod.owner == current_user)
+    elsif @user_found == true
+      return(@user && current_user && @user == current_user)
+    else
+      return(current_user.present?)
+    end
   end
   helper_method :can_change?
 
   #===[ Filters ]=========================================================
 
   # Only allow owner to change this record, else redirect with an error.
-  def authorize_change_or_redirect
+  def authorize_change!
     unless can_change?
-      notify_of :error, "Access denied, you must be the owner of this module to change it"
-      redirect_back_or_to module_path(@mod.owner, @mod)
+      respond_with_forbidden("You must be the owner of this module to change it")
     end
   end
 

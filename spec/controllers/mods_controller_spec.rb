@@ -41,7 +41,7 @@ describe ModsController do
       context "for user's mods" do
 
         it "should render all mods with releases for a user" do
-          get :index, :user_id => @user1.name, :format => "html"
+          get :index, :user_id => @user1.to_param, :format => "html"
 
           response.should be_success
           assigns[:mods].should include @user1mod_with_release
@@ -52,7 +52,7 @@ describe ModsController do
         it "should display error if user doesn't exist" do
           get :index, :user_id => "invalid_user_name"
 
-          response.response_code.should == 404
+          response_should_be_not_found
         end
 
       end
@@ -110,10 +110,20 @@ describe ModsController do
         sign_in @user
       end
 
-      it "should create a record" do
+      it "should create a record without owner in route" do
         attributes = Factory.attributes_for(:mod, :owner => nil)
 
         post :create, "mod" => attributes
+
+        response.should be_redirect
+        flash[:error].should be_nil
+        assigns[:mod].should be_valid
+      end
+
+      it "should create a record with owner in route" do
+        attributes = Factory.attributes_for(:mod, :owner => nil)
+
+        post :create, :user_id => @user.to_param, "mod" => attributes
 
         response.should be_redirect
         flash[:error].should be_nil
@@ -148,7 +158,7 @@ describe ModsController do
     context "when logged-in" do
       it "should allow owner to edit their module" do
         sign_in @user1
-        get :edit, :user_id => @user1.name, :id => @user1mod.name
+        get :edit, :user_id => @user1.to_param, :id => @user1mod.to_param
 
         response.should be_success
         assigns[:mod].should == @user1mod
@@ -156,23 +166,22 @@ describe ModsController do
 
       it "should not allow a user to edit another's module" do
         sign_in @user2
-        get :edit, :user_id => @user1.name, :id => @user1mod.name
+        get :edit, :user_id => @user1.to_param, :id => @user1mod.to_param
 
-        response.should be_redirect
-        flash[:error].should_not be_blank
+        response_should_be_forbidden
       end
 
       it "should display error if trying to edit an invalid module" do
         sign_in @user1
-        get :edit, :user_id => @user1.name, :id => "invalid_module_name"
+        get :edit, :user_id => @user1.to_param, :id => "invalid_module_name"
 
-        response.response_code.should == 404
+        response_should_be_not_found
       end
     end
 
     context "when anonymous" do
       it "should not allow anonymous user to edit a module" do
-        get :edit, :user_id => @user1.name, :id => @user1mod.name
+        get :edit, :user_id => @user1.to_param, :id => @user1mod.to_param
 
         response.should be_redirect
         flash[:error].should be_blank
@@ -194,7 +203,7 @@ describe ModsController do
     context "when logged-in" do
       it "should allow owner to update their module" do
         sign_in @user1
-        put :update, :user_id => @user1.name, :id => @user1mod.name, :mod => @attributes
+        put :update, :user_id => @user1.to_param, :id => @user1mod.to_param, :mod => @attributes
 
         response.should be_redirect
         flash[:error].should be_blank
@@ -204,38 +213,38 @@ describe ModsController do
       end
 
       it "should display error if update was invalid" do
+        invalid_name = "!" # Name violates validation rules
         attributes = @attributes.dup
-        attributes[:name] = "!" # Name violates validation rules
+        attributes[:name] = invalid_name
 
         sign_in @user1
-        put :update, :user_id => @user1.name, :id => @user1mod.name, :mod => attributes
+        put :update, :user_id => @user1.to_param, :id => @user1mod.to_param, :mod => attributes
 
         response.should be_success
         flash[:error].should_not be_blank
         assigns[:mod].should_not be_valid
         assigns[:mod].should == @user1mod
-        assigns[:mod].name.should == attributes[:name]
+        assigns[:mod].name.should == invalid_name
       end
 
       it "should not allow a user to update another's module" do
         sign_in @user2
-        get :update, :user_id => @user1.name, :id => @user1mod.name
+        get :update, :user_id => @user1.to_param, :id => @user1mod.to_param
 
-        response.should be_redirect
-        flash[:error].should_not be_blank
+        response_should_be_forbidden
       end
 
       it "should display error if trying to update an invalid module" do
         sign_in @user1
-        get :update, :user_id => @user1.name, :id => "invalid_module_name"
+        get :update, :user_id => @user1.to_param, :id => "invalid_module_name"
 
-        response.response_code.should == 404
+        response_should_be_not_found
       end
     end
 
     context "when anonymous" do
       it "should not allow anonymous user to edit a module" do
-        get :edit, :user_id => @user1.name, :id => @user1mod.name
+        get :edit, :user_id => @user1.to_param, :id => @user1mod.to_param
 
         response.should be_redirect
         flash[:error].should be_blank
@@ -249,7 +258,7 @@ describe ModsController do
       user = release.owner
       mod = release.mod
 
-      get :show, :user_id => user.to_param, :id => mod.name
+      get :show, :user_id => user.to_param, :id => mod.to_param
 
       response.should be_success
       assigns[:user].should == user
@@ -274,13 +283,13 @@ describe ModsController do
 
       get :show, :user_id => user.to_param, :id => "invalid_module_name"
 
-      response.response_code.should == 404
+      response_should_be_not_found
     end
 
     it "should display error if user doesn't exist" do
       get :show, :user_id => "invalid_user_name", :id => "invalid_module_name"
 
-      response.response_code.should == 404
+      response_should_be_not_found
     end
 
     it "should return record as JSON" do
@@ -311,7 +320,7 @@ describe ModsController do
       it "should allow a user to delete their module" do
         sign_in @user1
 
-        delete :destroy, :user_id => @user1.name, :id => @user1mod.name
+        delete :destroy, :user_id => @user1.to_param, :id => @user1mod.to_param
 
         response.should redirect_to(vanity_path(@user1))
         Mod.exists?(@user1mod.id).should be_false
@@ -320,18 +329,17 @@ describe ModsController do
       it "should not allow a user to delete another's module" do
         sign_in @user2
 
-        delete :destroy, :user_id => @user1.name, :id => @user1mod.name
+        delete :destroy, :user_id => @user1.to_param, :id => @user1mod.to_param
 
-        response.should redirect_to(module_path(@user1, @user1mod))
-        Mod.exists?(@user1mod.id).should be_true
+        response_should_be_forbidden
       end
     end
 
     context "when anonymous" do
       it "should not allow destroy" do
-        delete :destroy, :user_id => @user1.name, :id => @user1mod.name
+        delete :destroy, :user_id => @user1.to_param, :id => @user1mod.to_param
 
-        response.should redirect_to(unauthenticated_session_path)
+        response_should_redirect_to_login
         Mod.exists?(@user1mod.id).should be_true
       end
     end
