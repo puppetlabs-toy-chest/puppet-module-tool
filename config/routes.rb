@@ -26,5 +26,10 @@ ActionController::Routing::Routes.draw do |map|
   map.formatted_vanity_release '/:user_id/:mod_id/:id.:extension', :controller => 'releases', :action => 'show', :id => nil, :requirements => {:id => /.+/}
   
   map.resource :pages, :collection => {:home => :get}
+
+  if %w[test development].include?(RAILS_ENV)
+    map.connect '/test', :controller => 'application', :action => 'test'
+    map.connect '/test.:format', :controller => 'application', :action => 'test'
+  end
   
 end

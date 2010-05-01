@@ -12,6 +12,11 @@ class ApplicationController < ActionController::Base
   before_filter :http_authenticate
   before_filter :set_mailer_default_url_options
 
+  # An action that's only routed during test/development, used by tests.
+  def test
+    render :text => "TEST"
+  end
+
   private
 
   #===[ Utilities ]=======================================================
