@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   # Filters
   before_filter :http_authenticate
-  before_filter :set_mailer_host
+  before_filter :set_mailer_default_url_options
 
   private
 
@@ -51,8 +51,11 @@ class ApplicationController < ActionController::Base
     warden.custom_failure! if performed?
   end
 
-  def set_mailer_host
+  # Set the default URL options for the mailer, so that emails it generates have proper
+  def set_mailer_default_url_options
     ActionMailer::Base.default_url_options[:host] = request.host
+    ActionMailer::Base.default_url_options[:port] = request.port unless request.port == 80
+    ActionMailer::Base.default_url_options[:protocol] = /(.*):\/\//.match(request.protocol)[1] if request.protocol.ends_with?("://") && request.protocol != 'http'
   end
 
 end
