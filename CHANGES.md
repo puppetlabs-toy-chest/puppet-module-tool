@@ -9,6 +9,7 @@ Next
 * Fixed mailer to generate URLs that include port and protocol if necessary.
 * Switched to 'maruku' gem, a pure Ruby Markdown parser.
 * Added `rake spec:rcov:save` to save code coverage data, and `rake spec:rcov:diff` to display uncovered code since save.
+* Added `cap db:use` to download remote `production` database and replace local `development` database with it.
 
 r0.0.2
 ------
