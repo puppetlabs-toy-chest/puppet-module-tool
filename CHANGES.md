@@ -7,6 +7,7 @@ Next
 * Fixed the new module form, it failed if the user wasn't specified.
 * Fixed the show module page, it failed if the feed URL was invalid.
 * Switched to 'maruku' gem, a pure Ruby Markdown parser.
+* Added `rake spec:rcov:save` to save code coverage data, and `rake spec:rcov:diff` to display uncovered code since save.
 
 r0.0.2
 ------
