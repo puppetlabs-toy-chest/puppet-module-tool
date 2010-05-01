@@ -39,7 +39,6 @@ class ApplicationController < ActionController::Base
       redirect_to path
     end
   end
-  helper_method :redirect_back_or_to
 
   #===[ Filters ]=========================================================
 
