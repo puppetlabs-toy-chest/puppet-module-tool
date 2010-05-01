@@ -1,8 +1,8 @@
 puppet-module-site changes
 ==========================
 
-Next
-----
+r0.0.3
+------
 
 * Fixed the releases controller, this had numerous security vulnerabilities and logic errors. Refactored, added access controls, error checking and comprehensive specs. However, still need to fix #create action and models.
 * Fixed how controllers load related records for users, modules and releases.
