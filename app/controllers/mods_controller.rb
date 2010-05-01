@@ -1,10 +1,10 @@
 class ModsController < ApplicationController
 
-  before_filter :assign_user, :only => [:index]
-  before_filter :assign_user_or_redirect, :only => [:show, :edit, :update, :destroy]
-  before_filter :assign_mod_or_redirect, :only => [:show, :edit, :update, :destroy]
-  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy]
-  before_filter :authorize_change_or_redirect, :only => [:edit, :update, :destroy]
+  before_filter :assign_user, :only => :index
+  before_filter :assign_user_or_redirect, :except => [:index, :new, :create]
+  before_filter :assign_mod_or_redirect, :except => [:index, :new, :create]
+  before_filter :authenticate_user!, :except => [:index, :show]
+  before_filter :authorize_change_or_redirect, :except => [:index, :show, :new, :create]
 
   def index
     if @user_assigned_status == false
