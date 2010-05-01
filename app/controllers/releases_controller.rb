@@ -60,12 +60,12 @@ class ReleasesController < ApplicationController
   def destroy
     @release.destroy
     respond_to do |format|
-      format.json do
-        render :json => @release.to_json
-      end
       format.html do
         notify_of "Removed release."
-        redirect_to module_path(@release.mod.user, @release.mod)
+        redirect_to module_path(@release.mod.owner, @release.mod)
+      end
+      format.json do
+        render :json => @release.to_json
       end
     end
   end

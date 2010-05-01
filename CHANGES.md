@@ -13,6 +13,7 @@ Next
 * Fixed the show module page, displayed an "Add release" link.
 * Fixed mailer to generate URLs that include port and protocol if necessary.
 * Fixed flash notification message helper to ensure correct arguments, added docs and specs.
+* Fixed release destroy, it was calling invalid methods and using bad defaults.
 * Switched to 'maruku' gem, a pure Ruby Markdown parser.
 * Added `rake spec:rcov:save` to save code coverage data, and `rake spec:rcov:diff` to display uncovered code since save.
 * Added `cap db:use` to download remote `production` database and replace local `development` database with it.
