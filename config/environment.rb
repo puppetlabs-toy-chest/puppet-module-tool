@@ -9,23 +9,23 @@ require File.join(File.dirname(__FILE__), 'boot')
 Rails::Initializer.run do |config|
 
   # Gems
-  config.gem 'less', :lib => false
-  config.gem 'haml'
-  config.gem 'will_paginate'
-  config.gem 'warden'
-  config.gem 'devise', :version => '>= 1.0.0'
+  config.gem 'acts-as-taggable-on'
+  config.gem 'archive-tar-minitar', :lib => 'archive/tar/minitar'
   config.gem 'bcrypt-ruby', :lib => 'bcrypt'
   config.gem 'bitmask-attribute', :version => '>= 1.1.0'
-  config.gem 'acts-as-taggable-on'
+  config.gem 'devise', :version => '>= 1.0.0'
+  config.gem 'diff-lcs', :lib => 'diff/lcs'
+  config.gem 'haml'
+  config.gem 'less', :lib => false
+  config.gem 'maruku'
   config.gem 'paperclip'
   config.gem 'versionomy'
-  config.gem 'archive-tar-minitar', :lib => 'archive/tar/minitar'
-  config.gem 'diff-lcs', :lib => 'diff/lcs'
-  config.gem 'maruku'
+  config.gem 'warden'
+  config.gem 'will_paginate'
   if %w[test development].include? RAILS_ENV
+    config.gem 'factory_girl'
     config.gem 'rspec', :lib => false
     config.gem 'rspec-rails', :lib => 'spec/rails'
-    config.gem 'factory_girl'
   end
   
   # Libraries
