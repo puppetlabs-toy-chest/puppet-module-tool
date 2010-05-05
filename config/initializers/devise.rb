@@ -12,7 +12,7 @@ Devise.setup do |config|
 
   # Invoke `rake secret` and use the printed value to setup a pepper to generate
   # the encrypted password. By default no pepper is used.
-  config.pepper = 'fe92616a32e701179a388f3eb4bb4c1d5ecb0c6b24e03bfaa5dd1a6ae33ffcb962bf44ae51276140bc5baff9a21a3db3a0b4e984f25f8e362ffef819dc6ac511'
+  config.pepper = SECRETS.devise_secret
 
   # Configure how many times you want the password is reencrypted. Default is 10.
   # config.stretches = 10
@@ -43,7 +43,7 @@ Devise.setup do |config|
   # config.timeout_in = 10.minutes
 
   # Configure the e-mail address which will be shown in DeviseMailer.
-  config.mailer_sender = "modules@puppetlabs.com"
+  config.mailer_sender = SECRETS.devise_from
 
   # Load and configure the ORM. Supports :active_record, :data_mapper and :mongo_mapper.
   # require 'devise/orm/mongo_mapper'

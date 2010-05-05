@@ -1,6 +1,12 @@
 puppet-module-site changes
 ==========================
 
+Next
+----
+
+* Fixed insecure session encryption key hardcoded into application. 
+* Added mechanism to manage secret information, such as session encryption keys. See *Secrets* in `README.md`.
+
 r0.0.3
 ------
 
