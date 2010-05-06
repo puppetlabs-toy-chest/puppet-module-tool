@@ -22,6 +22,9 @@ task :symlink_configs, :roles => :app do
   run "ln -nfs #{shared_path}/config/secrets.yml  #{release_path}/config/"
 end
 
+# Callbacks:
+before 'deploy:finalize_update', :symlink_configs
+
 #===[ Database tasks ]==================================================
 
 namespace :db do
