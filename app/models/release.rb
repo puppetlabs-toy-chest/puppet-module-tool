@@ -27,6 +27,8 @@ class Release < ActiveRecord::Base
   validates_presence_of :version
   validates_uniqueness_of :version, :scope => :mod_id
   validate :validate_version
+  validate :validate_mod
+  validate :validate_file
 
   # Serialize fields using YAML
   serialize :metadata
@@ -67,12 +69,21 @@ class Release < ActiveRecord::Base
     rescue => e
       self.errors.add('version', e.message)
     end
+  end
 
+  # Validate the record's mod and set errors if needed.
+  def validate_mod
     unless self.mod
       self.errors.add_to_base("No associated module.")
     end
+  end
 
-    unless self.file
+  # Validate the record's file and set errors if needed.
+  def validate_file
+    # TODO Which approach is best?
+    # unless self.file.exists?
+    # unless self.file.file?
+    unless self.file.size.to_i > 0
       self.errors.add_to_base("No file provided")
     end
   end
