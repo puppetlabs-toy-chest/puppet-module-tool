@@ -2,23 +2,7 @@
 module ApplicationHelper
   include TagsHelper
   
-  def category_list
-    haml_tag :div, :class => 'section' do
-      haml_concat link_to('Add a module', new_mod_path, :class => 'section-link')
-      haml_tag :h3, "Modules"
-      haml_tag :ul, :class => 'local-navigation' do
-        haml_tag :li, :class => (controller.controller_name == 'mods' && action_name == 'index' ? 'important active' : 'important inactive')  do
-          haml_concat link_to("All Modules", mods_path)
-        end
-        Categories.each do |title, tag|
-          haml_tag :li, :class => (@tag && @tag.name == tag.to_s) ? :active : :inactive do
-            haml_concat link_to(title, "/tags/#{tag}")
-          end
-        end
-      end
-    end
-  end
-
+  # Return paragraph containing the name of the resource and the number found.
   def count(name, collection)
     method = collection.respond_to?(:count) ? :count : :size
     count = collection.send(method)
@@ -29,6 +13,7 @@ module ApplicationHelper
     end
   end
 
+  # Return clickable list of tags with the categories expanded.
   def tag_list(taggable)
     tags = taggable.tags.map do |tag|
       name = Categories[tag] || tag
