@@ -1,14 +1,18 @@
 puppet-module-site changes
 ==========================
 
-Next
-----
+r0.0.4
+------
 
 * Fixed insecure session and authentication encryption keys hardcoded into application. 
 * Fixed users controller by adding access control to ensure that users can only modify their own records and added error handling to ensure records are loaded properly. Wrote comprehensive specs.
 * Fixed tags controller by adding error checking. Wrote comprehensive specs.
 * Added mechanism to manage secret information, such as session encryption keys. See *Secrets* in `README.md`.
 * Added exception notification system, sends emails with debugging information on uncaught exceptions.
+* Added complete specs for module model.
+* Added complete specs for release model, except for the metadata parsing code.
+* Added mechanism to store and serve file attachments to tests.
+* Added display of this web application's version number in its header for use during development.
 * Disabled all code referencing watches and timeline events because it's a security hazard, wasn't done and kept getting in the way.
 * Refactored models for clarity, added documentation and wrote specs.
 
