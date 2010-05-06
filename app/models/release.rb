@@ -17,12 +17,18 @@
 
 class Release < ActiveRecord::Base
 
+  # Paperclip plugin:
   has_attached_file :file, :url => "/system/releases/:bucket/:owner/:owner-:mod_name-:version.tar.gz"
-  
+
+  # Associations
   belongs_to :mod
+
+  # Validations
   validates_presence_of :version
   validates_uniqueness_of :version, :scope => :mod_id
+  validate :validate_version
 
+  # Serialize fields using YAML
   serialize :metadata
 
   # TODO Implement TimelineEvent
@@ -33,41 +39,47 @@ class Release < ActiveRecord::Base
         :actor => :owner)
 =end
 
+  # Delegate methods to other records
   delegate :owner, :to => :mod
 
+  # Return unique human-readable string key for this record.
   def to_param
-    version
+    return self.version
   end
 
+  # Return a guess of what the next version would be.
   def guess_next_version
     current = Versionomy.parse(version)
-    if current.release_type == :final
-      current.bump(:tiny)
-    else
+    return current.release_type == :final ?
+      current.bump(:tiny) :
       current.bump(:release_type)
-    end
   end
 
+  # Return the record's metadata or an empty hash.
   def metadata
-    read_attribute(:metadata) || {}
+    return read_attribute(:metadata) || {}
   end
 
-  def validate
+  # Validate the record's :version attribute and set errors if needed.
+  def validate_version
     begin
-      Versionomy.parse(read_attribute(:version))
+      Versionomy.parse(self.read_attribute(:version))
     rescue => e
-      errors.add('version', e.message)
+      self.errors.add('version', e.message)
     end
-    unless mod
-      errors.add_to_base("No associated module.")
+
+    unless self.mod
+      self.errors.add_to_base("No associated module.")
     end
-    unless file
-      errors.add_to_base("No file provided")
+
+    unless self.file
+      self.errors.add_to_base("No file provided")
     end
   end
 
+  # Set the :metadata attribute by reading the release's file.
   def extract_metadata!
-    tgz = Zlib::GzipReader.new(File.open(file.path, 'rb'))
+    tgz = Zlib::GzipReader.new(File.open(self.file.path, 'rb'))
     Archive::Tar::Minitar::Input.open(tgz) do |inp|
       inp.each do |entry|
         if File.basename(entry.full_name) == 'metadata.json'
