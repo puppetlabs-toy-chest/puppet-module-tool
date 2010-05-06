@@ -26,4 +26,9 @@ Factory.define :release do |f|
   f.sequence(:version) { |n| "0.#{n}" }
   f.notes { |record| "This is version #{record.version}" }
   f.association :mod
+  f.file { attachment_fixture_for('mod/mymodule-0.0.1.tar.gz') }
+  f.after_build do |record|
+    # Don't actually save test attachments
+    record.stub!(:save_attached_files).and_return true
+  end
 end
