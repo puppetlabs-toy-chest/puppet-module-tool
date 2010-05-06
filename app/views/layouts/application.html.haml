@@ -2,7 +2,13 @@
 
 %section#masthead
   .site-width
-    %h1 Puppet Modules
+    %h1 
+      Puppet Modules
+    -# TODO Remove version when this leaves beta:
+    %span.version
+      PuppetForge
+      = precede 'r' do
+        = ApplicationController::VERSION
 
 %section#content
   .site-width

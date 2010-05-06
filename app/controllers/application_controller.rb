@@ -17,7 +17,11 @@ class ApplicationController < ActionController::Base
     render :text => "TEST"
   end
 
-  private
+  protected
+
+  #===[ Constants ]=======================================================
+  
+  VERSION = '0.0.4'
 
   #===[ Assigns ]=========================================================
 
