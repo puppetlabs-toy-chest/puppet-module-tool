@@ -10,6 +10,7 @@ Next
 * Added mechanism to manage secret information, such as session encryption keys. See *Secrets* in `README.md`.
 * Added exception notification system, sends emails with debugging information on uncaught exceptions.
 * Disabled all code referencing watches and timeline events because it's a security hazard, wasn't done and kept getting in the way.
+* Refactored models for clarity, added documentation and wrote specs.
 
 r0.0.3
 ------
