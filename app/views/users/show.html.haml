@@ -1,6 +1,6 @@
 %h2
-  = @user.display_name
+  &= @user.display_name
   = surround '(', ')' do
-    = @user.username
+    &= @user.username
 
 = render :partial => 'mods/list'
