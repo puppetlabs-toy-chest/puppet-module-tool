@@ -58,18 +58,21 @@ class Mod < ActiveRecord::Base
   # Protection
   attr_protected :id, :owner, :owner_id, :owner_type
 
+  # Return string uniquely describing mod, which is the owner's username and the mod's name.
   def full_name
-    "#{owner.username}/#{name}"
+    return "#{owner.username}/#{self.name}"
   end
 
+  # Return unique human-readable string key for this record.
   def to_param
-    name
+    return self.name
   end
 
+  # Return the version of this mod's current release, or nil.
   def version
-    current_release = releases.ordered.first
+    current_release = self.releases.ordered.first
     if current_release
-      current_release.version
+      return current_release.version
     end
   end
 
