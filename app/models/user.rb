@@ -25,12 +25,14 @@
 #
 
 class User < ActiveRecord::Base
-
+  # Configure the Devise authentication system:
   devise :database_authenticatable, :confirmable, :recoverable, :rememberable, :trackable, :validatable
 
+  # Validations
   validates_format_of :username, :with => /^[[:alnum:]]{3,}$/, :message => "should be 3 or more alphanumeric characters"
   validates_uniqueness_of :username
 
+  # Associations
   has_many :mods, :as => :owner
 
   # TODO Implement Watches
@@ -47,8 +49,8 @@ class User < ActiveRecord::Base
   end
 =end
 
+  # Return unique human-readable string key for this record.
   def to_param
-    username
-  end
-  
+    return self.username
+  end  
 end
