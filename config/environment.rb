@@ -19,6 +19,7 @@ Rails::Initializer.run do |config|
   config.gem 'less', :lib => false
   config.gem 'maruku'
   config.gem 'paperclip'
+  config.gem 'super_exception_notifier', :version => '~> 2.0.0', :lib => 'exception_notifier'
   config.gem 'versionomy'
   config.gem 'warden'
   config.gem 'will_paginate'
