@@ -51,6 +51,7 @@ class ApplicationController < ActionController::Base
     self.assign_records_by.each_with_index do |type, i|
       base = type.name.tableize.singularize
       param_key = (i == last ? "id" : "#{base}_id").to_sym
+      # TODO use AssignableMixin and #assign_using_attribute
       model_key = \
         if type == User
           :username
@@ -58,6 +59,8 @@ class ApplicationController < ActionController::Base
           :name
         elsif type == Release
           :version
+        elsif type == Tag
+          :name
         else
           raise ArgumentError, "Unknown type: #{type}"
         end
@@ -115,7 +118,12 @@ class ApplicationController < ActionController::Base
 
   # Ensure that a Release record was assigned to this request.
   def ensure_release!
-      ensure_record! Release
+    ensure_record! Release
+  end
+
+  # Ensure that a Tag record was assigned to this request.
+  def ensure_tag!
+    ensure_record! Tag
   end
 
   #===[ Utilities ]=======================================================
