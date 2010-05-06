@@ -20,24 +20,73 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Mod do
 
-  before(:each) do
-    @valid_attributes = {
-      :name => "foo"
-    }
+  describe "validations" do
+    should_allow_values_for     :name, 'foo'
+    should_not_allow_values_for :name, 'bad_char', :message => /alphanumeric/
+    should_not_allow_values_for :name, '1', :message => /2 or more/
+
+    should_not_allow_values_for :project_url, 'foo', :message => /not appear to be valid/
+    should_allow_values_for     :project_url, 'http://github.com/bar/foo'
+    should_allow_values_for     :project_url, 'https://github.com/bar/foo'
+
+    it "should validate uniqueness" do
+      Factory :mod
+      should validate_uniqueness_of :name, :scope => [:owner_id, :owner_type]
+    end
   end
 
-  describe "validations" do
-    it "should validate"
+  describe "full_name" do
+    it "should have username and mod name" do
+      mod = Factory :mod
 
-    # it { should validate_format_of(:name).with('foo') }
-    # it { should validate_format_of(:name).not_with('bad_char').with_message(/alphanumeric/) }
-    # it { should validate_format_of(:name).not_with('1').with_message(/2 or more/) }
+      mod.full_name.should == "#{mod.owner.username}/#{mod.name}"
+    end
+  end
 
-    # it { should validate_format_of(:project_url).not_with('foo').with_message(/not appear to be valid/) }
-    # it { should validate_format_of(:project_url).with('http://github.com/bar/foo') }
-    # it { should validate_format_of(:project_url).with('https://github.com/bar/foo') }
+  describe "to_param" do
+    it "should be the mod name" do
+      mod = Factory :mod
+      
+      mod.to_param.should == mod.name
+    end
+  end
+  
+  describe "version" do
+    before :each do
+      @mod = Factory :mod
+    end
+    
+    describe "without releases" do
+      it "should not have a version" do
+        @mod.version.should be_nil
+      end
+    end
 
-    # it { should validate_uniqueness_of(:name).scoped_to([:owner_id, :owner_type]) }
+    describe "with a single release" do
+      before do
+        @release = Factory :release, :mod => @mod
+      end
+
+      it "should have the one version released" do
+        @mod.version.should == @release.version
+      end
+    end
+
+    describe "with multiple releases" do
+      before do
+        @release1 = Factory :release, :mod => @mod, :version => '2.3.4'
+        @release2 = Factory :release, :mod => @mod, :version => '2.3.5'
+      end
+
+      it "should have latest version released" do
+        @mod.version.should == @release2.version
+      end
+
+      it "should have releases in order" do
+        @mod.releases.ordered.should == [@release2, @release1]
+      end
+    end
+
   end
 
   # TODO Implement Watches

@@ -70,7 +70,7 @@ class Mod < ActiveRecord::Base
 
   # Return the version of this mod's current release, or nil.
   def version
-    current_release = self.releases.ordered.first
+    current_release = self.releases.current
     if current_release
       return current_release.version
     end
