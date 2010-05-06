@@ -2,7 +2,18 @@
 # from the project root directory.
 ENV["RAILS_ENV"] ||= 'test'
 require File.dirname(__FILE__) + "/../config/environment" unless defined?(RAILS_ROOT)
+
+# 'rspec' gem
+require 'spec'
+
+# 'rspec_rails' gem
+require 'spec/rails'
 require 'spec/autorun'
+
+# Shoulda macros ported to rspec:
+require 'remarkable_activerecord'
+require 'remarkable_paperclip'
+require 'remarkable_rails'
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
