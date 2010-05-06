@@ -47,10 +47,6 @@ class User < ActiveRecord::Base
   end
 =end
 
-  def name
-    username
-  end
-
   def to_param
     username
   end
