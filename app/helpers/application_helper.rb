@@ -2,24 +2,24 @@
 module ApplicationHelper
   include TagsHelper
   
-  # Return paragraph containing the name of the resource and the number found.
+  # Return paragraph describing the number of +named+ (e.g. "module") items in a +collection+.
   def count(name, collection)
     method = collection.respond_to?(:count) ? :count : :size
-    count = collection.send(method)
-    if count == 0
-      content_tag :p, "No #{name.pluralize} found.", :class => 'blank'
+    number = collection.send(method)
+    if number == 0
+      return content_tag :p, "No #{h(name).pluralize} found.", :class => 'blank'
     else
-      content_tag :p, "#{pluralize count, name} found."
+      return content_tag :p, "#{pluralize number, h(name)} found."
     end
   end
 
-  # Return clickable list of tags with the categories expanded.
+  # Return clickable list of tags for the +taggable+ record with the categories expanded.
   def tag_list(taggable)
     tags = taggable.tags.map do |tag|
       name = Categories[tag] || tag
-      link_to name, tag, :title => %(Tagged "#{tag.name}")
+      link_to name, tag, :title => %(Tagged "#{h tag.name}")
     end
-    tags.join(', ')
+    return tags.join(', ')
   end
   
 end
