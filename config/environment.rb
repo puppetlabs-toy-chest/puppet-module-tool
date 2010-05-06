@@ -24,6 +24,8 @@ Rails::Initializer.run do |config|
   config.gem 'warden'
   config.gem 'will_paginate'
   if %w[test development].include? RAILS_ENV
+    config.gem 'remarkable_activerecord', :lib => false
+    config.gem 'remarkable_rails', :lib => false
     config.gem 'factory_girl'
     config.gem 'rspec', :lib => false
     config.gem 'rspec-rails', :lib => 'spec/rails'
