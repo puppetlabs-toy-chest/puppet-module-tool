@@ -197,7 +197,9 @@ class ApplicationController < ActionController::Base
   # Redirect user to this path after they sign in using Devise.
   def after_sign_in_path_for(resource)
     if resource.is_a?(User)
-      user_timeline_events_path(resource)
+      # TODO Implement TimelineEvents
+      # user_timeline_events_path(resource)
+      user_path(current_user)
     else
       super
     end

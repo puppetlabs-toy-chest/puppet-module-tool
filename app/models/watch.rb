@@ -11,6 +11,9 @@
 #
 
 class Watch < ActiveRecord::Base
-  belongs_to :user
+  # TODO Implement Watch
+=begin
+belongs_to :user
   belongs_to :mod
+=end
 end

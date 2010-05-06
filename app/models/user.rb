@@ -32,12 +32,20 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username
 
   has_many :mods, :as => :owner
+
+  # TODO Implement Watches
+=begin
   has_many :watches
   has_many :watched_mods, :through => :watches, :source => :mod do
     def timeline
       TimelineEvent.for_mods(*self)
     end
   end
+
+  def watching?(mod)
+    watched_mods.include?(mod)
+  end
+=end
 
   def name
     username
@@ -46,9 +54,5 @@ class User < ActiveRecord::Base
   def to_param
     username
   end
-
-  def watching?(mod)
-    watched_mods.include?(mod)
-  end  
   
 end

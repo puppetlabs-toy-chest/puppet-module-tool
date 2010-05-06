@@ -1,15 +1,16 @@
-- if @mod.watchable_by?(current_user)
-  .section#watching
-    %h3 Watch Module
-    - if @mod.watched_by?(current_user)
-      %p
-        You are watching this module.
-        = succeed '.' do
-          = link_to "Stop watching it", mod_watch_path(@mod.id, current_user.watches.detect { |w| w.mod == @mod }.id), :class => 'unwatch'
-    - else
-      - form_for @mod.watches.new, :url => mod_watches_path(@mod.id) do |f|
-        %p
-          You are not watching this module.
-          = succeed '.' do
-            = link_to 'Watch it', '#'
-        = f.submit "Watch Module", :style => 'display:none;'
+-# TODO Implement Watches
+-# - if @mod.watchable_by?(current_user)
+-#   .section#watching
+-#     %h3 Watch Module
+-#     - if @mod.watched_by?(current_user)
+-#       %p
+-#         You are watching this module.
+-#         = succeed '.' do
+-#           = link_to "Stop watching it", mod_watch_path(@mod.id, current_user.watches.detect { |w| w.mod == @mod }.id), :class => 'unwatch'
+-#     - else
+-#       - form_for @mod.watches.new, :url => mod_watches_path(@mod.id) do |f|
+-#         %p
+-#           You are not watching this module.
+-#           = succeed '.' do
+-#             = link_to 'Watch it', '#'
+-#         = f.submit "Watch Module", :style => 'display:none;'

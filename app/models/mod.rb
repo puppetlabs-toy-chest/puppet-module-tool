@@ -32,6 +32,8 @@ class Mod < ActiveRecord::Base
     end
   end
 
+  # TODO Implement Watches
+=begin
   has_many :watches
   has_many :watchers, :through => :watches, :source => :user
 
@@ -40,6 +42,7 @@ class Mod < ActiveRecord::Base
       self.all(:conditions => {:event_type => :new_release})
     end
   end
+=end
 
   # Scopes
   named_scope :with_releases, :joins => :releases, :group => 'mods.id', :include => :releases
@@ -70,6 +73,8 @@ class Mod < ActiveRecord::Base
     end
   end
 
+  # TODO Implement Watches
+=begin
   def watchable_by?(user)
     if user == owner
       false
@@ -81,5 +86,6 @@ class Mod < ActiveRecord::Base
   def watched_by?(user)
     watchers.include?(user)
   end
+=end
   
 end

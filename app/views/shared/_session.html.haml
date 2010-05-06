@@ -6,7 +6,8 @@
       = surround '(', ')' do
         = link_to("Sign Out", destroy_user_session_path)
     %ul
-      %li= link_to("Activity", user_timeline_events_path(current_user))
+      -# TODO Implement TimelineEvents
+      -# %li= link_to("Activity", user_timeline_events_path(current_user))
       %li= link_to("Your Modules", current_user)
   - else
     %ul

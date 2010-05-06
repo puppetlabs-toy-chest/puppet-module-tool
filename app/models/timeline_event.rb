@@ -16,6 +16,8 @@
 #
 
 class TimelineEvent < ActiveRecord::Base
+  # TODO Implement TimelineEvent
+=begin
   belongs_to :actor,              :polymorphic => true
   belongs_to :subject,            :polymorphic => true
   belongs_to :secondary_subject,  :polymorphic => true
@@ -26,5 +28,5 @@ class TimelineEvent < ActiveRecord::Base
         'timeline_events.secondary_subject_id'   => mods.map(&:id)
     }}
   }
-  
+=end
 end

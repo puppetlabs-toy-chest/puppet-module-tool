@@ -1,5 +1,6 @@
 class TimelineEventsController < ApplicationController
-
+  # TODO Implement TimeLineEventsController
+=begin
   before_filter :authenticate_user!
   before_filter :find_user
   
@@ -28,5 +29,5 @@ class TimelineEventsController < ApplicationController
 
     
   end
-
+=end
 end

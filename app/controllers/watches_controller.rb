@@ -1,5 +1,6 @@
 class WatchesController < ApplicationController
-
+  # TODO Implement WatchesController
+=begin
   before_filter :find_mod
   before_filter :authenticate_user!, :only => [:create]
 
@@ -29,8 +30,6 @@ class WatchesController < ApplicationController
   def find_mod
     @mod = Mod.find(params[:mod_id])
   end
-
+=end
 end
-
-
 

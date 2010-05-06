@@ -5,7 +5,8 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'pages', :action => 'home'
   
   map.resources :mods, :as => 'modules' do |mods|
-    mods.resources :watches
+    # TODO Implement Watches
+    # mods.resources :watches
   end
   
   map.resources :tags
@@ -15,7 +16,8 @@ ActionController::Routing::Routes.draw do |map|
     users.resources :mods, :as => 'modules' do |mods|
       mods.resources :releases, :id => nil, :requirements => {:id => /.+/}, :collection => {:find => :get}
     end
-    users.resources :timeline_events, :as => 'events'
+    # TODO Implement TimelineEvents
+    # users.resources :timeline_events, :as => 'events'
   end
 
   # Some vanity URLs

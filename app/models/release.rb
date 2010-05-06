@@ -25,10 +25,13 @@ class Release < ActiveRecord::Base
 
   serialize :metadata
 
+  # TODO Implement TimelineEvent
+=begin
   fires(:new_release,
         :on => :create,
         :secondary_subject => :mod,
         :actor => :owner)
+=end
 
   delegate :owner, :to => :mod
 
