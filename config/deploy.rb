@@ -16,13 +16,11 @@ namespace :deploy do
   end
 end
 
-desc "Make symlink for database yaml"
-task :symlink_database_yml do
-  run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+desc "Symlink configuration files"
+task :symlink_configs, :roles => :app do
+  run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/"
+  run "ln -nfs #{shared_path}/config/secrets.yml  #{release_path}/config/"
 end
-
-# Callbacks:
-before 'deploy:finalize_update', :symlink_database_yml
 
 #===[ Database tasks ]==================================================
 
