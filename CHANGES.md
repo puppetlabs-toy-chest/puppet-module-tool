@@ -5,6 +5,7 @@ Next
 ----
 
 * Fixed insecure session and authentication encryption keys hardcoded into application. 
+* Fixed users controller by adding access control to ensure that users can only modify their own records and added error handling to ensure records are loaded properly. Wrote comprehensive specs.
 * Added mechanism to manage secret information, such as session encryption keys. See *Secrets* in `README.md`.
 * Added exception notification system, sends emails with debugging information on uncaught exceptions.
 
