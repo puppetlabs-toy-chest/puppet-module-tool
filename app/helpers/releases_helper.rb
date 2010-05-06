@@ -1,28 +1,16 @@
 module ReleasesHelper
 
+  # Return string a guess of the next version of this module, else nil.
   def guess_next_version
-    if @release.new_record?
-      current = @mod.releases.current
-      return current.guess_next_version if current
-    end
-    nil
+    return @mod.releases.current.try(:guess_next_version)
   end
 
-  def label_doc(obj)
-    if obj['doc'].blank?
-      haml_tag :b do
-        haml_concat obj['name']
-      end
-    else
-      haml_tag :b do
-        haml_concat obj['name'] + ':&nbsp;'
-      end
-      haml_concat obj['doc']
-    end
-  end
-
+  # Return link to release's +dependency+, a hash containing a 'name'.
   def link_to_dependency(dep)
-    link_to dep['name'], "/#{dep['name']}"
+    if dep.kind_of?(Hash) && dep.has_key?('name')
+      # NOTE: This generates a raw vanity URL
+      return link_to h(dep['name']), "/#{dep['name']}"
+    end
   end
   
 end
