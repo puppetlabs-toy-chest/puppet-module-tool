@@ -51,7 +51,8 @@ class Release < ActiveRecord::Base
 
   # Return a guess of what the next version would be.
   def guess_next_version
-    current = Versionomy.parse(version)
+    raise ArgumentError, "No version specified" unless self.version
+    current = Versionomy.parse(self.version)
     return current.release_type == :final ?
       current.bump(:tiny) :
       current.bump(:release_type)
