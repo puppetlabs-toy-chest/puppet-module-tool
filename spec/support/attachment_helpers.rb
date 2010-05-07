@@ -7,5 +7,5 @@ def attachment_fixture_for(filename, content_type=nil)
       mime_type.to_s :
       'application/octet-stream'
   end
-  return ActionController::TestUploadedFile.new("#{RAILS_ROOT}/spec/attachments/#{filename}", content_type)
+  return ActionController::TestUploadedFile.new("#{PaperclipFixture.directory}/#{filename}", content_type)
 end

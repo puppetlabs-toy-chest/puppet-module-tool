@@ -19,7 +19,15 @@ require 'remarkable_rails'
 # in ./support/ and its subdirectories.
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 
+# Add Paperclip fixtures to models:
+PaperclipFixture.patch(Release, :file)
+
 Spec::Runner.configure do |config|
+  # Make the Release model use file fixtures at startup:
+  config.before(:each) do
+    Release.paperclip_fixture_enabled = true
+  end
+
   # If you're not using ActiveRecord you should remove these
   # lines, delete config/database.yml and disable :active_record
   # in your config/boot.rb
