@@ -1,10 +1,19 @@
 puppet-module-site changes
 ==========================
 
+r0.0.5
+------
+
+* Fixed release model and controller: stopped it from creating invalid records during validation, adding better file and metadata validations, fixed attachment reading during validation, fixed redundant error messages by halting validation early when there's an error, made metadata extraction happen automatically, added detailed logging. Wrote many tests.
+* Fixed JSON parsing, it was sometimes misguessing which parser/encoder to use -- which have different APIs -- and was silently discarded its errors.
+* Fixed cross-site scripting vulnerabilities in ApplicationHelper, added documentation and wrote comprehensive specs.
+* Fixed cross-site scripting vulnerabilties in ReleaseHelper, fixed #guess_next_version, extracted #label_doc into partial, added error checking to #link_to_dependency and wrote comprehensive specs.
+* Added CSS styling for error messages to make them more visible.
+
 r0.0.4
 ------
 
-* Fixed insecure session and authentication encryption keys hardcoded into application. 
+* Fixed insecure session and authentication encryption keys hardcoded into application.
 * Fixed users controller by adding access control to ensure that users can only modify their own records and added error handling to ensure records are loaded properly. Wrote comprehensive specs.
 * Fixed tags controller by adding error checking. Wrote comprehensive specs.
 * Added mechanism to manage secret information, such as session encryption keys. See *Secrets* in `README.md`.
