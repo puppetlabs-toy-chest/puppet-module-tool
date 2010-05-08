@@ -9,7 +9,7 @@ module ReleasesHelper
   def link_to_dependency(dep)
     if dep.kind_of?(Hash) && dep.has_key?('name')
       # NOTE: This generates a raw vanity URL
-      return link_to h(dep['name']), "/#{dep['name']}"
+      return(link_to(h(dep['name']), "/#{dep['name']}"))
     end
   end
   

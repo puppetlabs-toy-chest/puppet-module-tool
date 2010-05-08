@@ -7,9 +7,9 @@ module ApplicationHelper
     method = collection.respond_to?(:count) ? :count : :size
     number = collection.send(method)
     if number == 0
-      return content_tag :p, "No #{h(name).pluralize} found.", :class => 'blank'
+      return(content_tag :p, "No #{h(name).pluralize} found.", :class => 'blank')
     else
-      return content_tag :p, "#{pluralize number, h(name)} found."
+      return(content_tag :p, "#{pluralize number, h(name)} found.")
     end
   end
 
@@ -17,7 +17,7 @@ module ApplicationHelper
   def tag_list(taggable)
     tags = taggable.tags.map do |tag|
       name = Categories[tag] || tag
-      link_to name, tag, :title => %(Tagged "#{h tag.name}")
+      link_to(name, tag, :title => %(Tagged "#{h tag.name}"))
     end
     return tags.join(', ')
   end
