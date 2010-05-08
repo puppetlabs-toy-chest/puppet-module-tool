@@ -16,6 +16,7 @@ Rails::Initializer.run do |config|
   config.gem 'devise', :version => '>= 1.0.0'
   config.gem 'diff-lcs', :lib => 'diff/lcs'
   config.gem 'haml'
+  config.gem 'json'
   config.gem 'less', :lib => false
   config.gem 'maruku'
   config.gem 'paperclip'
