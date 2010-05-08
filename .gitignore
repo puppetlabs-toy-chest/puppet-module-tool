@@ -22,7 +22,6 @@ nbproject
 public/javascripts/all.js
 public/stylesheets
 public/system
-spec/fixtures
 spec/rcov.opts
 spec/spec.opts
 tags
