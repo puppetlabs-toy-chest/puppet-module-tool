@@ -31,14 +31,13 @@ class ReleasesController < ApplicationController
   def create
     @release = @mod.releases.new(params[:release])
     if @release.save
-      @release.extract_metadata!
       notify_of "Released #{@release.version}"
       respond_to do |format|
+        format.html do
+          redirect_to user_mod_release_path(@user, @mod, @release)
+        end
         format.json do
           render :json => @release.to_json
-        end
-        format.html do
-          redirect_to module_path(@user, @mod)
         end
       end
     else

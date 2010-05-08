@@ -88,7 +88,7 @@ describe Release do
 
   describe "validate_file" do
     it "should pass if there's a file" do
-      release = Factory.build :release
+      release = Factory :release, :file => "mymodule-0.0.1.tar.gz"
       release.validate_file
 
       release.errors.should be_empty
@@ -99,15 +99,38 @@ describe Release do
       release.validate_file
 
       release.errors.should_not be_empty
-      release.errors.on(:base).should =~ /file/
+      release.errors.on(:file).should =~ /must be provided/
     end
   end
 
   describe "extract_metadata" do
-    # TODO implement
-    it "should read valid metadata from valid file"
-    it "should fail with invalid metadata from valid file"
-    it "should fail with invalid file"
-    it "should fail with missing file"
+    describe "valid file" do
+      before do
+        @release = Factory :release, :file => "mymodule-0.0.1.tar.gz"
+        @metadata = @release.metadata
+      end
+
+      it "should have metadata" do
+        @metadata.should_not be_blank
+      end
+
+      it "should have a name" do
+        @metadata['name'].should == "mymodule"
+      end
+
+      it "should have a version" do
+        @metadata['version'].should == '0.0.1'
+      end
+
+      it "should have checksums" do
+        @metadata['checksums']['lib/puppet/type/README.markdown'].should == "962259712efcf0b409ff3358b51fca3b"
+      end
+
+    end
+
+    it "should fail with invalid metadata from valid archive"
+    it "should fail with missing metadata from valid archive"
+    it "should fail with invalid archive"
+    it "should fail with missing archive"
   end
 end

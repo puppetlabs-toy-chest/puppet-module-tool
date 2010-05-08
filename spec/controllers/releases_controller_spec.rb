@@ -63,22 +63,31 @@ describe ReleasesController do
         @attributes = Factory.attributes_for :release, :mod => @mod
       end
 
-      it "should allow user to create release for their module" do
-        pending "upload with a file" # TODO complete
 
-        sign_in @owner
-        post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => @attributes
+      describe "allow user to create release for their module" do
+        it "using HTML" do
+          sign_in @owner
+          post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => @attributes
 
-        release = assigns[:release]
-        release.should_not be_a_new_record
-        response.should redirect_to(user_module_releases_path(release.owner, release.mod, release))
+          release = assigns[:release]
+          release.should_not be_a_new_record
+          response.should redirect_to(user_mod_release_path(release.owner, release.mod, release))
+        end
+
+        it "using JSON" do
+          sign_in @owner
+          post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => @attributes, :format => "json"
+
+          release = assigns[:release]
+          release.should_not be_a_new_record
+          data = response_json
+          data['version'].should == @attributes[:version]
+        end
       end
 
       it "should not allow user to create release with invalid attachment" do
-        pending "upload with an invalid file" # TODO complete
-
         sign_in @owner
-        post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => @attributes
+        post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => @attributes.merge(:file => "invalid_file.txt")
 
         response.should be_success
         flash[:error].should_not be_nil
@@ -86,17 +95,30 @@ describe ReleasesController do
         assigns[:release].should be_a_new_record
       end
 
-      it "should not allow user to create release with invalid attributes" do
-        attributes = @attributes.merge(:version => nil)
-        sign_in @owner
-        post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => attributes
+      describe "should not allow user to create release with invalid attributes" do
+        it "using HTML" do
+          attributes = @attributes.merge(:version => nil)
+          sign_in @owner
+          post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => attributes
 
-        response.should be_success
-        flash[:error].should_not be_nil
-        assigns[:mod].should == @mod
-        assigns[:release].should be_a_new_record
+          response.should be_success
+          flash[:error].should_not be_nil
+          assigns[:mod].should == @mod
+          assigns[:release].should be_a_new_record
+        end
+
+        it "using JSON" do
+          attributes = @attributes.merge(:version => nil)
+          sign_in @owner
+          post :create, :user_id => @owner.to_param, :mod_id => @mod.to_param, :release => attributes, :format => "json"
+
+          response.should be_error
+          assigns[:mod].should == @mod
+          assigns[:release].should be_a_new_record
+          data = response_json
+          data['error'].should_not be_blank
+        end
       end
-
 
       it "should not allow user to create release for another's module" do
         sign_in @other_user
@@ -131,11 +153,22 @@ describe ReleasesController do
     end
 
     describe "when logged-in" do
-      it "should allow owner to delete a release" do
-        sign_in @owner
-        delete :destroy, :user_id => @owner.to_param, :mod_id => @mod.to_param, :id => @release.to_param
+      describe "should allow owner to delete a release" do
+        it "using HTML" do
+          sign_in @owner
+          delete :destroy, :user_id => @owner.to_param, :mod_id => @mod.to_param, :id => @release.to_param
 
-        response.should redirect_to module_path(@owner, @mod)
+          response.should redirect_to module_path(@owner, @mod)
+        end
+
+        it "using JSON" do
+          sign_in @owner
+          delete :destroy, :user_id => @owner.to_param, :mod_id => @mod.to_param, :id => @release.to_param, :format => "json"
+
+          response.should be_success
+          data = response_json
+          data.should be_a_kind_of(Hash)
+        end
       end
 
       it "should not allow a user to delete another's release" do

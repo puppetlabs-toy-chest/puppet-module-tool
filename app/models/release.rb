@@ -29,6 +29,7 @@ class Release < ActiveRecord::Base
   validate :validate_version
   validate :validate_mod
   validate :validate_file
+  validate :validate_metadata
 
   # Serialize fields using YAML
   serialize :metadata
@@ -65,10 +66,12 @@ class Release < ActiveRecord::Base
 
   # Validate the record's :version attribute and set errors if needed.
   def validate_version
-    begin
-      Versionomy.parse(self.read_attribute(:version))
-    rescue => e
-      self.errors.add('version', e.message)
+    unless self.errors.on(:version)
+      begin
+        Versionomy.parse(self.read_attribute(:version))
+      rescue => e
+        self.errors.add('version', e.message)
+      end
     end
   end
 
@@ -81,27 +84,65 @@ class Release < ActiveRecord::Base
 
   # Validate the record's file and set errors if needed.
   def validate_file
-    # TODO Which approach is best?
-    # unless self.file.exists?
-    # unless self.file.file?
-    unless self.file.size.to_i > 0
-      self.errors.add_to_base("No file provided")
+    unless self.file.file?
+      self.errors.add :file, "must be provided"
+      return false
+    end
+  end
+
+  def validate_metadata
+    if self.file.file?
+      return self.extract_metadata!
     end
   end
 
   # Set the :metadata attribute by reading the release's file.
   def extract_metadata!
-    tgz = Zlib::GzipReader.new(File.open(self.file.path, 'rb'))
-    Archive::Tar::Minitar::Input.open(tgz) do |inp|
-      inp.each do |entry|
-        if File.basename(entry.full_name) == 'metadata.json'
-          raw = entry.read
-          data = JSON.parse(raw) rescue {}
-          update_attribute(:metadata, data)
-          break
+    if self.file.file?
+      self.logger.info "Release#extract_metadata! - got file"
+      begin
+        archive = Zlib::GzipReader.new(self.file.to_file)
+        self.logger.info "Release#extract_metadata! - parsed gzip file"
+      rescue Zlib::GzipFile::Error
+        self.errors.add :file, "must be a 'tar.gz' file"
+        self.logger.info "Release#extract_metadata! - not a gzip file"
+        return false
+      end
+
+      Archive::Tar::Minitar::Input.open(archive) do |handle|
+        self.logger.info "Release#extract_metadata! - opened tar file"
+        handle.each do |entry|
+          # TODO validate checksum of entry
+          # TODO validate that there's only a single directory in root and nothing else
+          # TODO validate that there's on a single 'metadata.json' at the top of the base directory
+          # FIXME this finds the first match, not the right match
+          if File.basename(entry.full_name) == 'metadata.json'
+            # TODO validate that the metadata's name matches the mod name?
+            # TODO validate that the metadata's version matches the release version?
+            self.logger.info "Release#extract_metadata! - found metadata.json"
+            raw = entry.read
+            begin
+              self.metadata = JSON.parse(raw)
+              # TODO validate that metadata contains useful information
+              self.logger.info "Release#extract_metadata! - parsed metadata: #{self.metadata.inspect}"
+              break
+            rescue JSON::ParserError => e
+              self.errors.add :file, "must contain a 'metadata.json' file that's valid JSON" 
+              self.logger.info "Release#extract_metadata! - invalid JSON: #{e.message}"
+              return false
+            end
+          end
+        end
+
+        if self.metadata.empty?
+          self.errors.add :file, "must contain a valid 'metadata.json' file"
+          self.logger.info "Release#extract_metadata! - empty metadata"
+          return false
+        else
+          return true
         end
       end
     end
   end
-  
+
 end
