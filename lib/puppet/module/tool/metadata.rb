@@ -33,7 +33,7 @@ module Puppet::Module::Tool
     end
 
     def release_name
-      [@username, @name, @version].join('-')
+      [dashed_name, @version].join('-')
     end
 
     def to_pson(*args)
