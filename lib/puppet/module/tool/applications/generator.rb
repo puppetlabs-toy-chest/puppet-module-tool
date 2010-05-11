@@ -9,7 +9,11 @@ module Puppet::Module::Tool
 
       def initialize(full_name, options)
         @metadata = Metadata.new(:full_name => full_name)
-        super(options)
+        if @metadata.full_name?
+          super(options)
+        else
+          abort "Could not generate directory #{full_name.inspect}, you must specify a dash-separated username and module name."
+        end
       end
 
       def skeleton
