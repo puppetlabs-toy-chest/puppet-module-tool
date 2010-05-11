@@ -2,7 +2,8 @@ module Puppet::Module::Tool
   module Applications
 
     class Unreleaser < Application
-
+      # TODO Review whether the 'unrelease' feature should be fixed or deleted.
+=begin
       def initialize(address, options = {})
         @address = address
         @username, @module_name = address.split('/')
@@ -34,7 +35,7 @@ module Puppet::Module::Tool
           abort "Invalid version format: #{version}"
         end
       end
-
+=end
     end
     
   end

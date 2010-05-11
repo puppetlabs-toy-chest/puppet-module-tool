@@ -2,7 +2,8 @@ module Puppet::Module::Tool
   module Applications
 
     class Registrar < Application
-
+      # TODO Review whether the 'register' feature should be fixed or deleted.
+=begin
       def initialize(full_name, options = {})
         @full_name = full_name
         @username, @module_name = full_name.split(/[\/\-]/, 2)
@@ -26,7 +27,7 @@ module Puppet::Module::Tool
           abort "Must provide the full module name (ie, 'username/name') to register."
         end
       end
-      
+=end
     end
     
   end

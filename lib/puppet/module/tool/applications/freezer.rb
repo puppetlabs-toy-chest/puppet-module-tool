@@ -2,7 +2,8 @@ module Puppet::Module::Tool
   module Applications
 
     class Freezer < Application
-
+      # TODO Review whether the 'freeze' feature should be fixed or deleted.
+=begin
       def skeleton
         @skeleton ||= Skeleton.new
       end
@@ -12,7 +13,7 @@ module Puppet::Module::Tool
         skeleton.freeze!
         say "Done.  Modify these files for the `generate` task."
       end
-      
+=end
     end
     
   end

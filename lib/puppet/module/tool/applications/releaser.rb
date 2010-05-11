@@ -5,7 +5,8 @@ module Puppet::Module::Tool
   module Applications
 
     class Releaser < Application
-
+      # TODO Review whether the 'release' feature should be fixed or deleted.
+=begin
       def initialize(filename, options = {})
         @filename = filename
         parse_filename!
@@ -40,7 +41,7 @@ module Puppet::Module::Tool
       def upload_path
         "/users/#{@username}/modules/#{@module_name}/releases.json"
       end
-
+=end
     end
     
   end

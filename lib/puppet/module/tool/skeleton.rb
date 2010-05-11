@@ -2,10 +2,11 @@ module Puppet::Module::Tool
 
   class Skeleton
 
-    def freeze!
-      FileUtils.rm_fr custom_path rescue nil
-      FileUtils.cp_r default_path, custom_path
-    end
+    # TODO Review whether the 'freeze' feature should be fixed or deleted.
+    # def freeze!
+    #   FileUtils.rm_fr custom_path rescue nil
+    #   FileUtils.cp_r default_path, custom_path
+    # end
 
     def path 
       paths.detect { |path| path.directory? }

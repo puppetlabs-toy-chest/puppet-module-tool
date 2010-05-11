@@ -21,7 +21,9 @@ module Puppet::Module::Tool
         tar
         gzip
         relative = Pathname.new(File.join(@pkg_path, filename('tar.gz'))).relative_path_from(Pathname.new(Dir.pwd))
-        say "Done. Now you probably want to:\n  $ pmt release #{relative}"
+        # TODO Implement "release" feature.
+        ### say "Done. Now you probably want to:\n  $ pmt release #{relative}"
+        say "Done. Built: #{relative}"
       end
 
       private

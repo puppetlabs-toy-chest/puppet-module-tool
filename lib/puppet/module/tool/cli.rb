@@ -26,10 +26,11 @@ class Puppet::Module::Tool::CLI < Thor
     Puppet::Module::Tool::Applications::Generator.run(name, options)
   end
 
-  desc "freeze", "Freeze the module skeleton (to customize for `generate`)"
-  def freeze
-    Puppet::Module::Tool::Applications::Freezer.run(options)
-  end
+  # TODO Review whether the 'freeze' feature should be fixed or deleted.
+#  desc "freeze", "Freeze the module skeleton (to customize for `generate`)"
+#  def freeze
+#    Puppet::Module::Tool::Applications::Freezer.run(options)
+#  end
 
   desc "clean", "Clears module cache (all repositories)"
   def clean
@@ -41,19 +42,21 @@ class Puppet::Module::Tool::CLI < Thor
     Puppet::Module::Tool::Applications::Builder.run(find_module_root(path), options)
   end
 
-  desc "release FILENAME", "Release a module tarball (.tar.gz)"
-  method_option_repository
-  def release(filename)
-    Puppet::Module::Tool::Applications::Releaser.run(filename, options)
-  end
+  # TODO Review whether the 'release' feature should be fixed or deleted.
+#  desc "release FILENAME", "Release a module tarball (.tar.gz)"
+#  method_option_repository
+#  def release(filename)
+#    Puppet::Module::Tool::Applications::Releaser.run(filename, options)
+#  end
 
-  desc "unrelease MODULE_NAME", "Unrelease a module (eg, 'user/modname')"
-  method_option :version, :alias => :v, :required => true, :desc => "The version to unrelease"
-  method_option_repository
-  def unrelease(module_name)
-    Puppet::Module::Tool::Applications::Unreleaser.run(module_name,
-                                                       options)
-  end
+  # TODO Review whether the 'unrelease' feature should be fixed or deleted.
+#  desc "unrelease MODULE_NAME", "Unrelease a module (eg, 'user/modname')"
+#  method_option :version, :alias => :v, :required => true, :desc => "The version to unrelease"
+#  method_option_repository
+#  def unrelease(module_name)
+#    Puppet::Module::Tool::Applications::Unreleaser.run(module_name,
+#                                                       options)
+#  end
 
   desc "install MODULE_NAME_OR_FILE [OPTIONS]", "Install a module (eg, 'user/modname') from a repository or file"
   method_option :version, :alias => :v, :desc => "Version to install (can be a requirement, eg '>= 1.0.3', defaults to latest version)"
@@ -69,11 +72,12 @@ class Puppet::Module::Tool::CLI < Thor
     Puppet::Module::Tool::Applications::Searcher.run(term, options)
   end
 
-  desc "register MODULE_NAME", "Register a new module (eg, 'user/modname')"
-  method_option_repository
-  def register(module_name)
-    Puppet::Module::Tool::Applications::Registrar.run(module_name, options)
-  end
+  # TODO Review whether the 'register' feature should be fixed or deleted.
+#  desc "register MODULE_NAME", "Register a new module (eg, 'user/modname')"
+#  method_option_repository
+#  def register(module_name)
+#    Puppet::Module::Tool::Applications::Registrar.run(module_name, options)
+#  end
 
   desc "changes [PATH_TO_MODULE]", "Show modified files in an installed module"
   def changes(path = nil)
