@@ -29,7 +29,7 @@ module Puppet::Module::Tool
     end
 
     def dashed_name
-      [@username, @name].join('-')
+      [@username, @name].compact.join('-')
     end
 
     def release_name
