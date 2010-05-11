@@ -7,13 +7,14 @@ modules.
 Usage
 -----
 
-For usage information, see:
+To display usage information for the tool, run:
 
-    $ ./bin/puppet-modules
+    $ ./bin/pmt help
 
-For individual commands, use `help`, for example:
+To display usage information on specific commands, run `help` with the command
+name, for example:
 
-    $ ./bin/puppet-modules help generate
+    $ ./bin/pmt help generate
 
 License
 -------
