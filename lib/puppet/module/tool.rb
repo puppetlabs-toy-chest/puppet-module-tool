@@ -4,7 +4,12 @@ require 'fileutils'
 begin
   require 'puppet'
 rescue LoadError
-  abort "You must have Puppet installed to run PMT"
+  begin
+    require 'rubygems'
+    require 'puppet'
+  rescue LoadError
+    abort "You must have Puppet installed to run PMT"
+  end
 end
 
 require 'versionomy'
