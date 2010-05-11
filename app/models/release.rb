@@ -34,6 +34,9 @@ class Release < ActiveRecord::Base
   # Serialize fields using YAML
   serialize :metadata
 
+  # Triggers
+  before_destroy :destroy_attachment
+
   # TODO Implement TimelineEvent
 =begin
   fires(:new_release,
@@ -143,6 +146,11 @@ class Release < ActiveRecord::Base
         end
       end
     end
+  end
+
+  # Destroy the file attachment when destroying the release record.
+  def destroy_attachment
+    self.file.destroy
   end
 
 end

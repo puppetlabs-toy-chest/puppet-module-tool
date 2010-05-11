@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+Next
+----
+
+* Added cascade deletes, so that deleting a parent object (e.g. a user) will delete its children (e.g. mods and releases).
+
 r0.0.5
 ------
 

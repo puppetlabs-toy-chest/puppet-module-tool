@@ -33,12 +33,12 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username
 
   # Associations
-  has_many :mods, :as => :owner
+  has_many :mods, :as => :owner, :dependent => :destroy
 
   # TODO Implement Watches
 =begin
-  has_many :watches
-  has_many :watched_mods, :through => :watches, :source => :mod do
+  has_many :watches, :dependent => :destroy
+  has_many :watched_mods, :through => :watches, :source => :mod, :dependent => :destroy do
     def timeline
       TimelineEvent.for_mods(*self)
     end

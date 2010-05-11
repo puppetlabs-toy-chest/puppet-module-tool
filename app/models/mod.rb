@@ -23,7 +23,7 @@ class Mod < ActiveRecord::Base
 
   # Associations
   belongs_to :owner, :polymorphic => true
-  has_many :releases do
+  has_many :releases, :dependent => :destroy do
     def ordered
       sort_by { |release| Versionomy.parse(release.version) }.reverse
     end
