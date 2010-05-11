@@ -5,6 +5,7 @@ Next
 ----
 
 * Fixed security vulnerabilities in model mass assignments, limited these to only those specifically allowed.
+* Fixed security vulnerabilities in model format validations, made them match the beginning and end of strings rather than lines.
 * Added cascade deletes, so that deleting a parent object (e.g. a user) will delete its children (e.g. mods and releases).
 
 r0.0.5

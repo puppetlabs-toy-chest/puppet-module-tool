@@ -51,7 +51,7 @@ class Mod < ActiveRecord::Base
   named_scope :matching, proc { |q| {:conditions => ['name like ?', "%#{q}%"]} }
 
   # Validations
-  validates_format_of :name, :with => /^[[:alnum:]]{2,}$/, :message => "should be 2 or more alphanumeric characters"
+  validates_format_of :name, :with => /\A[[:alnum:]]{2,}\z/, :message => "should be 2 or more alphanumeric characters"
   validates_uniqueness_of :name, :scope => [:owner_id, :owner_type]
 
   validates_url_format_of(:project_url, :allow_blank => true)
