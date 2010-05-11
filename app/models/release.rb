@@ -17,6 +17,9 @@
 
 class Release < ActiveRecord::Base
 
+  # Protection
+  attr_accessible :version, :notes, :file
+
   # Paperclip plugin:
   has_attached_file :file, :url => "/system/releases/:bucket/:owner/:owner-:mod_name-:version.tar.gz"
 

@@ -4,6 +4,7 @@ puppet-module-site changes
 Next
 ----
 
+* Fixed security vulnerabilities in model mass assignments, limited these to only those specifically allowed.
 * Added cascade deletes, so that deleting a parent object (e.g. a user) will delete its children (e.g. mods and releases).
 
 r0.0.5

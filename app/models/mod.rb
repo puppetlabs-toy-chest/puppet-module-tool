@@ -15,8 +15,10 @@
 #  owner_id         :integer
 #  project_feed_url :string(255)
 #
-
 class Mod < ActiveRecord::Base
+
+  # Protection
+  attr_accessible :name, :description, :project_url, :address, :project_feed_url
 
   # Plugins
   acts_as_taggable_on :tags
@@ -54,9 +56,6 @@ class Mod < ActiveRecord::Base
 
   validates_url_format_of(:project_url, :allow_blank => true)
   validates_url_format_of(:project_feed_url, :allow_blank => true)
-
-  # Protection
-  attr_protected :id, :owner, :owner_id, :owner_type
 
   # Return string uniquely describing mod, which is the owner's username and the mod's name.
   def full_name
