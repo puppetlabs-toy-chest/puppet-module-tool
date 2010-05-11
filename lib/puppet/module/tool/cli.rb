@@ -20,7 +20,7 @@ class Puppet::Module::Tool::CLI < Thor
     say Puppet::Module::Tool.version
   end
 
-  desc "generate MODULE_NAME", "Generate boilerplate for a new module (eg, 'user/modname')"
+  desc "generate USERNAME-MODNAME", "Generate boilerplate for a new module"
   method_option_repository
   def generate(name)
     Puppet::Module::Tool::Applications::Generator.run(name, options)
@@ -32,7 +32,7 @@ class Puppet::Module::Tool::CLI < Thor
 #    Puppet::Module::Tool::Applications::Freezer.run(options)
 #  end
 
-  desc "clean", "Clears module cache (all repositories)"
+  desc "clean", "Clears module cache for all repositories"
   def clean
     Puppet::Module::Tool::Applications::Cleaner.run(options)
   end
@@ -50,7 +50,7 @@ class Puppet::Module::Tool::CLI < Thor
 #  end
 
   # TODO Review whether the 'unrelease' feature should be fixed or deleted.
-#  desc "unrelease MODULE_NAME", "Unrelease a module (eg, 'user/modname')"
+#  desc "unrelease MODULE_NAME", "Unrelease a module (eg, 'user-modname')"
 #  method_option :version, :alias => :v, :required => true, :desc => "The version to unrelease"
 #  method_option_repository
 #  def unrelease(module_name)
@@ -58,7 +58,7 @@ class Puppet::Module::Tool::CLI < Thor
 #                                                       options)
 #  end
 
-  desc "install MODULE_NAME_OR_FILE [OPTIONS]", "Install a module (eg, 'user/modname') from a repository or file"
+  desc "install MODULE_NAME_OR_FILE [OPTIONS]", "Install a module (eg, 'user-modname') from a repository or file"
   method_option :version, :alias => :v, :desc => "Version to install (can be a requirement, eg '>= 1.0.3', defaults to latest version)"
   method_option :force, :alias => :f, :type => :boolean, :desc => "Force overwrite of existing module, if any"
   method_option_repository
@@ -73,7 +73,7 @@ class Puppet::Module::Tool::CLI < Thor
   end
 
   # TODO Review whether the 'register' feature should be fixed or deleted.
-#  desc "register MODULE_NAME", "Register a new module (eg, 'user/modname')"
+#  desc "register MODULE_NAME", "Register a new module (eg, 'user-modname')"
 #  method_option_repository
 #  def register(module_name)
 #    Puppet::Module::Tool::Applications::Registrar.run(module_name, options)
