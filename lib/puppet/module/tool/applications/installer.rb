@@ -50,20 +50,23 @@ module Puppet::Module::Tool
       private
 
       def match
-        p repository.uri
         unless @match
           url = repository.uri + "/users/#{@username}/modules/#{@module_name}/releases/find.json"
           if @version_requirement
             url.query = "version=#{URI.escape(@version_requirement)}"
           end
           begin
-            raw_result = url.read
+            raw_result = read_match(url)
           rescue => e
             abort "Could not request version match (#{e.message})"
           end
           @match = PSON.parse(raw_result)
         end
         @match
+      end
+
+      def read_match(url)
+        return url.read
       end
 
     end
