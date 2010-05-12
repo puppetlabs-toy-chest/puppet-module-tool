@@ -12,17 +12,22 @@ module Puppet::Module::Tool
       filename = File.basename(url.to_s)
       cached_file = path + filename
       unless cached_file.file?
+        # FIXME it's not an url... is it?
         if url.scheme == 'file'
           FileUtils.cp(url.path, cached_file)
         else
           # TODO: Handle HTTPS; probably should use repository.contact
           uri = normalize(url)
-          data = uri.read
+          data = read_retrieve(uri)
           cached_file.open('wb') { |f| f.write data }
           data
         end
       end
       cached_file
+    end
+
+    def read_retrieve(uri)
+      return uri.read
     end
 
     def path
