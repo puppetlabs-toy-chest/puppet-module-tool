@@ -64,7 +64,9 @@ module Puppet::Module::Tool
       #filename
       # Note: Must have @filename set to use this
       def parse_filename!
-        @username, @module_name, @version = File.basename(@filename,'.tar.gz').split('-', 3)
+        @release_name = File.basename(@filename,'.tar.gz')
+        @username, @module_name, @version = @release_name.split('-', 3)
+        @full_name = [@username, @module_name].join('-')
         unless @username && @module_name
           abort "Username and Module name not provided"
         end
