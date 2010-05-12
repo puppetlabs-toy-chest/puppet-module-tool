@@ -92,12 +92,12 @@ class Puppet::Module::Tool::CLI < Thor
 
   no_tasks do
     def find_module_root(path)
-      Pathname.new(File.expand_path(path || Dir.pwd)).ascend do |path|
-        if (path + 'Modulefile').exist?
-          return path
+      for dir in [path, Dir.pwd].compact
+        if File.exist?(File.join(dir, 'Modulefile'))
+          return dir
         end
       end
-      abort "Could not find a module under #{path}"
+      abort "Could not find a valid module at #{path ? path.inspect : 'current directory'}"
     end
   end
   

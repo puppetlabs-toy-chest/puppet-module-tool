@@ -42,7 +42,7 @@ module Puppet::Module::Tool
   end
 
   def self.root
-    @root ||= Pathname.new(__FILE__).ascend { |p| break p if (p + 'Rakefile').exist? }
+    @root ||= Pathname.new(File.expand_path(File.join(File.dirname(File.expand_path(__FILE__)), '..', '..', '..')))
   end
 
   def self.version
