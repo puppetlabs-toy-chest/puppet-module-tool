@@ -17,6 +17,10 @@ module Puppet::Module::Tool
       if options[:authenticate]
         authenticate(request)
       end
+      return read_contact(request)
+    end
+
+    def read_contact(request)
       Net::HTTP.start(@uri.host, @uri.port) do |http|
         http.request(request)
       end
