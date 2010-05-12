@@ -33,20 +33,20 @@ module Puppet::Module::Tool
           # grab the first directory
           extracted = build_dir.children.detect { |c| c.directory? }
           if force?
-            FileUtils.rm_rf @module_name rescue nil
+            FileUtils.rm_rf @full_name rescue nil
           end
-          FileUtils.cp_r extracted, @module_name
+          FileUtils.cp_r extracted, @full_name
           tag_revision
         ensure
           build_dir.rmtree
         end
-        say "Installed #{@username}/#{@module_name} #{@version} as #{@module_name}"
+        say "Installed #{@release_name.inspect} into directory: #{@full_name}"
       end
 
       private
 
       def tag_revision
-        File.open("#{@module_name}/REVISION", 'w') do |f|
+        File.open("#{@full_name}/REVISION", 'w') do |f|
           f.puts "module: #{@username}/#{@module_name}"
           f.puts "version: #{@version}"
           f.puts "url: file://#{@filename.realpath}"
@@ -55,9 +55,9 @@ module Puppet::Module::Tool
       end
 
       def check_clobber!
-        if File.directory?(@module_name) && !force?
-          header "Existing module '#{@module_name}' found"
-          response = prompt "Overwrite module installed at ./#{@module_name}? [y/N]"
+        if File.directory?(@full_name) && !force?
+          header "Existing module '#{@full_name}' found"
+          response = prompt "Overwrite module installed at ./#{@full_name}? [y/N]"
           unless response =~ /y/i
             abort "Aborted installation."
           end
