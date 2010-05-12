@@ -1,18 +1,18 @@
 module Puppet::Module::Tool
   module Applications
 
-    autoload :Application,       'puppet/module/tool/applications/application'
-    autoload :Builder,           'puppet/module/tool/applications/builder'
-    autoload :Checksummer,       'puppet/module/tool/applications/checksummer'
-    autoload :Cleaner,           'puppet/module/tool/applications/cleaner'
-    autoload :Freezer,           'puppet/module/tool/applications/freezer'
-    autoload :Generator,         'puppet/module/tool/applications/generator'
-    autoload :Installer,         'puppet/module/tool/applications/installer'
-    autoload :Registrar,         'puppet/module/tool/applications/registrar'
-    autoload :Releaser,          'puppet/module/tool/applications/releaser'
-    autoload :Searcher,          'puppet/module/tool/applications/searcher'
-    autoload :Unpacker,          'puppet/module/tool/applications/unpacker'
-    autoload :Unreleaser,        'puppet/module/tool/applications/unreleaser'
+    require 'puppet/module/tool/applications/application'
+    require 'puppet/module/tool/applications/builder'
+    require 'puppet/module/tool/applications/checksummer'
+    require 'puppet/module/tool/applications/cleaner'
+    require 'puppet/module/tool/applications/freezer'
+    require 'puppet/module/tool/applications/generator'
+    require 'puppet/module/tool/applications/installer'
+    require 'puppet/module/tool/applications/registrar'
+    require 'puppet/module/tool/applications/releaser'
+    require 'puppet/module/tool/applications/searcher'
+    require 'puppet/module/tool/applications/unpacker'
+    require 'puppet/module/tool/applications/unreleaser'
     
   end
 end

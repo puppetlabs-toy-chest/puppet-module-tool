@@ -15,22 +15,7 @@ end
 require 'versionomy'
 
 module Puppet::Module::Tool
-
-  autoload :CLI,                 'puppet/module/tool/cli'
-  autoload :Applications,        'puppet/module/tool/applications'
-  autoload :Cache,               'puppet/module/tool/cache'
-  autoload :Checksums,           'puppet/module/tool/checksums'
-  autoload :ContentsDescription, 'puppet/module/tool/contents_description'
-  autoload :Dependency,          'puppet/module/tool/dependency'
-  autoload :Metadata,            'puppet/module/tool/metadata'
-  autoload :Modulefile,          'puppet/module/tool/modulefile'
-  autoload :Repository,          'puppet/module/tool/repository'
-  autoload :Skeleton,            'puppet/module/tool/skeleton'
-  autoload :Utils,               'puppet/module/tool/utils'
-
   ARTIFACTS = ['pkg', /^\./, /^~/, /^#/, 'coverage']
-
-  extend Utils::Settings
 
   def self.artifact?(path)
     case File.basename(path)
@@ -68,3 +53,21 @@ end
 Dir[Puppet::Module::Tool.root + 'vendor/*/lib'].each do |path|
   $LOAD_PATH.unshift(path)
 end
+
+# Add support for Puppet's settings file
+require 'puppet/module/tool/utils'
+module Puppet::Module::Tool
+  extend Utils::Settings
+end
+
+# Add remaining libraries
+require 'puppet/module/tool/applications'
+require 'puppet/module/tool/cache'
+require 'puppet/module/tool/checksums'
+require 'puppet/module/tool/cli'
+require 'puppet/module/tool/contents_description'
+require 'puppet/module/tool/dependency'
+require 'puppet/module/tool/metadata'
+require 'puppet/module/tool/modulefile'
+require 'puppet/module/tool/repository'
+require 'puppet/module/tool/skeleton'
