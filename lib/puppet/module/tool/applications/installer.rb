@@ -15,7 +15,11 @@ module Puppet::Module::Tool
           parse_filename!
         else
           @source = :repository
-          @username, @module_name = name.split('/')
+          begin
+            @username, @module_name = Puppet::Module::Tool::username_and_modname_from(name)
+          rescue ArgumentError
+            abort "Could not install module with invalid name: #{name}"
+          end
           @version_requirement = options[:version]
         end
         super(options)
