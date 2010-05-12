@@ -8,12 +8,12 @@ module Puppet::Module::Tool
     class Generator < Application
 
       def initialize(full_name, options)
-        @metadata = Metadata.new(:full_name => full_name)
-        if @metadata.full_name?
-          super(options)
-        else
+        begin
+          @metadata = Metadata.new(:full_name => full_name)
+        rescue ArgumentError
           abort "Could not generate directory #{full_name.inspect}, you must specify a dash-separated username and module name."
         end
+        super(options)
       end
 
       def skeleton
