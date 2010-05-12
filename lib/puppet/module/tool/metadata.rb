@@ -23,17 +23,10 @@ module Puppet::Module::Tool
       end
     end
 
-    FULL_NAME_PATTERN = /\A(.+)[\/\-](.+)\z/
-
-    # Set the full name of this module, and also split this string on a dash
-    # to set the +username+ and module +name+.
+    # Set the full name of this module, and from it, the +username+ and module +name+.
     def full_name=(full_name)
       @full_name = full_name
-      if matcher = full_name.match(FULL_NAME_PATTERN)
-        @username, @name = matcher.captures
-      else
-        @name = full_name
-      end
+      @username, @name = Puppet::Module::Tool::username_and_modname_from(full_name)
     end
 
     # Does this metadata have a full_name defined based on username and modname?
