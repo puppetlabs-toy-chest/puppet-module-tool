@@ -47,6 +47,18 @@ module Puppet::Module::Tool
     @repository ||= Repository.new(Puppet.settings[:repository])
   end
 
+  FULL_NAME_PATTERN = /\A(.+)[\/\-](.+)\z/
+
+  # Return the +username+ and +modname+ for a given +full_name+, or raise an
+  # ArgumentError if the argument isn't parseable.
+  def self.username_and_modname_from(full_name)
+    if matcher = full_name.match(FULL_NAME_PATTERN)
+      return matcher.captures
+    else
+      raise ArgumentError, "Not a valid full name: #{full_name}"
+    end
+  end
+
 end
 
 # Add vendored code to $LOAD_PATH
