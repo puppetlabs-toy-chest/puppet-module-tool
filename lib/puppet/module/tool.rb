@@ -34,12 +34,7 @@ module Puppet::Module::Tool
   end
 
   def self.pmtdir
-    @pmtdir ||=
-      begin
-        path = Pathname.new(Puppet.settings[:pmtdir])
-        path.mkpath
-        path
-      end
+    @pmtdir ||= Pathname.new(Puppet.settings[:pmtdir])
   end
 
   def self.repository
