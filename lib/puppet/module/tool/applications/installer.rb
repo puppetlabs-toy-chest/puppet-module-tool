@@ -40,7 +40,8 @@ module Puppet::Module::Tool
           end
         when :filesystem
           repository = Repository.new('file:///')
-          cache_path = repository.retrieve(@filename)
+          uri = URI.parse("file://#{File.expand_path(@filename)}")
+          cache_path = repository.retrieve(uri)
           Unpacker.run(cache_path, Dir.pwd, options)
         else
           abort "Could not determine installation source"
@@ -50,7 +51,7 @@ module Puppet::Module::Tool
       private
 
       def match
-        unless @match
+        return @match ||= begin
           url = repository.uri + "/users/#{@username}/modules/#{@module_name}/releases/find.json"
           if @version_requirement
             url.query = "version=#{URI.escape(@version_requirement)}"
@@ -62,7 +63,6 @@ module Puppet::Module::Tool
           end
           @match = PSON.parse(raw_result)
         end
-        @match
       end
 
       def read_match(url)

@@ -17,19 +17,18 @@ module Puppet::Module::Tool
     # TODO: Add checksum support.
     # TODO: Add error checking.
     def retrieve(url)
-      uri = normalize(url)
-      filename = File.basename(uri.to_s)
-      cached_file = path + filename
-      unless cached_file.file?
-        if uri.scheme == 'file'
-          FileUtils.cp(uri.path, cached_file)
-        else
-          # TODO: Handle HTTPS; probably should use repository.contact
-          data = read_retrieve(uri)
-          cached_file.open('wb') { |f| f.write data }
+      returning(path + File.basename(url.to_s)) do |cached_file|
+        uri = normalize(url)
+        unless cached_file.file?
+          if uri.scheme == 'file'
+            FileUtils.cp(uri.path, cached_file)
+          else
+            # TODO: Handle HTTPS; probably should use repository.contact
+            data = read_retrieve(uri)
+            cached_file.open('wb') { |f| f.write data }
+          end
         end
       end
-      return cached_file
     end
 
     # Return contents of file at the given URI's +uri+.
