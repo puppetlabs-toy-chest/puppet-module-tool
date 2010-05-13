@@ -55,7 +55,6 @@ class ApplicationController < ActionController::Base
     self.assign_records_by.each_with_index do |type, i|
       base = type.name.tableize.singularize
       param_key = (i == last ? "id" : "#{base}_id").to_sym
-      # TODO use AssignableMixin and #assign_using_attribute
       model_key = \
         if type == User
           :username
