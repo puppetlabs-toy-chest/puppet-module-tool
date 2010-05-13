@@ -1,9 +1,9 @@
 puppet-module-site changes
 ==========================
 
-Next
-----
-
+r0.0.6
+------
+* Fixed gem dependency error, app now requires 'acts-as-taggable-on' version 2.0.4 because newer versions are broken.
 * Fixed security vulnerabilities in model mass assignments, limited these to only those specifically allowed.
 * Fixed security vulnerabilities in model format validations, made them match the beginning and end of strings rather than lines.
 * Added cascade deletes, so that deleting a parent object (e.g. a user) will delete its children (e.g. mods and releases).

@@ -9,7 +9,7 @@ require File.join(File.dirname(__FILE__), 'boot')
 Rails::Initializer.run do |config|
 
   # Gems
-  config.gem 'acts-as-taggable-on'
+  config.gem 'acts-as-taggable-on', :version => '2.0.4'
   config.gem 'archive-tar-minitar', :lib => 'archive/tar/minitar'
   config.gem 'bcrypt-ruby', :lib => 'bcrypt'
   config.gem 'bitmask-attribute', :version => '>= 1.1.0'
