@@ -14,6 +14,9 @@ end
 
 
 module Puppet::Module::Tool
+  # Default repository URL.
+  REPOSITORY_URL = 'https://modules.puppetlabs.com'
+
   ARTIFACTS = ['pkg', /^\./, /^~/, /^#/, 'coverage']
 
   def self.artifact?(path)
