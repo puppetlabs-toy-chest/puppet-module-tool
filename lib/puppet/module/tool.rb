@@ -65,6 +65,8 @@ end
 
 # Load vendored libraries
 require 'versionomy'
+require 'facets/kernel/tap'
+require 'facets/kernel/returning'
 
 # Add support for Puppet's settings file
 require 'puppet/module/tool/utils'
