@@ -9,7 +9,9 @@ module Puppet::Module::Tool::Utils::Settings
                        :modulerepository => ['https://modules.puppetlabs.com',
                                              "The module repository"],
                        :pmtdir => ['$vardir/pmt', "The directory in which module tool data is stored"])
-    
+    # Create directory for pmt's use inside ~/.puppet
+    Puppet::Module::Tool.pmtdir.mkpath
+
     Puppet.settings.use(:pmt)
     Puppet.settings.parse
     [:modulerepository].each do |key|
