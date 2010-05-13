@@ -27,4 +27,21 @@ describe ApplicationHelper do
     end
   end
 
+  describe "privilege_label" do
+    it "should be '(DEV)' if in dev mode" do
+      helper.stub!(:privileged? => :dev)
+      helper.privilege_label.should == "(DEV)"
+    end
+
+    it "should be '(ADMIN') if in admin mode" do
+      helper.stub!(:privileged? => :admin)
+      helper.privilege_label.should == "(ADMIN)"
+    end
+
+    it "should be nil otherwise" do
+      helper.stub!(:privileged? => false)
+      helper.privilege_label.should be_nil
+    end
+  end
+
 end

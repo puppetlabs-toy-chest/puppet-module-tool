@@ -21,5 +21,18 @@ module ApplicationHelper
     end
     return tags.join(', ')
   end
+
+  # Explain why the anonymous or currently logged in user has privileges.
+  # Returns a string like "(DEV)" or "(ADMIN)" when privileged, or nil if not.
+  def privilege_label
+    privileged?.tap do |value|
+      case value
+      when Symbol
+        return "(#{value.to_s.upcase})"
+      else
+        return nil
+      end
+    end
+  end
   
 end

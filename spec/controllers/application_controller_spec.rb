@@ -266,6 +266,35 @@ describe ApplicationController do
       end
     end
 
+    describe "privileged?" do
+      it "should be privileged if in 'development' environment" do
+        Rails.stub!(:env => "development")
+        controller.send(:privileged?).should be_true
+      end
+
+      describe "when in production environment" do
+        before do
+          Rails.stub!(:env => "production")
+        end
+
+        it "should be privileged if logged in as an admin" do
+          controller.stub!(:current_user => Factory(:admin))
+          controller.send(:privileged?).should be_true
+        end
+
+        it "should not be privileged if logged in as a non-admin user" do
+          controller.stub!(:current_user => Factory(:user))
+          controller.send(:privileged?).should_not be_true
+        end
+
+        it "should not be privileged if not logged" do
+          controller.send(:privileged?).should_not be_true
+        end
+
+      end
+
+    end
+
   end
 
 end

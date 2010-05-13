@@ -225,6 +225,21 @@ class ApplicationController < ActionController::Base
   end
   helper_method :admin?
 
+  # Can the anonymous or logged in user perform privileged operations? If so, why?
+  def privileged?
+    if %w[development test].include?(Rails.env)
+      # Because we're running in dev mode
+      :dev
+    elsif admin?
+      # Because the user's an admin
+      :admin
+    else
+      # Not privileged
+      false
+    end
+  end
+  helper_method :privileged?
+
   #===[ Filters ]=========================================================
 
   # Sign-in a user using HTTP Basic authentication.
