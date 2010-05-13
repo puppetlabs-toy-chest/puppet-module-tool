@@ -4,8 +4,7 @@ module Puppet::Module::Tool
     class Cleaner < Application
       
       def run
-        cache_path = Puppet::Module::Tool.pmtdir + "cache"
-        cache_path.rmtree
+        Puppet::Module::Tool::Cache.clean
         puts "Cleaned module cache."
       end
 

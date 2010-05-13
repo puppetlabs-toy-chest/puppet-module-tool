@@ -39,7 +39,17 @@ module Puppet::Module::Tool
 
     # Return Pathname for repository's cache directory, create it if needed.
     def path
-      return @path ||= (Puppet::Module::Tool.pmtdir + 'cache' + @repository.cache_key).tap{ |o| o.mkpath }
+      return @path ||= (self.class.base_path + @repository.cache_key).tap{ |o| o.mkpath }
+    end
+
+    # Return the base Pathname for all the caches.
+    def self.base_path
+      return(Puppet::Module::Tool.pmtdir + 'cache')
+    end
+
+    # Clean out all the caches.
+    def self.clean
+      base_path.rmtree if base_path.exist?
     end
 
   end
