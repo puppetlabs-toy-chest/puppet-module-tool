@@ -33,7 +33,11 @@ module Puppet::Module::Tool
         case @source
         when :repository
           if match['file']
-            cache_path = repository.retrieve(match['file'])
+            begin
+              cache_path = repository.retrieve(match['file'])
+            rescue OpenURI::HTTPError => e
+              abort "Could not install module: #{e.message}"
+            end
             Unpacker.run(cache_path, Dir.pwd, options)
           else
             abort "Malformed response from module repository."
