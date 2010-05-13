@@ -8,7 +8,7 @@ module Puppet::Module::Tool
     include Utils::Interrogation
 
     attr_reader :uri, :cache
-    def initialize(url=DEFAULT)
+    def initialize(url=Puppet::Module::Tool::REPOSITORY_URL)
       @uri = normalize(url)
       @cache = Cache.new(self)
     end
