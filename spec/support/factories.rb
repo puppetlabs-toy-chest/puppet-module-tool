@@ -5,6 +5,7 @@ Factory.define :user do |f|
   f.sequence(:email) { |n| "user#{n}@example.com" }
   f.password 'mypassword'
   f.display_name { |record| record.username.capitalize }
+  f.admin false
   # TODO Figure out why these two lines aren't enough to confirm a user
   ### f.confirmed_at Time.now
   ### f.confirmation_token nil
@@ -14,6 +15,10 @@ Factory.define :user do |f|
     record.confirm!
     record.confirm!
   end
+end
+
+Factory.define :admin, :parent => :user do |f|
+  f.admin true
 end
 
 Factory.define :mod do |f|
