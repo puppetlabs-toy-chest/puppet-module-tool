@@ -1,8 +1,14 @@
 module Puppet::Module::Tool
 
+  # = Metadata
+  #
+  # This class provides a data structure representing a module's metadata.
+  # It provides some basic parsing, but other data is injected into it using
+  # +annotate+ methods in other classes.
   class Metadata
 
-    # The full name of the module, which is a dash-separated combination of the +username+ and module +name+.
+    # The full name of the module, which is a dash-separated combination of the
+    # +username+ and module +name+.
     attr_reader :full_name
 
     # The name of the user that owns this module.
@@ -15,56 +21,52 @@ module Puppet::Module::Tool
     attr_accessor :version
 
     # Instantiate from a hash, whose keys are setters in this class.
-    # TODO How are +dependencies+ set without a `dependencies=` setter?
-    # TODO Where are `doc` and `name` set?
-    def initialize(settings = {})
+    def initialize(settings={})
       settings.each do |key, value|
         send("#{key}=", value)
       end
     end
 
-    # Set the full name of this module, and from it, the +username+ and module +name+.
+    # Set the full name of this module, and from it, the +username+ and
+    # module +name+.
     def full_name=(full_name)
       @full_name = full_name
       @username, @name = Puppet::Module::Tool::username_and_modname_from(full_name)
     end
 
-    # Does this metadata have a full_name defined based on username and modname?
-    def full_name?
-      @full_name && @username && @name
-    end
-
-    # Return module's dependencies.
+    # Return an array of the module's Dependency objects.
     def dependencies
-      @dependencies ||= []
+      return @dependencies ||= []
     end
 
-    # Return module's types.
+    # Return an array of the module's Puppet types, each one is a hash
+    # containing :name and :doc.
+    # TODO Shouldn't this be it's own class?
     def types
-      @types ||= []
+      return @types ||= []
     end
 
     # Return module's file checksums.
     def checksums
-      @checksums ||= {}
+      return @checksums ||= {}
     end
 
     # Return the dashed name of the module, which may either be the
     # dash-separated combination of the +username+ and module +name+, or just
     # the module +name+.
     def dashed_name
-      [@username, @name].compact.join('-')
+      return [@username, @name].compact.join('-')
     end
 
     # Return the release name, which is the combination of the +dashed_name+
     # of the module and its +version+ number.
     def release_name
-      [dashed_name, @version].join('-')
+      return [dashed_name, @version].join('-')
     end
 
     # Return the PSON record representing this instance.
     def to_pson(*args)
-      {
+      return {
         :name         => @full_name,
         :version      => @version,
         :dependencies => dependencies,

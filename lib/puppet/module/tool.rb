@@ -1,6 +1,8 @@
+# Load standard libraries
 require 'pathname'
 require 'fileutils'
 
+# Load Puppet
 begin
   require 'puppet'
 rescue LoadError
@@ -12,13 +14,19 @@ rescue LoadError
   end
 end
 
-
+# Define tool
 module Puppet::Module::Tool
   # Default repository URL.
   REPOSITORY_URL = 'https://modules.puppetlabs.com'
 
+  # Directory names that should not be checksummed.
   ARTIFACTS = ['pkg', /^\./, /^~/, /^#/, 'coverage']
 
+  # Is this a directory that shouldn't be checksummed?
+  #
+  # TODO: Should this be part of Checksums?
+  # TODO: Rename this method to reflect it's purpose?
+  # TODO: Shouldn't this be used when building packages too?
   def self.artifact?(path)
     case File.basename(path)
     when *ARTIFACTS
@@ -28,18 +36,22 @@ module Puppet::Module::Tool
     end
   end
 
+  # Return Pathname for the directory this tool was installed into.
   def self.root
     @root ||= Pathname.new(File.expand_path(File.join(File.dirname(File.expand_path(__FILE__)), '..', '..', '..')))
   end
 
+  # Return the tool's string version.
   def self.version
     @version ||= (root + 'VERSION').read
   end
 
+  # Return Pathname for this tool's working directory.
   def self.pmtdir
     @pmtdir ||= Pathname.new(Puppet.settings[:pmtdir])
   end
 
+  # Return Repository to fetch data from based on Puppet's config file.
   def self.repository
     @repository ||= Repository.new(Puppet.settings[:repository])
   end
@@ -58,7 +70,7 @@ module Puppet::Module::Tool
 
 end
 
-# Add vendored code to $LOAD_PATH
+# Add vendored code paths to $LOAD_PATH
 Dir[Puppet::Module::Tool.root + 'vendor/*/lib'].each do |path|
   $LOAD_PATH.unshift(path)
 end
@@ -74,7 +86,7 @@ module Puppet::Module::Tool
   extend Utils::Settings
 end
 
-# Add remaining libraries
+# Load remaining libraries
 require 'puppet/module/tool/applications'
 require 'puppet/module/tool/cache'
 require 'puppet/module/tool/checksums'

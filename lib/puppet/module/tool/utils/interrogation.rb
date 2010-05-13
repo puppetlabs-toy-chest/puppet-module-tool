@@ -1,5 +1,9 @@
 module Puppet::Module::Tool
   module Utils
+
+    # = Interrogation
+    #
+    # This module contains methods to emit text to the console, such as headers.
     module Interrogation
 
       def header(text)

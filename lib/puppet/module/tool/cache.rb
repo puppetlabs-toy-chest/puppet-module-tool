@@ -1,42 +1,45 @@
 module Puppet::Module::Tool
 
+  # = Cache
+  #
+  # Provides methods for reading files from local cache, filesystem or network.
   class Cache
     include Puppet::Module::Tool::Utils::URI
 
+    # Instantiate new cahe for the +repositry+ instance.
     def initialize(repository)
       @repository = repository
     end
 
-    # TODO: Checksum support
+    # Return filename retrieved from +uri+ instance. Will download this file and
+    # cache it if needed.
+    #
+    # TODO: Add checksum support.
+    # TODO: Add error checking.
     def retrieve(url)
-      filename = File.basename(url.to_s)
+      uri = normalize(url)
+      filename = File.basename(uri.to_s)
       cached_file = path + filename
       unless cached_file.file?
-        # FIXME it's not an url... is it?
-        if url.scheme == 'file'
-          FileUtils.cp(url.path, cached_file)
+        if uri.scheme == 'file'
+          FileUtils.cp(uri.path, cached_file)
         else
           # TODO: Handle HTTPS; probably should use repository.contact
-          uri = normalize(url)
           data = read_retrieve(uri)
           cached_file.open('wb') { |f| f.write data }
-          data
         end
       end
-      cached_file
+      return cached_file
     end
 
+    # Return contents of file at the given URI's +uri+.
     def read_retrieve(uri)
       return uri.read
     end
 
+    # Return Pathname for repository's cache directory, create it if needed.
     def path
-      @path ||=
-        begin
-          path = Puppet::Module::Tool.pmtdir + 'cache' + @repository.cache_key
-          path.mkpath
-          path
-        end
+      return @path ||= (Puppet::Module::Tool.pmtdir + 'cache' + @repository.cache_key).tap{ |o| o.mkpath }
     end
 
   end

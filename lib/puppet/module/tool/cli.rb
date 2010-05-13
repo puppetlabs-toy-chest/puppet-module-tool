@@ -4,6 +4,9 @@ rescue LoadError
   abort "Requires 'thor'"
 end
 
+# = CLI
+#
+# This class is used by the `bin/pmt` program to dispatch actions.
 class Puppet::Module::Tool::CLI < Thor
   include Thor::Actions
   

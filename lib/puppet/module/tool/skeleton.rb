@@ -1,5 +1,8 @@
 module Puppet::Module::Tool
 
+  # = Skeleton
+  #
+  # This class provides methods for finding templates for the 'generate' action.
   class Skeleton
 
     # TODO Review whether the 'freeze' feature should be fixed or deleted.
@@ -8,10 +11,12 @@ module Puppet::Module::Tool
     #   FileUtils.cp_r default_path, custom_path
     # end
 
+    # Return Pathname with 'generate' templates.
     def path 
       paths.detect { |path| path.directory? }
     end
 
+    # Return Pathnames to look for 'generate' templates.
     def paths
       @paths ||= [
                   custom_path,
@@ -19,10 +24,12 @@ module Puppet::Module::Tool
                  ]
     end
 
+    # Return Pathname of custom templates directory.
     def custom_path
       Puppet::Module::Tool.pmtdir + 'skeleton'
     end
-    
+
+    # Return Pathname of default template directory.
     def default_path
       Puppet::Module::Tool.root + 'templates' + 'generator'
     end
