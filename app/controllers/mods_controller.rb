@@ -97,9 +97,9 @@ class ModsController < ApplicationController
   # Is the current user allowed to change this record?
   def can_change?
     if @mod_found == true
-      return(current_user && @mod.owner == current_user)
+      return(@mod.can_be_changed_by? current_user)
     elsif @user_found == true
-      return(@user && current_user && @user == current_user)
+      return(@user.can_be_changed_by? current_user)
     else
       return(current_user.present?)
     end

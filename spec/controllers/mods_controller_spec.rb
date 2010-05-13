@@ -142,7 +142,11 @@ describe ModsController do
     end
 
     it "should not allow anonymous user to create a record" do
+      attributes = Factory.attributes_for(:mod, :owner => nil)
 
+      post :create, "mod" => attributes
+
+      response_should_redirect_to_login
     end
   end
 
@@ -158,6 +162,15 @@ describe ModsController do
     context "when logged-in" do
       it "should allow owner to edit their module" do
         sign_in @user1
+        get :edit, :user_id => @user1.to_param, :id => @user1mod.to_param
+
+        response.should be_success
+        assigns[:mod].should == @user1mod
+      end
+
+      it "should allow an admin to edit another's module" do
+        admin = Factory :admin
+        sign_in admin
         get :edit, :user_id => @user1.to_param, :id => @user1mod.to_param
 
         response.should be_success
@@ -183,8 +196,7 @@ describe ModsController do
       it "should not allow anonymous user to edit a module" do
         get :edit, :user_id => @user1.to_param, :id => @user1mod.to_param
 
-        response.should be_redirect
-        flash[:error].should be_blank
+        response_should_redirect_to_login
       end
     end
   end
@@ -203,6 +215,18 @@ describe ModsController do
     context "when logged-in" do
       it "should allow owner to update their module" do
         sign_in @user1
+        put :update, :user_id => @user1.to_param, :id => @user1mod.to_param, :mod => @attributes
+
+        response.should be_redirect
+        flash[:error].should be_blank
+        assigns[:mod].should be_valid
+        assigns[:mod].should == @user1mod
+        assigns[:mod].name.should == @attributes[:name]
+      end
+
+      it "should allow an admin to update another's module" do
+        admin = Factory :admin
+        sign_in admin
         put :update, :user_id => @user1.to_param, :id => @user1mod.to_param, :mod => @attributes
 
         response.should be_redirect
@@ -319,6 +343,16 @@ describe ModsController do
     context "when logged-in" do
       it "should allow a user to delete their module" do
         sign_in @user1
+
+        delete :destroy, :user_id => @user1.to_param, :id => @user1mod.to_param
+
+        response.should redirect_to(vanity_path(@user1))
+        Mod.exists?(@user1mod.id).should be_false
+      end
+
+      it "should allow an admin to delete another's module" do
+        admin = Factory :admin
+        sign_in admin
 
         delete :destroy, :user_id => @user1.to_param, :id => @user1mod.to_param
 

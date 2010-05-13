@@ -149,6 +149,7 @@ describe ReleasesController do
         delete :destroy, :user_id => @owner.to_param, :mod_id => @mod.to_param, :id => @release.to_param
 
         response_should_redirect_to_login
+        Release.exists?(@release.id).should be_true
       end
     end
 
@@ -159,6 +160,7 @@ describe ReleasesController do
           delete :destroy, :user_id => @owner.to_param, :mod_id => @mod.to_param, :id => @release.to_param
 
           response.should redirect_to module_path(@owner, @mod)
+          Release.exists?(@release.id).should be_false
         end
 
         it "using JSON" do
@@ -168,7 +170,18 @@ describe ReleasesController do
           response.should be_success
           data = response_json
           data.should be_a_kind_of(Hash)
+          Release.exists?(@release.id).should be_false
         end
+      end
+
+      it "should allow an admin to delete another's release" do
+        admin = Factory :admin
+        sign_in admin
+
+        delete :destroy, :user_id => @owner.to_param, :mod_id => @mod.to_param, :id => @release.to_param
+
+        response.should redirect_to module_path(@owner, @mod)
+        Release.exists?(@release.id).should be_false
       end
 
       it "should not allow a user to delete another's release" do
@@ -176,6 +189,7 @@ describe ReleasesController do
         delete :destroy, :user_id => @owner.to_param, :mod_id => @mod.to_param, :id => @release.to_param
 
         response_should_be_forbidden
+        Release.exists?(@release.id).should be_true
       end
     end
 
@@ -286,6 +300,69 @@ describe ReleasesController do
       end
     end
 
+  end
+
+  describe "utilities" do
+    describe "#can_change?" do
+      describe "with an existing record" do
+        before do
+          @release = Factory :release
+          controller.instance_variable_set(:@release, @release)
+          controller.instance_variable_set(:@release_found, true)
+        end
+
+        it "should be true if user is allowed to change release" do
+          @release.should_receive(:can_be_changed_by?).and_return(true)
+
+          controller.send(:can_change?).should be_true
+        end
+
+        it "should not be true if user isn't allowed to change release" do
+          @release.should_receive(:can_be_changed_by?).and_return(false)
+
+          controller.send(:can_change?).should_not be_true
+        end
+      end
+
+      describe "with a new record" do
+        before do
+          @mod = Factory :mod
+          controller.instance_variable_set(:@mod, @mod)
+          controller.instance_variable_set(:@mod_found, true)
+
+          @release = Factory.build :release, :mod => @mod
+          controller.instance_variable_set(:@release, @release)
+          controller.instance_variable_set(:@release_found, nil)
+        end
+
+        it "should be true if user is allowed to change module" do
+          @mod.should_receive(:can_be_changed_by?).and_return(true)
+
+          controller.send(:can_change?).should be_true
+        end
+
+        it "should not be true if user is not allowed to change module" do
+          @mod.should_receive(:can_be_changed_by?).and_return(false)
+
+          controller.send(:can_change?).should_not be_true
+        end
+      end
+
+      describe "without a record" do
+        it "should not be true if no module found" do
+          controller.instance_variable_set(:@mod_found, false)
+
+          controller.send(:can_change?).should_not be_true
+        end
+
+        it "should not be true if no release found" do
+          controller.instance_variable_set(:@release_found, false)
+          controller.instance_variable_set(:@mod_found, true)
+
+          controller.send(:can_change?).should_not be_true
+        end
+      end
+    end
   end
 
 end

@@ -39,11 +39,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = current_user
   end
 
   def update
-    @user = current_user
     if @user.update_attributes(params[:user])
       flash[:success] = 'Updated successfully'
       redirect_to @user
@@ -53,10 +51,14 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    current_user.destroy
-    sign_out current_user
+    @user.destroy
     flash[:success] = t('flash.users.destroy.notice', :default => 'User was removed')
-    redirect_to root_path
+    if current_user == @user
+      sign_out current_user
+      redirect_to root_path
+    else
+      redirect_to users_path
+    end
   end
 
   protected
@@ -66,7 +68,7 @@ class UsersController < ApplicationController
   # Is the current user allowed to change this record?
   def can_change?
     if @user_found == true
-      return(@user && current_user && @user == current_user)
+      return(@user.can_be_changed_by? current_user)
     else
       # NOTE: This should never happen because routing should prevent access to
       # this resource without a username, and #assign_records will prevent

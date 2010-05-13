@@ -75,10 +75,12 @@ class ReleasesController < ApplicationController
 
   # Is the current user allowed to change this record?
   def can_change?
-    if @release_found.nil?
-      return(@mod && current_user && @mod.owner == current_user)
+    if @mod_found && @release_found.nil?
+      return(@mod.can_be_changed_by? current_user)
+    elsif @release_found
+      return(@release.can_be_changed_by? current_user)
     else
-      return(@release && current_user && @release.owner == current_user)
+      return false
     end
   end
   helper_method :can_change?
