@@ -12,7 +12,6 @@ rescue LoadError
   end
 end
 
-require 'versionomy'
 
 module Puppet::Module::Tool
   ARTIFACTS = ['pkg', /^\./, /^~/, /^#/, 'coverage']
@@ -65,6 +64,9 @@ end
 Dir[Puppet::Module::Tool.root + 'vendor/*/lib'].each do |path|
   $LOAD_PATH.unshift(path)
 end
+
+# Load vendored libraries
+require 'versionomy'
 
 # Add support for Puppet's settings file
 require 'puppet/module/tool/utils'
