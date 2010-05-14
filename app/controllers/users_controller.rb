@@ -4,8 +4,8 @@ class UsersController < ApplicationController
   before_filter :assign_records
 
   before_filter :ensure_user!, :except => [:index, :new, :create]
-  before_filter :authenticate_user!, :except => [:index, :new, :create, :show]
-  before_filter :authorize_change!,  :except => [:index, :new, :create, :show]
+  before_filter :authenticate_user!, :except => [:index, :new, :create, :show, :switch]
+  before_filter :authorize_change!,  :except => [:index, :new, :create, :show, :switch]
 
   def index
     @users = User.ordered
@@ -58,6 +58,26 @@ class UsersController < ApplicationController
       redirect_to root_path
     else
       redirect_to users_path
+    end
+  end
+
+  def switch
+    msg = "UsersController#switch: "
+    if privileged?
+      if current_user
+        sign_out current_user
+        msg << "User ##{current_user.id} #{current_user.username.inspect} logged out, "
+      end
+      reset_session
+      sign_in @user
+      msg << "User ##{@user.id} #{@user.username.inspect} logged in"
+      Rails.logger.warn(msg)
+      redirect_to @user
+    else
+      msg << "forbidden to " + (current_user ? "User ##{current_user.id} #{current_user.username}" : "anonymous")
+      Rails.logger.warn(msg)
+      notify_of :error, "You aren't allowed to switch to another user!"
+      redirect_back_or_to(root_path)
     end
   end
 
