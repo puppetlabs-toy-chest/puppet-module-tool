@@ -36,7 +36,7 @@ namespace :db do
     backup = target + '.bak'
 
     sh "cp -a #{target} #{backup}" if File.exist?(target)
-    sh "rsync -uvax #{source} #{target}"
+    sh "rsync -vax #{source} #{target}"
   end
 end
 
