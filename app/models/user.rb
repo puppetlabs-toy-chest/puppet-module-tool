@@ -27,7 +27,7 @@
 class User < ActiveRecord::Base
   
   # Protection
-  attr_accessible :username, :email, :display_name, :password, :password_confirmation
+  attr_accessible :username, :email, :display_name, :password, :password_confirmation, :remember_me
 
   # Configure the Devise authentication system:
   devise :database_authenticatable, :confirmable, :recoverable, :rememberable, :trackable, :validatable
