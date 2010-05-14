@@ -28,15 +28,14 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe User do
 
-  describe ".create" do
-    it "should validate"
-    #FIXME it { should validate_uniqueness_of(:username) }
-    #FIXME it { should validate_format_of(:username).with('foo') }
-    #FIXME it { should validate_format_of(:username).not_with('bad_char').with_message(/alphanumeric/) }
-    #FIXME it { should validate_format_of(:username).not_with('12').with_message(/3 or more/) }
+  describe "validations" do
+    should_allow_values_for :username, 'foo'
+    should_not_allow_values_for :username, 'bad|char', :message => /alphanumeric/
+    should_not_allow_values_for :username, '12', :message => /3 or more/
 
-    before do
-      @user = Factory(:user)
+    it "should validate uniqueness" do
+      Factory :user
+      should validate_uniqueness_of :username
     end
   end
 
