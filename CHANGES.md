@@ -1,8 +1,14 @@
 puppet-module-site changes
 ==========================
 
+r0.0.6.1
+--------
+
+* Fixed "devise" gem dependency, now require version 1.0.7 or a newer 1.0.x release.
+
 r0.0.6
 ------
+
 * Fixed gem dependency error, app now requires 'acts-as-taggable-on' version 2.0.4 because newer versions are broken.
 * Fixed security vulnerabilities in model mass assignments, limited these to only those specifically allowed.
 * Fixed security vulnerabilities in model format validations, made them match the beginning and end of strings rather than lines.

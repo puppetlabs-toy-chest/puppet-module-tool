@@ -13,7 +13,7 @@ Rails::Initializer.run do |config|
   config.gem 'archive-tar-minitar', :lib => 'archive/tar/minitar'
   config.gem 'bcrypt-ruby', :lib => 'bcrypt'
   config.gem 'bitmask-attribute', :version => '>= 1.1.0'
-  config.gem 'devise', :version => '>= 1.0.0'
+  config.gem 'devise', :version => '~> 1.0.7'
   config.gem 'diff-lcs', :lib => 'diff/lcs'
   config.gem 'haml'
   config.gem 'json'
