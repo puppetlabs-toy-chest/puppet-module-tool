@@ -5,10 +5,13 @@
         <section id="newsletter">
           <h4>Newsletter</h4>
           <p>Stay up to date on all things puppet</p>
-          <form>
+          <form action="http://lfov.net/webrecorder/f" method="post" name="Newsletter">
+            <input type="hidden" name="formid" value="3d424fd0-4204-435f-afde-aa1c4a6bc2f1"/>
+            <input type="hidden" name="cid" value="LF_c268993e"/>
             <fieldset>
               <legend>Newsletter</legend>
-              <input type="text" />
+              <label form="email">Email</label>
+              <input type="text" name="email" id="email" />
               <button type="submit">Subscribe</button>
             </fieldset>
           </form>
@@ -16,20 +19,19 @@
         <section id="elsewhere">
           <h4>Elsewhere</h4>
           <ul>
-            <li class="chat"><a href="#" rel="nofollow"><span class="indicator"></span><span>Chat with us on IRC</span></a></li>
-            <li class="discussion"><a href="#" rel="nofollow"><span class="indicator"></span><span>Join a Discussion Group</span></a></li>
-            <li class="facebook"><a href="#" rel="nofollow"><span class="indicator"></span><span>Become a Fan on Facebook</span></a></li>
-            <li class="subscribe"><a href="#" rel="nofollow"><span class="indicator"></span><span>Subscribe to our blog</span></a></li>
-
-            <li class="twitter"><a href="#" rel="nofollow"><span class="indicator"></span><span>Follow us on Twitter</span></a></li>
+            <li class="chat"><a href="http://webchat.freenode.net/?channels=puppet" rel="external"><span class="indicator"></span><span>Chat with us on IRC</span></a></li>
+            <li class="discussion"><a href="http://groups.google.com/group/puppet-users?pli=1" rel="external"><span class="indicator"></span><span>Join the Mailing List</span></a></li>
+            <li class="facebook"><a href="http://www.facebook.com/pages/Puppet-Labs/219089920711?v=wall" rel="external"><span class="indicator"></span><span>Become a Fan on Facebook</span></a></li>
+            <li class="subscribe"><a href="http://feeds.feedburner.com/PuppetLabs" rel="external"><span class="indicator"></span><span>Subscribe to our blog</span></a></li>
+            <li class="twitter"><a href="http://twitter.com/puppetlabs" rel="external"><span class="indicator"></span><span>Follow us on Twitter</span></a></li>
           </ul>
         </section>
       </div>
       <div class="secondary-content">
         <section id="book-it">
           <h4>Get the book!</h4>
-          <p>Written by James Turnbull, <a href="#">Pulling Strings with Puppet</a> is the first book to introduce the powerful Puppet system administration tool. </p>
-          <img src="http://puppetlabs.com/images/book.png" />
+          <p>Written by James Turnbull, <a href="http://apress.com/book/view/1590599780" rel="nofollow">Pulling Strings with Puppet</a> is the first book to introduce the powerful Puppet system administration tool. </p>
+          <img src="/images/book.png" />
         </section>
       </div>
     </div>
@@ -38,9 +40,11 @@
 
 <div id="copyright">
   <div class="site-width">
-    &copy; 2010 <a href="http://puppetlabs.com/" title="Puppet Labs">Puppet Labs</a>
+    &copy; 2010
     <span class="vcard">
-      <span class="org">Puppet Labs</span>
+      <a href="http://puppetlabs.com/" title="Puppet Labs">
+        <span class="org">Puppet Labs</span>
+      </a>
       <a class="email" href="mailto:info@puppetlabs.com">info@puppetlabs.com</a>
       <span class="adr">
         <span class="street-address">222 NW Davis Street, Suite 321</span>
