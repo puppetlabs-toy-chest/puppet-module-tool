@@ -5,6 +5,7 @@ r0.0.7 (pending)
 ------
 
 * DEPENDENCY: Added 'hpricot' gem.
+* MIGRATION: Added admin user role and privileges.
 * Fixed views that list and show modules to feature the current version, not the initial version.
 * Fixed footer to say "Puppet Labs", corrected the links, and synced it with the main site.
 * Fixed markdown helper to emit only valid, sanitized HTML regardless of what users give it.
