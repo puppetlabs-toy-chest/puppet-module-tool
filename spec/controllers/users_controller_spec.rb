@@ -36,6 +36,17 @@ describe UsersController do
       response.should redirect_to(user_path(user))
     end
 
+    it "should create a user when given valid arguments without confirming" do
+      user = Factory.build :user
+      User.should_receive(:confirmable?).and_return(false)
+      User.should_receive(:new).and_return(user)
+      post :create, :user => user.attributes
+
+      user = assigns[:user]
+      user.should_not be_a_new_record
+      response.should redirect_to(user_path(user))
+    end
+
     it "should fail when given invalid arguments" do
       attributes = Factory.attributes_for :user
       attributes[:username] = '$!%#'

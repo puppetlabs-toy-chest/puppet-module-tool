@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     
     if @user.save
-      if @user.respond_to?(:confirm!)
+      if User.confirmable?
         flash[:success] = t('devise.confirmations.send_instructions')
         sign_in @user if @user.class.confirm_within > 0
       else

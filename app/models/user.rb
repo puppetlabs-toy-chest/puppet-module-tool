@@ -68,4 +68,9 @@ class User < ActiveRecord::Base
     return user && (user.admin? || user == self)
   end
 
+  # Should new users be confirmed via email?
+  def self.confirmable?
+    return self.devise_modules.include?(:confirmable)
+  end
+
 end
