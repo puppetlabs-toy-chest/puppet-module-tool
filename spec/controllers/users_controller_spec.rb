@@ -162,6 +162,43 @@ describe UsersController do
 
       response_should_be_not_found
     end
+
+    describe "admin privileges" do
+      before do
+        @admin = Factory :admin
+      end
+
+      it "should allow an admin to grant privileges" do
+        sign_in @admin
+        put :update, :id => @user.to_param, :user => {:admin => true}
+
+        assigns[:user].admin?.should be_true
+      end
+
+      it "should allow an admin to revoke privileges" do
+        @user.update_attribute(:admin, true)
+
+        sign_in @admin
+        @user.admin?.should be_true
+        put :update, :id => @user.to_param, :user => {:admin => false}
+
+        assigns[:user].admin?.should be_false
+      end
+
+      it "should not allow a non-admin to grant privileges" do
+        sign_in @user
+        put :update, :id => @user.to_param, :user => {:admin => true}
+
+        assigns[:user].admin?.should_not be_true
+      end
+
+      it "should not allow a non-admin to revoke privileges" do
+        sign_in @user
+        put :update, :id => @admin.to_param, :user => {:admin => false}
+
+        assigns[:user].admin?.should be_true
+      end
+    end
   end
   
   describe "destroy" do

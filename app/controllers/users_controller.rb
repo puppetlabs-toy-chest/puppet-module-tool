@@ -42,6 +42,9 @@ class UsersController < ApplicationController
   end
 
   def update
+    if admin? && params[:user]
+      @user.admin = params[:user][:admin]
+    end
     if @user.update_attributes(params[:user])
       flash[:success] = 'Updated successfully'
       redirect_to @user
