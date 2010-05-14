@@ -5,6 +5,7 @@ r0.0.6.1
 --------
 
 * Fixed "devise" gem dependency, now require version 1.0.7 or a newer 1.0.x release.
+* Added VERSION file, made application set its version from its contents.
 
 r0.0.6
 ------

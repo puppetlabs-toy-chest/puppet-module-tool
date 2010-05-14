@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
   #===[ Constants ]=======================================================
   
-  VERSION = '0.0.5'
+  VERSION = File.read(File.join(Rails.root, 'VERSION'))
 
   #===[ Assigns ]=========================================================
 
