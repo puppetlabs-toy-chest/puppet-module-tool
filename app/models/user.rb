@@ -41,6 +41,8 @@ class User < ActiveRecord::Base
 
   # Scopes
   named_scope :ordered, :order => 'lower(username) asc'
+  named_scope :admins, :conditions => {:admin => true}
+  named_scope :nonadmins, :conditions => {:admin => false}
 
   # TODO Implement Watches
 =begin
@@ -65,4 +67,5 @@ class User < ActiveRecord::Base
   def can_be_changed_by?(user)
     return user && (user.admin? || user == self)
   end
+
 end
