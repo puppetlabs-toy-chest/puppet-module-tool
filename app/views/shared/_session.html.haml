@@ -12,4 +12,9 @@
   - else
     %ul
       %li= link_to("Sign in", new_user_session_path)
+      - if privileged?
+        - if user = User.admins.first
+          %li= link_to("Sign in as an admin (DEV)", switch_user_path(user), :method => "post")
+        - if user = User.nonadmins.first
+          %li= link_to("Sign in as a user (DEV)", switch_user_path(user), :method => "post")
       %li= link_to("Register", new_user_path)
