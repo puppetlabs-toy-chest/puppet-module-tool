@@ -6,6 +6,7 @@ r0.0.7 (pending)
 
 * Fixed views that list and show modules to feature the current version, not the initial version.
 * Fixed footer to say "Puppet Labs", corrected the links, and synced it with the main site.
+* Added initial text to homepage explaining the site and what people can do with it.
 
 r0.0.6.1
 --------
