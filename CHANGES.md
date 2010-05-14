@@ -1,7 +1,7 @@
 puppet-module-site changes
 ==========================
 
-r0.0.7 (pending)
+r0.0.7
 ------
 
 * DEPENDENCY: Added 'hpricot' gem.
