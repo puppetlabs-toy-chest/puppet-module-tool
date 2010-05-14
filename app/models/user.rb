@@ -59,5 +59,10 @@ class User < ActiveRecord::Base
   # Return unique human-readable string key for this record.
   def to_param
     return self.username
-  end  
+  end
+
+  # Can this +user+ change this record?
+  def can_be_changed_by?(user)
+    return user && (user.admin? || user == self)
+  end
 end

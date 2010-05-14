@@ -39,6 +39,30 @@ describe User do
     end
   end
 
+  describe "can_be_changed_by?" do
+    before do
+      @user = Factory :user
+      @other = Factory :user
+      @admin = Factory :admin
+    end
+
+    it "should allow the owner" do
+      @user.can_be_changed_by?(@user).should be_true
+    end
+
+    it "should allow an admin" do
+      @user.can_be_changed_by?(@admin).should be_true
+    end
+
+    it "should not allow another user" do
+      @user.can_be_changed_by?(@other).should_not be_true
+    end
+
+    it "should not allow an anonymous user" do
+      @user.can_be_changed_by?(nil).should_not be_true
+    end
+  end
+
   # TODO Implement Watches
 =begin
 describe "adding a watch" do

@@ -65,6 +65,11 @@ class Release < ActiveRecord::Base
       current.bump(:release_type)
   end
 
+  # Can this +user+ change this record?
+  def can_be_changed_by?(user)
+    return user && (user.admin? || user == self.owner)
+  end
+
   # Return the record's metadata or an empty hash.
   def metadata
     return read_attribute(:metadata) || {}

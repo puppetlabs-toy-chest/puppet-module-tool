@@ -75,6 +75,11 @@ class Mod < ActiveRecord::Base
     end
   end
 
+  # Can this +user+ change this record?
+  def can_be_changed_by?(user)
+    return user && (user.admin? || user == self.owner)
+  end
+
   # TODO Implement Watches
 =begin
   def watchable_by?(user)

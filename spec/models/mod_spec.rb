@@ -87,6 +87,31 @@ describe Mod do
       end
     end
 
+    describe "can_be_changed_by?" do
+      before do
+        @mod = Factory :mod
+        @owner = @mod.owner
+        @nonowner = Factory :user
+        @admin = Factory :admin
+      end
+
+      it "should allow the owner" do
+        @mod.can_be_changed_by?(@owner).should be_true
+      end
+
+      it "should allow an admin" do
+        @mod.can_be_changed_by?(@admin).should be_true
+      end
+
+      it "should not allow another user" do
+        @mod.can_be_changed_by?(@nonowner).should_not be_true
+      end
+
+      it "should not allow an anonymous user" do
+        @mod.can_be_changed_by?(nil).should_not be_true
+      end
+    end
+
   end
 
   # TODO Implement Watches
