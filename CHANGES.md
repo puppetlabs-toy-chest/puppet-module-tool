@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+r0.0.7.1
+--------
+
+* Fixed footer's picture of the book, it wasn't being displayed.
+
 r0.0.7
 ------
 
