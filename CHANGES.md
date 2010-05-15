@@ -5,6 +5,7 @@ r0.0.7.2
 --------
 
 * Fixed MarukuHelper#markdown to use Hpricot syntax compatible with current and previous gem versions.
+* Fixed user edit form, it's now possible to edit a user without changing their password. Added specs.
 * Added styling to the flash notification messages.
 
 r0.0.7.1

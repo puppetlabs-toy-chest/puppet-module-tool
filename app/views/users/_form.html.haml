@@ -14,10 +14,10 @@
     = f.label :email
     = f.text_field :email
   %p
-    = f.label :password
+    = f.label :password, @user.new_record? ? "Password" : "Password (set to change)"
     = f.password_field :password
   %p
-    = f.label :password_confirmation
+    = f.label :password_confirmation, @user.new_record? ? "Password confirmation" : "Password confirmation (set to change)"
     = f.password_field :password_confirmation
   %p
     = f.submit(@user.new_record? ? 'Sign up' : 'Update profile')

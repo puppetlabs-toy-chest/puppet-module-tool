@@ -47,6 +47,18 @@ describe UsersController do
       response.should redirect_to(user_path(user))
     end
 
+    it "should fail to create a user when no password is sent" do
+      attributes = Factory.attributes_for :user
+      attributes.delete(:password)
+      attributes.delete(:password_confirmation)
+
+      post :create, :user => attributes
+
+      user = assigns[:user]
+      user.should be_a_new_record
+      response.should be_success
+    end
+
     it "should fail when given invalid arguments" do
       attributes = Factory.attributes_for :user
       attributes[:username] = '$!%#'
@@ -130,6 +142,18 @@ describe UsersController do
 
       assigns[:user].should == @user
       assigns[:user].display_name.should == @valid_change[:display_name]
+      response.should redirect_to(user_path(@user))
+    end
+
+    it "should update a user without changing their password" do
+      attributes = @valid_change.dup
+      attributes.delete(:password)
+      attributes.delete(:password_confirmation)
+      sign_in @user
+      put :update, :id => @user.to_param, :user => attributes
+
+      assigns[:user].should == @user
+      assigns[:user].display_name.should == attributes[:display_name]
       response.should redirect_to(user_path(@user))
     end
 

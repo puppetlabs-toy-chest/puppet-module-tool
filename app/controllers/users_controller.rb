@@ -45,6 +45,10 @@ class UsersController < ApplicationController
     if admin? && params[:user]
       @user.admin = params[:user][:admin]
     end
+    if params[:user] && params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
     if @user.update_attributes(params[:user])
       flash[:success] = 'Updated successfully'
       redirect_to @user
