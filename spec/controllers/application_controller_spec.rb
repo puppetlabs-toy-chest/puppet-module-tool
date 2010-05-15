@@ -249,6 +249,23 @@ describe ApplicationController do
       end
     end
 
+    describe "admin?" do
+      it "should not be true for anonymous" do
+        controller.stub!(:current_user => nil)
+        controller.send(:admin?).should_not be_true
+      end
+
+      it "should not be true for non-admin" do
+        controller.stub!(:current_user => Factory(:user))
+        controller.send(:admin?).should_not be_true
+      end
+
+      it "should be true for admin" do
+        controller.stub!(:current_user => Factory(:admin))
+        controller.send(:admin?).should be_true
+      end
+    end
+
   end
 
 end

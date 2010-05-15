@@ -217,6 +217,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  #===[ Helpers ]===========================================================
+
+  # Is the currently logged in user an admin?
+  def admin?
+    return current_user && current_user.admin?
+  end
+  helper_method :admin?
+
   #===[ Filters ]=========================================================
 
   # Sign-in a user using HTTP Basic authentication.
