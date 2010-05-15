@@ -1,6 +1,11 @@
 puppet-module-tool changes
 ==========================
 
+r0.2.1
+------
+
+* Fixed license to refer to 'Puppet Labs'.
+
 r0.2.0
 ------
 
