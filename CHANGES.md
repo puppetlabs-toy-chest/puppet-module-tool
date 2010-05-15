@@ -5,6 +5,7 @@ r0.2.1
 ------
 
 * Fixed license to refer to 'Puppet Labs'.
+* Added user documentation to `README.markdown`.
 
 r0.2.0
 ------
