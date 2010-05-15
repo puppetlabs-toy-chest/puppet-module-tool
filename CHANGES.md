@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+r0.0.7 (pending)
+------
+
+* Fixed views that list and show modules to feature the current version, not the initial version.
+
 r0.0.6.1
 --------
 
