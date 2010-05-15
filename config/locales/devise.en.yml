@@ -5,7 +5,7 @@ en:
       signed_out: 'Signed out successfully.'
       unauthenticated: 'You need to sign in or sign up before continuing.'
       unconfirmed: 'You have to confirm your account before continuing.'
-      invalid: 'Invalid email or password.'
+      invalid: 'Invalid authentication credentials.'
       timeout: 'Your session expired, please sign in again to continue.'
       inactive: 'Your account was not activated yet.'
     passwords:

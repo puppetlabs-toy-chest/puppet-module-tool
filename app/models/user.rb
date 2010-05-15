@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   attr_accessible :username, :email, :display_name, :password, :password_confirmation, :remember_me
 
   # Configure the Devise authentication system:
-  devise :database_authenticatable, :confirmable, :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :confirmable, :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:username]
 
   # Validations
   validates_format_of :username, :with => /\A[[:alnum:]]{3,}\z/, :message => "should be 3 or more alphanumeric characters"

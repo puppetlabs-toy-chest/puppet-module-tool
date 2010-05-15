@@ -1,8 +1,10 @@
+<%= focus :user_username %>
+
 <h2>Sign in</h2>
 
 <% form_for resource_name, resource, :url => session_path(resource_name) do |f| -%>
-  <p><%= f.label :email %></p>
-  <p><%= f.text_field :email %></p>
+  <p><%= f.label :username %></p>
+  <p><%= f.text_field :username %></p>
 
   <p><%= f.label :password %></p>
   <p><%= f.password_field :password %></p>
