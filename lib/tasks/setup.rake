@@ -32,6 +32,30 @@ namespace :setup do
       puts %{** Created new "admin" user}
     end
   end
+
+  namespace :admin do
+    desc "Grant admin rights. Specify space/comma-separated USERNAMES environmental variable to avoid prompt."
+    task :grants => :environment do
+      usernames = 
+        begin
+          ENV["USERNAMES"] ||
+          begin
+            print "?? Enter space and/or comma separated usernames to give admin rights to: "
+            STDOUT.flush
+            STDIN.readline
+          end
+        end.strip
+
+      for username in usernames.split(/[\s+|,]+/)
+        if user = User.find_by_username(username)
+          user.update_attribute(:admin, true)
+          puts " - Granted rights to #{username.inspect}"
+        else
+          puts " ! Can't find user #{username.inspect}"
+        end
+      end
+    end
+  end
 end
 
 desc "Setup application's directories, configurations and admin user"

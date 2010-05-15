@@ -11,6 +11,7 @@ r0.0.7 (pending)
 * Fixed markdown helper to emit only valid, sanitized HTML regardless of what users give it.
 * Changed authentication to login by username, not email address.
 * Added ability to login as another user if logged in as an admin or using the dev environment.
+* Added `rake setup:admin:grants` to grant admin rights to existing users from the console.
 * Added initial text to homepage explaining the site and what people can do with it.
 * Added helper to focus a HTML form input field when the page is ready.
 
