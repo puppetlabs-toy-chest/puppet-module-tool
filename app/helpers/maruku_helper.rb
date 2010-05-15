@@ -15,7 +15,7 @@ module MarukuHelper
     else
       sanitize(
         Maruku.new(
-          Hpricot(text).to_s
+          Hpricot.parse(text).to_s
         ).to_html,
         :tags => ALLOWED_TAGS,
         :attributes => ALLOWED_ATTRIBUTES

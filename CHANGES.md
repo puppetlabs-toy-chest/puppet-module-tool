@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+r0.0.7.2
+--------
+
+* Fixed MarukuHelper#markdown to use Hpricot syntax compatible with current and previous gem versions.
+
 r0.0.7.1
 --------
 
