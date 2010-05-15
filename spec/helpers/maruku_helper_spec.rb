@@ -15,7 +15,7 @@ Header
 HERE
 
       target = <<-HERE
-<h1 id='header'>Header</h1>
+<h1>Header</h1>
 
 <ul>
 <li>This</li>
@@ -36,6 +36,18 @@ HERE
 
     it "should render nil as empty string" do
       helper.markdown('').should == ''
+    end
+
+    it "should strip out forbidden HTML tags" do
+      helper.markdown("<blink>blinky</blink>").should == "blinky"
+    end
+
+    it "should strip out forbidden HTML attributes" do
+      helper.markdown("<p onclick='1/0'>clicky</p>").should == "<p>clicky</p>"
+    end
+
+    it "should fix unclosed HTML tags" do
+      helper.markdown("<b>bold").should == "<b>bold</b>"
     end
 
   end
