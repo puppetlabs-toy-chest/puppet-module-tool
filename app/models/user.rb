@@ -39,6 +39,9 @@ class User < ActiveRecord::Base
   # Associations
   has_many :mods, :as => :owner, :dependent => :destroy
 
+  # Scopes
+  named_scope :ordered, :order => 'lower(username) asc'
+
   # TODO Implement Watches
 =begin
   has_many :watches, :dependent => :destroy

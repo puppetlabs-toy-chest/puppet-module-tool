@@ -2,8 +2,23 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe UsersController do
 
+  describe "index" do
+    it "should display list of users" do
+      user1 = Factory :user
+      user2 = Factory :user
+
+      get :index
+
+      response.should be_success
+      assigns[:users].should be_a_kind_of(Array)
+      assigns[:users].size.should == 2
+      assigns[:users].should include(user1)
+      assigns[:users].should include(user2)
+    end
+  end
+
   describe "new" do
-    it "should dislay new user form" do
+    it "should display new user form" do
       get :new
 
       response.should be_success
