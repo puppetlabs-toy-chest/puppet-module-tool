@@ -13,10 +13,12 @@
 %section#content
   .site-width
     .primary-secondary-content
-      .primary-content 
+      .primary-content
+        -# Uncomment following line to add sample notification messages
+        -# - flash[:error] = "An error message!"; flash[:success] = "A success message."; flash[:unknown] = "An unknown message."
         - unless flash.empty?
           - flash.each do |name, value|
-            %div{ :class => name }
+            %div{ :class => [name, "#{name}_notification", "notification"] }
               %p= value
         = yield
       .secondary-content
