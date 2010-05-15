@@ -1,6 +1,7 @@
-- if privileged? && current_user != @user
+- if admin? && current_user != @user
   %p
     = link_to("Sign in as this user #{privilege_label}", switch_user_path(@user), :method => "post", :class => "section-link")
+    = link_to("Edit this user #{privilege_label}", edit_user_path(@user), :class => "section-link")
 
 %h2
   &= @user.display_name
