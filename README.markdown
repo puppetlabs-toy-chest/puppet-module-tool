@@ -114,6 +114,29 @@ will be useful to you.
 You can share your modules at
 [http://forge.puppetlabs.com/](http://forge.puppetlabs.com/)
 
+Building and sharing a new module version
+-----------------------------------------
+
+To build and share a new module version:
+
+1. Edit the `Modulefile` and increase the `version` number.
+2. Run the `pmt build` as explained in the *Build a module release* section.
+3. Upload the new release file as explained in the *Share a module* section.
+
+Cleaning the cache
+------------------
+
+Modules that you install are saved to a cache within your `~/.puppet`
+directory. This cache can be cleaned out by running:
+
+    pmt clean
+
+Deleting a module
+-----------------
+
+The tool does not keep track of what modules you have installed. TO delete a
+module just delete the directory the module was extracted into.
+
 Get involved
 ------------
 
