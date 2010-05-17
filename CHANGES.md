@@ -1,6 +1,11 @@
 puppet-module-tool changes
 ==========================
 
+r0.2.2
+------
+
+* Fixed unpacker to use the private working directory instead of '/tmp'.
+
 r0.2.1
 ------
 

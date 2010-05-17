@@ -20,11 +20,10 @@ module Puppet::Module::Tool
 
       def run
         check_clobber!
-        build_dir = Pathname.new(File.join(Dir.tmpdir, "pmt-unpacker-#{Digest::SHA1.hexdigest(@filename.basename)}"))
+        build_dir = Puppet::Module::Tool::Cache.base_path + "tmp-unpacker-#{Digest::SHA1.hexdigest(@filename.basename)}"
         build_dir.mkpath
         begin
           FileUtils.cp @filename, build_dir
-          filename = build_dir.children.first
           Dir.chdir(build_dir) do
             unless system "tar xzf #{@filename.basename}"
               abort "Could not extract contents of module archive."
