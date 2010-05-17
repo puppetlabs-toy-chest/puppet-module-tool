@@ -153,7 +153,7 @@ License
 -------
 
 This software is distributed under the GNU General Public License
-version 2. See the LICENSE file for details.
+version 2 or any later version. See the LICENSE file for details.
 
 Copyright
 ---------
