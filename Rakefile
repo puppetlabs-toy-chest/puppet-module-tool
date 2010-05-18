@@ -1,45 +1,36 @@
 require 'rubygems'
 require 'rake'
+require 'rake/gempackagetask'
+require 'fileutils'
+require 'ftools'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "pmt"
-    gem.summary = %Q{Puppet module tool}
-    gem.description = %Q{Tool used to manage and release Puppet (http://puppetlabs.com) modules}
-    gem.email = "dev@reductivelabs.com"
-    gem.homepage = "http://github.com/puppetlabs/pmt"
-    gem.authors = ["Puppet Community"]
-    gem.add_development_dependency "rspec", ">= 1.2.9"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: sudo gem install jeweler"
+GEM_FILES = FileList[
+    '[A-Z]*',
+    'bin/**/*',
+    'lib/**/*',
+    'templates/**/*',
+]
+
+spec = Gem::Specification.new do |spec|
+    spec.name = 'pmt'
+    spec.files = GEM_FILES.to_a
+    spec.executables = 'pmt'
+    spec.version = '0.2.1'
+    spec.add_dependency('blockenspiel')
+    spec.add_dependency('facets')
+    spec.add_dependency('multipart-post')
+    spec.add_dependency('thor')
+    spec.add_dependency('versionomy')
+    spec.summary = 'The Puppet Module Tool manages modules in the Puppet Forge'
+    spec.description = 'The Puppet Module Tool can adds, delete and manage modules in the Puppet Forge.'
+    spec.author = 'Igal Koshevoy'
+    spec.email = 'igal@pragmaticraft.com'
+    spec.homepage = 'http://github.com/reductivelabs/puppet-module-tool'
+    spec.rdoc_options = ["--main", "README.rdoc"]
+    spec.require_paths = ["lib"]
 end
 
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
-
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-end
-
-task :spec => :check_dependencies
-
-task :default => :spec
-
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "puppet-modules #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+Rake::GemPackageTask.new(spec) do |pkg|
+    pkg.need_zip = true
+    pkg.need_tar = true
 end
