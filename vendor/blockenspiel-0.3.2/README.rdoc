@@ -1,0 +1,125 @@
+== Blockenspiel
+
+Blockenspiel is a helper library designed to make it easy to implement DSL
+blocks. It is designed to be comprehensive and robust, supporting most common
+usage patterns, and working correctly in the presence of nested blocks and
+multithreading.
+
+=== Summary
+
+Blockenspiel is a helper library providing several different strategies for
+implementing DSL blocks. It supports both DSLs that take a block parameter
+and those that do not. For example:
+
+ # Call DSL block with parameter
+ configure_me do |config|
+   config.add_foo(1)
+   config.add_bar(2)
+ end
+ 
+ # Call DSL block without parameter
+ configure_me do
+   add_foo(3)
+   add_bar(4)
+ end
+
+To support the above usage, you can do this:
+
+ # Implement DSL block methods
+ class ConfigMethods
+   include Blockenspiel::DSL
+   def add_foo(value)
+     # do something
+   end
+   def add_bar(value)
+     # do something
+   end
+ end
+ 
+ # Implement configure_me method
+ def configure_me(&block)
+   Blockenspiel.invoke(block, ConfigMethods.new)
+ end
+
+By default, Blockenspiel uses a mixin technique (proposed by the late Why
+The Lucky Stiff) to support parameterless blocks without the complications
+introduced by <tt>instance_eval</tt>. It supports nested blocks and
+multithreaded access, and provides a variety of tools for handling the
+typical issues you may encounter when writing DSLs.
+
+For more detailed usage and examples, see
+{Blockenspiel.rdoc}[link:Blockenspiel\_rdoc.html].
+
+For an extended analysis of different ways to implement DSL blocks, see
+{ImplementingDSLblocks.rdoc}[link:ImplementingDSLblocks\_rdoc.html].
+
+=== Requirements
+
+* Ruby 1.8.6 or later (1.8.7 recommended), Ruby 1.9.1 or later, or JRuby 1.2
+  or later (1.4 recommended).
+
+=== Installation
+
+ gem install blockenspiel
+
+=== Known issues and limitations
+
+* Implementing wildcard DSL methods using <tt>method_missing</tt> doesn't
+  work. I haven't yet figured out the right semantics for this case.
+* Including Blockenspiel::DSL in a module is not yet supported, but this
+  is planned in a future release.
+
+=== Development and support
+
+Documentation is available at http://virtuoso.rubyforge.org/blockenspiel/README_rdoc.html
+
+Source code is hosted on Github at http://github.com/dazuma/blockenspiel
+
+Report bugs on Github issues at http://github.org/dazuma/blockenspiel/issues
+
+Contact the author at dazuma at gmail dot com.
+
+=== Author / Credits
+
+Blockenspiel is written by Daniel Azuma (http://www.daniel-azuma.com/).
+
+The mixin implementation is based on a concept by the late Why The Lucky
+Stiff, documented in his 6 October 2008 blog posting entitled "Mixing Our
+Way Out Of Instance Eval?". The original link is gone, but you may find
+copies or mirrors out there.
+
+The unmixer code is based on {Mixology}[http://rubyforge.org/projects/mixology],
+version 0.1 by Patrick Farley, anonymous z, Dan Manges, and Clint Bishop.
+The code has been stripped down and modified to support MRI 1.9 and JRuby 1.2.
+I know Mixology 0.2 is available, but I'm keeping the unmixer bundled with
+Blockenspiel for now, to reduce dependencies.
+
+=== License
+
+Copyright 2008-2009 Daniel Azuma.
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+* Neither the name of the copyright holder, nor the names of any other
+  contributors to this software, may be used to endorse or promote products
+  derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
