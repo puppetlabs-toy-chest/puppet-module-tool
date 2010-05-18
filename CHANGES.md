@@ -1,6 +1,11 @@
 puppet-module-tool changes
 ==========================
 
+r0.2.3
+------
+
+* Fixed Rakefile, readded the rspec tasks inadvertantly removed in r0.2.2.
+
 r0.2.2
 ------
 
