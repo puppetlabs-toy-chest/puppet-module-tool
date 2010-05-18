@@ -22,5 +22,6 @@ coverage
 coverage.info
 rdoc
 pkg
+tmp
 
 ## PROJECT::SPECIFIC
