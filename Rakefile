@@ -9,18 +9,15 @@ GEM_FILES = FileList[
     'bin/**/*',
     'lib/**/*',
     'templates/**/*',
+    'vendor/**/*'
 ]
 
 spec = Gem::Specification.new do |spec|
     spec.name = 'pmt'
     spec.files = GEM_FILES.to_a
     spec.executables = 'pmt'
-    spec.version = '0.2.1'
-    spec.add_dependency('blockenspiel')
-    spec.add_dependency('facets')
-    spec.add_dependency('multipart-post')
-    spec.add_dependency('thor')
-    spec.add_dependency('versionomy')
+    spec.version = File.read('VERSION')
+    spec.add_dependency('puppet')
     spec.summary = 'The Puppet Module Tool manages modules in the Puppet Forge'
     spec.description = 'The Puppet Module Tool can adds, delete and manage modules in the Puppet Forge.'
     spec.author = 'Igal Koshevoy'
