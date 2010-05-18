@@ -7,9 +7,9 @@ Puppet modules.
 Basics
 ------
 
-Add the `pmt` command to your shell (we'll make this into a `gem` soon):
+Install the gem:
 
-    alias pmt=$PWD/bin/pmt
+    $ sudo gem install pmt
 
 Display the program's built-in help by running:
 
