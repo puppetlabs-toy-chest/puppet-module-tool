@@ -6,6 +6,9 @@ r0.2.2
 
 * Fixed unpacker to use the private working directory instead of '/tmp'.
 * Fixed installer, it now detects if a module is already installed.
+* Fixed default repository path to 'http://forge.puppetlabs.com'
+* Fixed README's license text to explain that GPLv2 or later is acceptable.
+* Added `rake gem` to build a gem in the 'pkg' directory.
 
 r0.2.1
 ------
