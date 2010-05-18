@@ -5,6 +5,7 @@ r0.2.2
 ------
 
 * Fixed unpacker to use the private working directory instead of '/tmp'.
+* Fixed installer, it now detects if a module is already installed.
 
 r0.2.1
 ------

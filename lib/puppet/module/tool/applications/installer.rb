@@ -10,6 +10,10 @@ module Puppet::Module::Tool
 
       def initialize(name, options = {})
         if File.exist?(name)
+          if File.directory?(name)
+            # TODO Unify this handling with that of Unpacker#check_clobber!
+            abort "Module already installed: #{name}"
+          end
           @source = :filesystem
           @filename = File.expand_path(name)
           parse_filename!

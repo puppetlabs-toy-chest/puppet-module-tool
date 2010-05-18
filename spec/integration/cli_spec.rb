@@ -221,6 +221,14 @@ describe "cli" do
       end
     end
 
+    it "should fail if installing a module that's already installed" do
+      run do
+        name = "myuser-mymodule"
+        Dir.mkdir name
+        lambda { app.install(name) }.should raise_error(SystemExit)
+      end.should =~ /already installed/
+    end
+
   end
 
   describe "clean" do
