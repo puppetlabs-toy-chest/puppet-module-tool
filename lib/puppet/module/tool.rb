@@ -17,7 +17,7 @@ end
 # Define tool
 module Puppet::Module::Tool
   # Default repository URL.
-  REPOSITORY_URL = 'https://modules.puppetlabs.com'
+  REPOSITORY_URL = 'http://forge.puppetlabs.com'
 
   # Directory names that should not be checksummed.
   ARTIFACTS = ['pkg', /^\./, /^~/, /^#/, 'coverage']
