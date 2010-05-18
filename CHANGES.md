@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+r0.0.7.3
+--------
+
+* Fixed module show page to list the Puppet parameters, properties and providers without throwing exceptions.
+
 r0.0.7.2
 --------
 

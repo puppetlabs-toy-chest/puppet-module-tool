@@ -1,8 +1,0 @@
-- if obj.kind_of?(Hash)
-  - has_name = obj['name'].present?
-  - has_doc  = obj['doc'].present?
-  - if has_name
-    %b
-      &= obj['name'] + (has_doc ? ':&nbsp' : '')
-  - if has_doc
-    = markdown obj['doc']
