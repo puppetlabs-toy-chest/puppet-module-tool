@@ -1,5 +1,19 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 
+# Directory that contains sample releases.
+RELEASE_FIXTURES_DIR = File.join(File.dirname(File.expand_path(__FILE__)), "..", "fixtures", "releases")
+
+# Return the pathname string to the directory containing the release fixture called +name+.
+def release_fixture(name)
+  return File.join(RELEASE_FIXTURES_DIR, name)
+end
+
+# Copy the release fixture called +name+ into the current working directory.
+def install_release_fixture(name)
+  release_fixture(name)
+  FileUtils.cp_r(release_fixture(name), name)
+end
+
 describe "cli" do
   # Return STDOUT and STDERR output generated from +block+ as it's run within a temporary test directory.
   def run(&block)
@@ -89,11 +103,93 @@ describe "cli" do
       end.should =~ /Building.+Built/m
     end
 
-    it "should build a module's types" # TODO
+    it "should build a module's checksums" do
+      run do
+        app.generate(@full_name)
+        app.build(@full_name)
 
-    it "should build a module's checksums" # TODO
+        metadata_file = File.join(@full_name, "pkg", @release_name, "metadata.json")
+        metadata = PSON.parse(File.read(metadata_file))
+        metadata["checksums"].should be_a_kind_of(Hash)
 
-    it "should build a module's dependencies" # TODO
+        modulefile_path = Pathname.new(File.join(@full_name, "Modulefile"))
+        metadata["checksums"]["Modulefile"].should == Digest::MD5.hexdigest(modulefile_path.read)
+      end
+    end
+
+    it "should build a module's types and providers" do
+      run do
+        name = "jamtur01-apache"
+        install_release_fixture name
+        app.build(name)
+
+        metadata_file = File.join(name, "pkg", "#{name}-0.0.1", "metadata.json")
+        metadata = PSON.parse(File.read(metadata_file))
+
+        metadata["types"].size.should == 1
+        type = metadata["types"].first
+        type["name"].should == "a2mod"
+        type["doc"].should == "Manage Apache 2 modules"
+
+
+        type["parameters"].size.should == 1
+        type["parameters"].first.tap do |o|
+          o["name"].should == "name"
+          o["doc"].should == "The name of the module to be managed"
+        end
+
+        type["properties"].size.should == 1
+        type["properties"].first.tap do |o|
+          o["name"].should == "ensure"
+          o["doc"].should =~ /present.+absent/
+        end
+
+        type["providers"].size.should == 1
+        type["providers"].first.tap do |o|
+          o["name"].should == "debian"
+          o["doc"].should =~ /Manage Apache 2 modules on Debian-like OSes/
+        end
+      end
+    end
+
+    it "should build a module's dependencies" do
+      run do
+        app.generate(@full_name)
+        modulefile = File.join(@full_name, "Modulefile")
+
+        dependency1_name = "anotheruser-anothermodule"
+        dependency1_requirement = ">= 1.2.3"
+        dependency2_name = "someuser-somemodule"
+        dependency2_requirement = "4.2"
+        dependency2_repository = "http://some.repo"
+
+        File.open(modulefile, "a") do |handle|
+          handle.puts "dependency '#{dependency1_name}', '#{dependency1_requirement}'"
+          handle.puts "dependency '#{dependency2_name}', '#{dependency2_requirement}', '#{dependency2_repository}'"
+        end
+
+        app.build(@full_name)
+
+        metadata_file = File.join(@full_name, "pkg", "#{@full_name}-#{@version}", "metadata.json")
+        metadata = PSON.parse(File.read(metadata_file))
+
+        metadata['dependencies'].size.should == 2
+        metadata['dependencies'].sort_by{|t| t['name']}.tap do |dependencies|
+          dependencies[0].tap do |dependency1|
+            dependency1['name'].should == dependency1_name
+            dependency1['version_requirement'].should == dependency1_requirement
+            dependency1['repository'].should == Puppet::Module::Tool::repository.to_s
+          end
+          
+          dependencies[1].tap do |dependency2|
+            dependency2['name'].should == dependency2_name
+            dependency2['version_requirement'].should == dependency2_requirement
+            dependency2['repository'].should == dependency2_repository
+          end
+        end
+      end
+    end
+
 
     it "should rebuild a module in a directory" do
       run do
