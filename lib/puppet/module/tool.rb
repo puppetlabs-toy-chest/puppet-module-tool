@@ -53,7 +53,7 @@ module Puppet::Module::Tool
 
   # Return Repository to fetch data from based on Puppet's config file.
   def self.repository
-    @repository ||= Repository.new(Puppet.settings[:repository])
+    @repository ||= Repository.new(Puppet.settings[:modulerepository])
   end
 
   FULL_NAME_PATTERN = /\A(.+)[\/\-](.+)\z/
