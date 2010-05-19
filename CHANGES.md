@@ -5,6 +5,7 @@ r0.2.3
 ------
 
 * Fixed Rakefile, readded the rspec tasks inadvertantly removed in r0.2.2.
+* Improved builder to produce pretty JSON that's easy for a human to read.
 
 r0.2.2
 ------

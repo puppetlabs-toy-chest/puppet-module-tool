@@ -73,7 +73,7 @@ module Puppet::Module::Tool
 
       def add_metadata
         File.open(File.join(build_path, 'metadata.json'), 'w') do |f|
-          f.write PSON.dump(metadata)
+          f.write(PSON.pretty_generate(metadata))
         end
       end
 
