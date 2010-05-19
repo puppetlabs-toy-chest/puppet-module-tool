@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+r0.0.7.4
+--------
+
+* Fixed homepage to add links for contacting us and learning how to create modules.
+
 r0.0.7.3
 --------
 
