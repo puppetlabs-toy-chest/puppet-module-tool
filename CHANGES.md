@@ -1,6 +1,11 @@
 puppet-module-tool changes
 ==========================
 
+r0.2.4
+------
+
+* Improved user documentation, explained different ways to run the program.
+
 r0.2.3
 ------
 

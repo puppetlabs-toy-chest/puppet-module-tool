@@ -4,12 +4,51 @@ Puppet Module Tool
 The Puppet Module Tool, `pmt`, helps you author, publish, and manage
 Puppet modules.
 
+Dependencies
+------------
+
+To run `pmt`, you must have the following installed:
+
+* Ruby 1.8.x: http://www.ruby-lang.org/en/downloads/
+* RubyGems 1.3.x: http://rubygems.org/pages/download/
+* Puppet 0.25.x: http://www.puppetlabs.com/
+
+Soure code
+----------
+
+The source code for this tool is available online at
+http://github.com/puppetlabs/puppet-module-tool
+
+You can checkout the source code by installing the `git` distributed version
+control system and running:
+
+    git clone git://github.com/puppetlabs/puppet-module-tool.git
+
+Running
+-------
+
+There are a number of ways to run the `pmt` program:
+
+1. *From a source code checkout:* Checkout the source code and from the checkout
+directory, run:
+
+    alias pmt=$PWD/bin/pmt
+
+2. *From a locally-built gem:* Checkout the source code and from the checkout
+directory, run:
+
+    # Build the gem
+    rake gem
+    # Install the file produced by the above command, e.g.:
+    sudo gem install pkg/pmt-0.2.4.gem
+
+3. *From an official gem:* Install it by running:
+
+    # FIXME: THIS DOES NOT WORK, WE HAVEN'T PUBLISHED THE GEM YET!
+    sudo gem install pmt
+
 Basics
 ------
-
-Install the gem:
-
-    $ sudo gem install pmt
 
 Display the program's built-in help by running:
 
