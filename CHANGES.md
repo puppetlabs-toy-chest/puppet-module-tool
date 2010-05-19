@@ -4,6 +4,7 @@ puppet-module-site changes
 r0.0.7.6
 --------
 
+* Fixed module tags, they weren't being assigned.
 * Disabled authentication via HTTP Basic Auth so that the site can run with .htaccess protection.
 
 r0.0.7.5

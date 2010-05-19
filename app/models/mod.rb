@@ -18,7 +18,7 @@
 class Mod < ActiveRecord::Base
 
   # Protection
-  attr_accessible :name, :description, :project_url, :address, :project_feed_url
+  attr_accessible :name, :description, :project_url, :address, :project_feed_url, :tag_list
 
   # Plugins
   acts_as_taggable_on :tags

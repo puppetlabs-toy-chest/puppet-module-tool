@@ -112,6 +112,34 @@ describe Mod do
       end
     end
 
+    describe "tags" do
+      it "should set tags on a mod" do
+        mod = Factory :mod
+        mod.tag_list = "foo, bar"
+        mod.save!
+
+        mod.tag_list.should == ["foo", "bar"]
+        mod.tags.first.name.should == "foo"
+        mod.tags.last.name.should == "bar"
+      end
+
+      it "should find tagged mods" do
+        mod1 = Factory :mod, :tag_list => "foo, bar"
+        mod2 = Factory :mod, :tag_list => "foo, baz"
+
+        Mod.tagged_with("foo").tap do |mods|
+          mods.size.should == 2
+          mods.first.name.should == mod1.name
+          mods.last.name.should == mod2.name
+        end
+
+        Mod.tagged_with("bar").tap do |mods|
+          mods.size.should == 1
+          mods.first.name.should == mod1.name
+        end
+      end
+    end
+
   end
 
   # TODO Implement Watches
