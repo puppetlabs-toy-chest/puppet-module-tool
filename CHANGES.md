@@ -1,6 +1,11 @@
 puppet-module-tool changes
 ==========================
 
+r0.2.5
+------
+
+* Added ability to specify username and password credentials for a repository URL, e.g.: http://myuser:mypassword@myrepository.com/
+
 r0.2.4
 ------
 

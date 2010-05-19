@@ -27,6 +27,9 @@ module Puppet::Module::Tool
       if options[:authenticate]
         authenticate(request)
       end
+      if ! @uri.user.nil? && ! @uri.password.nil?
+        request.basic_auth(@uri.user, @uri.password)
+      end
       return read_contact(request)
     end
 
