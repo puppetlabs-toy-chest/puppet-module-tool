@@ -115,7 +115,7 @@ describe Mod do
     describe "tags" do
       it "should set tags on a mod" do
         mod = Factory :mod
-        mod.tag_list = "foo, bar"
+        mod.tag_list = "foo bar"
         mod.save!
 
         mod.tag_list.should == ["foo", "bar"]
@@ -124,8 +124,8 @@ describe Mod do
       end
 
       it "should find tagged mods" do
-        mod1 = Factory :mod, :tag_list => "foo, bar"
-        mod2 = Factory :mod, :tag_list => "foo, baz"
+        mod1 = Factory :mod, :tag_list => "foo bar"
+        mod2 = Factory :mod, :tag_list => "foo baz"
 
         Mod.tagged_with("foo").tap do |mods|
           mods.size.should == 2

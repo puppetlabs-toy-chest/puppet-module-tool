@@ -23,6 +23,6 @@
     formatting.
   %p= f.text_area :description, :rows => 5
   %p= f.label :tag_list, "Tags"
-  %p.introduction A list of comma-separated tags.  This will determine in which categories your module will be listed.
+  %p.introduction A list of space-separated tags.  This will determine in which categories your module will be listed.
   %p= f.text_field :tag_list
   %p= f.submit(@mod.new_record? ? 'Add module' : 'Update module')
