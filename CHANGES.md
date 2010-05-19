@@ -4,6 +4,7 @@ puppet-module-site changes
 r0.0.7.6
 --------
 
+* Fixed release finder to not throw exceptions if asked to find release for a module that doesn't exist.
 * Fixed module tags, they weren't being assigned.
 * Changed tags so that they're space-delimited, rather than comma delimited.
 * Disabled authentication via HTTP Basic Auth so that the site can run with .htaccess protection.

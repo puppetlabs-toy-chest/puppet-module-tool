@@ -231,6 +231,14 @@ describe ReleasesController do
       @mod1 = Factory(:mod, :owner_id => @user1.id, :owner_type => 'User')
     end
 
+    context "without a module" do
+      it "should respond with a 404" do
+        get :find, :mod_id => "invalid_module", :user_id => @user1.to_param, :format => 'json'
+
+        response_should_be_not_found
+      end
+    end
+
     context "without matching release" do
       context "using a simple version requirement" do
         before { get :find, :mod_id => @mod1.to_param, :user_id => @user1.to_param, :format => 'json', :version => '1.1.0' }

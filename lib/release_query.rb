@@ -5,15 +5,26 @@ class ReleaseQuery
     @version_requirement = VersionRequirement.parse(version_requirement)
   end
 
-  # Returns the msot recent release of +@mod+ matching the optional
+  # Returns the most recent release of +@mod+ matching the optional
   # +@version_requirement+
   def execute
-    if @version_requirement
-      @mod.releases.ordered.detect do |release|
-        @version_requirement.satisfied_by?(release.version)
+    if @mod
+      scope = @mod.releases.ordered
+      if scope.any?
+        if @version_requirement
+          return scope.detect do |release|
+            @version_requirement.satisfied_by?(release.version)
+          end
+        else
+          return scope.first
+        end
+      else
+        # No matching releases
+        return nil
       end
     else
-      @mod.releases.ordered.first
+      # No such mod
+      return nil
     end
   end
 
