@@ -2,7 +2,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :releases
 
-  map.root :controller => 'pages', :action => 'home'
+  map.root :controller => 'pages', :action => 'root'
+
+  map.home '/home', :controller => 'pages', :action => 'home'
   
   map.resources :mods, :as => 'modules' do |mods|
     # TODO Implement Watches

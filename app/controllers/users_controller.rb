@@ -62,7 +62,7 @@ class UsersController < ApplicationController
     flash[:success] = t('flash.users.destroy.notice', :default => 'User was removed')
     if current_user == @user
       sign_out current_user
-      redirect_to root_path
+      redirect_to home_path
     else
       redirect_to users_path
     end
@@ -84,7 +84,7 @@ class UsersController < ApplicationController
       msg << "forbidden to " + (current_user ? "User ##{current_user.id} #{current_user.username}" : "anonymous")
       Rails.logger.warn(msg)
       notify_of :error, "You aren't allowed to switch to another user!"
-      redirect_back_or_to(root_path)
+      redirect_back_or_to(home_path)
     end
   end
 

@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+r0.0.7.5
+--------
+
+* Moved homepage aside, replaced it with a blank page.
+
 r0.0.7.4
 --------
 
