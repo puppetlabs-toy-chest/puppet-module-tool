@@ -1,5 +1,5 @@
 Puppet::Type.newtype(:a2mod) do
-    @doc = "Manage Apache 2 modules on Debian and Ubuntu"
+    @doc = "Manage Apache 2 modules"
  
     ensurable
 
