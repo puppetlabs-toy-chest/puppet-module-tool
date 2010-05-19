@@ -7,8 +7,8 @@ r0.2.3
 * Fixed Rakefile, readded the rspec tasks inadvertantly removed in r0.2.2.
 * Fixed builder to extract information about Puppet providers.
 * Fixed tool's method for getting the current repository to use Puppet's settings.
+* Improved cli_spec, added examples describing how to build a module's checksums, dependencies and Puppet types and providers.
 * Improved builder to produce pretty JSON that's easy for a human to read.
-* Improved cli_spec, added examples describing a module's checksums.
 
 r0.2.2
 ------
