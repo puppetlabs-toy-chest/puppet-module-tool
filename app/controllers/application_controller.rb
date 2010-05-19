@@ -244,11 +244,14 @@ class ApplicationController < ActionController::Base
 
   # Sign-in a user using HTTP Basic authentication.
   def http_authenticate
+    # NOTE: Disabled so the site can be used with .htaccess
+=begin
     authenticate_with_http_basic do |email, password|
       @user = User.authenticate(:email => email, :password => password) if password
     end
     sign_in @user if @user
     warden.custom_failure! if performed?
+=end
   end
 
   # Set the default URL options for the mailer, so that emails it generates have proper
