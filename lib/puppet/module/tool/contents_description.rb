@@ -29,11 +29,19 @@ module Puppet::Module::Tool
     def data
       unless @data
         @data = []
-        Dir[File.join(@module_path, 'lib/puppet/type/*.rb')].each do |filename|
-          require filename
-          type_name = File.basename(filename, '.rb')
-          type = Puppet::Type.type(type_name.to_sym)
-          if type
+        type_names = []
+        for module_filename in Dir[File.join(@module_path, "lib/puppet/type/*.rb")]
+          require module_filename
+          type_name = File.basename(module_filename, ".rb")
+          type_names << type_name
+
+          for provider_filename in Dir[File.join(@module_path, "lib/puppet/provider/#{type_name}/*.rb")]
+            require provider_filename
+          end
+        end
+
+        type_names.each do |type_name|
+          if type = Puppet::Type.type(type_name.to_sym)
             type_hash = {:name => type_name, :doc => type.doc}
             type_hash[:properties] = attr_doc(type, :property)
             type_hash[:parameters] = attr_doc(type, :param)
