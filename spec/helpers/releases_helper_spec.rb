@@ -48,17 +48,76 @@ describe ReleasesHelper do
   end
 
   describe "link_to_dependency" do
-    it "should link to a named item" do
-      helper.link_to_dependency("name" => "thingy").should have_tag("a", "thingy")
+    def should_link(dependency, link)
+      helper.link_to_dependency(dependency).should have_tag('a[href=?]', link)
+    end
+
+    def should_not_link(dependency)
+      helper.link_to_dependency(dependency).should be_nil
+    end
+
+    describe "without repository" do
+      it "should link to username/modulename" do
+        should_link({:name => "foo/bar"}, '/foo/bar')
+      end
+
+      it "should link to username-modulename" do
+        should_link({:name => 'foo-bar'}, '/foo/bar')
+      end
+
+      it "should not link an invalid name" do
+        should_not_link({:name => 'foobar'})
+      end
+
+      it "should not link if no name" do
+        should_not_link({:foo => "bar"})
+      end
+
+      it "should not link if invalid type" do
+        should_not_link(Hash)
+      end
+    end
+
+    describe "repository" do
+      it "should link to username/modulename" do
+        should_link({:repository => "http://foo.bar", :name => "baz/qux"}, "http://foo.bar/baz/qux")
+      end
+
+      it "should link to username-modulename" do
+        should_link({:repository => "http://foo.bar/", :name => "baz-qux"}, "http://foo.bar/baz/qux")
+      end
+
+      it "should not link an invalid name" do
+        should_not_link({:repository => "http://foo.bar/", :name => "foobar"})
+      end
+
+      it "should not link if no name" do
+        should_not_link({:repository => "http://foo.bar", :foo => "bar"})
+      end
+    end
+
+=begin
+it "should link a dashed user-module name" do
+      helper.link_to_dependency("name" => "foo-bar").should have_tag("a", "foo/bar")
+    end
+
+    it "should link a slashed user/module name" do
+      helper.link_to_dependency("name" => "foo/bar").should have_tag("a", "foo/bar")
+    end
+
+    it "should not link an invalid name" do
+      helper.link_to_dependency("name" => "foobar").should be_nil
     end
 
     it "should not link to an unnamed item" do
       helper.link_to_dependency("foo" => "bar").should be_nil
     end
-    
+
     it "should not link to a non-hash" do
       helper.link_to_dependency(mock(Mod)).should be_nil
     end
+=end
+
   end
 
 end

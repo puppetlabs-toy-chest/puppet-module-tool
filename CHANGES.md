@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+r0.0.7.7
+--------
+
+* Fixed depenency links so they can be generated from different kinds of names and repositories.
+
 r0.0.7.6
 --------
 
