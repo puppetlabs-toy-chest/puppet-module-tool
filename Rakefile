@@ -17,7 +17,6 @@ spec = Gem::Specification.new do |spec|
     spec.files = GEM_FILES.to_a
     spec.executables = 'pmt'
     spec.version = File.read('VERSION')
-    spec.add_dependency('puppet')
     spec.summary = 'The Puppet Module Tool manages modules in the Puppet Forge'
     spec.description = 'The Puppet Module Tool can adds, delete and manage modules in the Puppet Forge.'
     spec.author = 'Igal Koshevoy'

@@ -1,6 +1,11 @@
 puppet-module-tool changes
 ==========================
 
+r0.2.6
+------
+
+* Fixed gem builder to no longer install Puppet as a dependency since users can have a non-gem version.
+
 r0.2.5
 ------
 
