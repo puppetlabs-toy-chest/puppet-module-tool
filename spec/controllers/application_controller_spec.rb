@@ -224,19 +224,19 @@ describe ApplicationController do
         end
 
         it "should render JSON" do
-          @controller.should_receive(:test) { @controller.send(:respond_with_forbidden, "Message") }
+          @controller.should_receive(:test) { @controller.send(:respond_with_forbidden, "Forbidden") }
           get :test, :format => "json"
 
           response_should_be_forbidden
-          response_json["error"].should == "403 Forbidden: Message"
+          response_json["error"].should == "Forbidden"
         end
 
         it "should render XML" do
-          @controller.should_receive(:test) { @controller.send(:respond_with_forbidden, "Message") }
+          @controller.should_receive(:test) { @controller.send(:respond_with_forbidden, "Forbidden") }
           get :test, :format => "xml"
 
           response_should_be_forbidden
-          assert_select 'error', "403 Forbidden: Message"
+          assert_select "error", "Forbidden"
         end
       end
 
