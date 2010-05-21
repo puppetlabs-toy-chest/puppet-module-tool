@@ -9,8 +9,12 @@
     <link rel="alternate" type="application/rss+xml" title="Puppet Labs RSS 2.0 Feed" href="http://puppetlabs.com/feed/">
     <link rel="pingback" href="http://puppetlabs.com/xmlrpc.php">
 
-    <link rel='stylesheet' id='wp-pagenavi-css'  href='http://puppetlabs.com/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.60' type='text/css' media='all' />
-    <script type='text/javascript' src='http://puppetlabs.com/wp-includes/js/jquery/jquery.js?ver=1.3.2'></script>
+    <%#*<link rel='stylesheet' id='wp-pagenavi-css'  href='http://puppetlabs.com/wp-content/plugins/wp-pagenavi/pagenavi-css.css?ver=2.60' type='text/css' media='all' />%>
+    <%= stylesheet_link_tag "externals/pagenavi-2.60.css", :media => "all" %>
+
+    <%#*<script type='text/javascript' src='http://puppetlabs.com/wp-includes/js/jquery/jquery.js?ver=1.3.2'></script>%>
+    <%= javascript_include_tag "externals/jquery-1.3.2.js" %>
+    
     <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://puppetlabs.com/xmlrpc.php?rsd" />
     <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://puppetlabs.com/wp-includes/wlwmanifest.xml" />
     <link rel='index' title='Puppet Labs' href='http://puppetlabs.com' />
@@ -23,36 +27,56 @@
     <!-- /all in one seo pack -->
 
     <!-- AStickyPostOrderER (Version: 0.3.1) -->
-    <link rel="stylesheet" href="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen">
-    <link rel="stylesheet" type="text/css" href="http://puppetlabs.com/wp-content/themes/puppetlabs/style.css" media="screen">
+    <%#*<link rel="stylesheet" href="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/fancybox/jquery.fancybox-1.3.1.css" type="text/css" media="screen">%>
+    <%#*<link rel="stylesheet" type="text/css" href="http://puppetlabs.com/wp-content/themes/puppetlabs/style.css" media="screen">%>
+    <%= stylesheet_link_tag "externals/jquery.fancybox-1.3.1.css", :media => "screen" %>
+    <%= stylesheet_link_tag "externals/style.css", :media => "screen" %>
 
     <!--[if IE 7]>
-      <link rel="stylesheet" type="text/css" href="http://puppetlabs.com/wp-content/themes/puppetlabs/ie_7.css" media="screen">
+      <%#*<link rel="stylesheet" type="text/css" href="http://puppetlabs.com/wp-content/themes/puppetlabs/ie_7.css" media="screen">%>
+      <%= stylesheet_link_tag "externals/ie_7", :media => "screen" %>
     <![endif]-->
 
     <!--[if IE 8]>
-      <link rel="stylesheet" type="text/css" href="http://puppetlabs.com/wp-content/themes/puppetlabs/ie_8.css" media="screen">
+      <%#*<link rel="stylesheet" type="text/css" href="http://puppetlabs.com/wp-content/themes/puppetlabs/ie_8.css" media="screen">%>
+      <%= stylesheet_link_tag "externals/ie_8", :media => "screen" %>
     <![endif]-->
 
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/html5.js"></script>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/html5.js"></script>%>
+    <%= javascript_include_tag "externals/html5.js" %>
 
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery-1.3.1.min.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.localScroll.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.serialScroll.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.scrollTo.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.cookie.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/fancybox/jquery.fancybox-1.3.1.pack.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.validate.min.js"></script>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery-1.3.1.min.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.localScroll.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.serialScroll.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.scrollTo.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.cookie.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/fancybox/jquery.fancybox-1.3.1.pack.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.validate.min.js"></script>%>
+    <%= javascript_include_tag "externals/jquery.localScroll.js" %>
+    <%= javascript_include_tag "externals/jquery.serialScroll.js" %>
+    <%= javascript_include_tag "externals/jquery.scrollTo.js" %>
+    <%= javascript_include_tag "externals/jquery.cookie.js" %>
+    <%= javascript_include_tag "externals/jquery.fancybox-1.3.1.pack.js" %>
+    <%= javascript_include_tag "externals/jquery.validate.min.js" %>
 
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/cufon-yui.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/fonts/Klavika_400-Klavika_600.font.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/ampersands.js"></script>
 
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/drop_down.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/hide_this.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/white_papers.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/docs.js"></script>
-    <script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/fancy_zoom.js"></script>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/cufon-yui.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/fonts/Klavika_400-Klavika_600.font.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/ampersands.js"></script>%>
+    <%= javascript_include_tag "externals/cufon-yui.js" %>
+    <%= javascript_include_tag "externals/Klavika_400-Klavika_600.font.js" %>
+    <%= javascript_include_tag "externals/ampersands.js" %>
+
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/drop_down.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/hide_this.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/white_papers.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/docs.js"></script>%>
+    <%#*<script src="http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/fancy_zoom.js"></script>%>
+    <%= javascript_include_tag "externals/drop_down.js" %>
+    <%= javascript_include_tag "externals/hide_this.js" %>
+    <%= javascript_include_tag "externals/white_papers.js" %>
+    <%= javascript_include_tag "externals/docs.js" %>
+    <%= javascript_include_tag "externals/fancy_zoom.js" %>
 
     <script type="text/javascript">
       Cufon.replace('h1, h2', { fontWeight: '600' });
