@@ -26,13 +26,13 @@ module Categories
   # Return only category tags associated with at least one module
   def self.populated_tags
     category_tag_names = Categories.list.map(&:last).map(&:to_s)
-    existing_category_tag_ids = Tag.all(:conditions => ['name in (?)', category_tag_names]).map(&:id)
+    existing_category_tag_ids = Tag.all(:conditions => ['lower(name) in (?)', category_tag_names]).map(&:id)
     return Mod.tag_counts_on(:tags, :at_least => 1, :conditions => ["#{Tag.table_name}.id in (?)", existing_category_tag_ids])
   end
 
   # Return only category name pairs associated with at least one module
   def self.populated
-    return self.populated_tags.map{|tag| [tag.name.to_sym, self[tag]]}
+    return self.populated_tags.map{|tag| name = tag.name.downcase; [self[name], name.to_sym]}
   end
 
   category :databases, 'Databases'

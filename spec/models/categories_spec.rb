@@ -51,7 +51,9 @@ describe Categories do
 
   describe "when populated" do
     before do
-      @name1 = "databases"
+      Tag.destroy_all
+
+      @name1 = "Databases"
       Tag.find_by_name(@name1).should be_nil
       @mod_with_tag = Factory :mod, :tag_list => @name1
       @populated_tag = Tag.find_by_name(@name1)
@@ -66,7 +68,7 @@ describe Categories do
     end
 
     it "should find category name pairs with at least one module" do
-      Categories.populated.should == [[@populated_tag.name.to_sym, Categories[@populated_tag]]]
+      Categories.populated.should == [["Databases", :databases]]
     end
   end
 
