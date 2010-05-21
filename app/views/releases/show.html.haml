@@ -1,3 +1,7 @@
+- if can_change?
+  %p
+    = link_to "Delete release", [@user, @mod, @release], :class => 'section-link', :method => :delete, :confirm => "Delete release '#{h @mod.name}'?"
+
 %h2
   = succeed ':' do
     = link_to @mod.full_name, module_path(@mod.owner, @mod)
