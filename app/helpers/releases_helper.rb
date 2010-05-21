@@ -7,11 +7,29 @@ module ReleasesHelper
     return @mod.releases.current.try(:guess_next_version)
   end
 
-  # Return link to release's +dependency+, a hash containing a 'name'.
+  # Return link to release's +dependency+.
+  #
+  # Options:
+  # * :name => Combined name of the user and module (e.g. "myuser-mymodule"). Required.
+  # * :repository => Base URL of the repository this module is at. Optional.
   def link_to_dependency(dep)
-    if dep.kind_of?(Hash) && dep.has_key?('name')
-      # NOTE: This generates a raw vanity URL
-      return(link_to(h(dep['name']), "/#{dep['name']}"))
+    if dep.kind_of?(Hash)
+      dep = dep.symbolize_keys
+      if dep[:name].present?
+        if matcher = dep[:name].match(%r{\A([^-/]+)[-/]([^-/]+)\z})
+          username, modname = matcher.captures
+          fullname = [username, modname].join('/')
+          url = nil
+          if dep[:repository].present?
+            url = "#{dep[:repository]}"
+            url << '/' unless url[/(.)$/, 1] == '/'
+            url << fullname
+          else
+            url = "/#{fullname}"
+          end
+          return link_to(h(fullname), url)
+        end
+      end
     end
   end
 
