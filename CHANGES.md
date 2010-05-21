@@ -4,7 +4,13 @@ puppet-module-site changes
 r0.0.7.7
 --------
 
-* Fixed depenency links so they can be generated from different kinds of names and repositories.
+* Fixed module release dependency links so they can be generated from different kinds of names and repositories.
+* Fixed tags to show a friendly page if no modules for the tag are found rather than a confusing error.
+* Fixed tags so they're case-insensitive.
+* Fixed categories so they're case-insensitive.
+* Fixed categories so they're only shown if they're associated with at least one module.
+* Fixed module release page to include a "Destroy release" button.
+* Added `rake externals:download` to import the JavaScript, CSS and image files this site depends on.
 
 r0.0.7.6
 --------
