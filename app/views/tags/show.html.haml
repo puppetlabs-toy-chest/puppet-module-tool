@@ -1,9 +1,12 @@
 %h2
   - if @category
     &= @category
-  - else
+  - elsif @tag
     Modules tagged
     = surround "&ldquo;", "&rdquo;" do
       &= @tag.name
+  - else
+    No modules tagged &ldquo;#{h @tag_name}&rdquo;
 
-= render :partial => 'mods/list'
+- if @category || @tag
+  = render :partial => 'mods/list'

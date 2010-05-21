@@ -165,7 +165,6 @@ class ApplicationController < ActionController::Base
       raise ArgumentError, "Unknown status: #{status}"
     end
 
-    message = "#{status_string}: #{message}"
     respond_to do |format|
       format.html do
         @message = message
