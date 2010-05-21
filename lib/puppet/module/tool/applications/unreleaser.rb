@@ -30,8 +30,8 @@ module Puppet::Module::Tool
           abort "Username and Module name not provided"
         end
         begin
-          Versionomy.parse(version)
-        rescue
+          Gem::Version.new(version)
+        rescue ArgumentError => e
           abort "Invalid version format: #{version}"
         end
       end

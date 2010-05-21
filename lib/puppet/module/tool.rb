@@ -67,28 +67,25 @@ Dir[Puppet::Module::Tool.root + 'vendor/*/lib'].each do |path|
 end
 
 # Load vendored libraries
-require 'versionomy'
 require 'facets/kernel/tap'
 require 'facets/kernel/returning'
 
+# Load rubygems, so we can load Puppet and parse version numbers
+require 'rubygems'
+
 # Load Puppet
 begin
-  minimum_version = Versionomy.parse("0.25.0")
+  minimum_version = Gem::Version.new("0.25.0")
   message = "You must have Puppet #{minimum_version} or greater installed"
 
   begin
     require 'puppet'
   rescue LoadError
-    begin
-      require 'rubygems'
-      require 'puppet'
-    rescue LoadError
-      abort message
-    end
+    abort message
   end
 
   begin
-    current_version = Versionomy.parse(Puppet.version)
+    current_version = Gem::Version.new(Puppet.version)
   rescue
     abort "#{message} -- couldn't parse version"
   end
