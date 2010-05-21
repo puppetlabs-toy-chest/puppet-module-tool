@@ -49,5 +49,26 @@ describe Categories do
     Categories["unknown_tag"].should be_nil
   end
 
+  describe "when populated" do
+    before do
+      @name1 = "databases"
+      Tag.find_by_name(@name1).should be_nil
+      @mod_with_tag = Factory :mod, :tag_list => @name1
+      @populated_tag = Tag.find_by_name(@name1)
+
+      @name2 = "os"
+      Tag.find_by_name(@name2).should be_nil
+      @unpopulated_tag = Tag.create!(:name => @name2)
+    end
+
+    it "should find category tags with at least one module" do
+      Categories.populated_tags.should == [@populated_tag]
+    end
+
+    it "should find category name pairs with at least one module" do
+      Categories.populated.should == [[@populated_tag.name.to_sym, Categories[@populated_tag]]]
+    end
+  end
+
 end
 
