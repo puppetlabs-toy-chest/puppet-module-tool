@@ -1,6 +1,11 @@
 puppet-module-tool changes
 ==========================
 
+r0.2.8
+------
+
+* Fixed rake tasks so that RSpec isn't required to run those tasks that don't need it.
+
 r0.2.7
 ------
 
