@@ -5,7 +5,7 @@
     - mods_class = controller.controller_name == 'mods' && action_name == 'index' ? 'important active' : 'important inactive'
     %li{:class => mods_class}
       = link_to 'All Modules', mods_path
-    - Categories.each do |title, tag|
-      - mod_class = (@tag && @tag.name == tag.to_s) ? :active : :inactive
+    - Categories.populated.each do |title, tag_name|
+      - mod_class = (@tag && @tag.name == tag_name.to_s) ? :active : :inactive
       %li{:class => mod_class}
-        = link_to title, tag_path(tag)
+        = link_to title, tag_path(tag_name)
