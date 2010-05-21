@@ -4,7 +4,7 @@
   = @release.version
 
 - unless @release.notes.blank?
-  %p.introduction= @release.notes
+  %p.introduction= markdown(@release.notes)
 
 %p= link_to "Download", @release.file.url, :class => 'download-link'
 
