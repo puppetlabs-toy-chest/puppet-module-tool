@@ -1,6 +1,11 @@
 puppet-module-tool changes
 ==========================
 
+r0.2.7
+------
+
+* Fixed program so it'd be pure Ruby, it used to depend on the Versionomy library which required compiled extensions.
+
 r0.2.6
 ------
 
