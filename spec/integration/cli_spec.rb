@@ -178,7 +178,7 @@ describe "cli" do
           dependencies[0].tap do |dependency1|
             dependency1['name'].should == dependency1_name
             dependency1['version_requirement'].should == dependency1_requirement
-            dependency1['repository'].should == Puppet::Module::Tool::repository.to_s
+            dependency1['repository'].should be_nil
           end
           
           dependencies[1].tap do |dependency2|

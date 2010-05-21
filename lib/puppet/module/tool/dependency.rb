@@ -10,16 +10,15 @@ module Puppet::Module::Tool
       # TODO: add error checking, the next line raises ArgumentError when +full_name+ is invalid
       @username, @name = Puppet::Module::Tool.username_and_modname_from(full_name)
       @version_requirement = version_requirement
-      @repository = repository ? Repository.new(repository) : Puppet::Module::Tool.repository
+      @repository = repository ? Repository.new(repository) : nil
     end
 
     # Return PSON representation of this data.
     def to_pson(*args)
-      {
-        :name => @full_name,
-        :version_requirement => @version_requirement,
-        :repository => @repository.to_s
-      }.to_pson(*args)
+      result = { :name => @full_name }
+      result[:version_requirement] = @version_requirement if @version_requirement && ! @version_requirement.nil?
+      result[:repository] = @repository.to_s if @repository && ! @repository.nil?
+      result.to_pson(*args)
     end
     
   end
