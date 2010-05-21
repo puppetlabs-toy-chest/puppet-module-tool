@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
       if param_value = params[param_key]
         log << "- Found param value #{param_value.inspect}"
         self.instance_variable_set("@#{base}_key", param_value)
-        if record = tail.find(:first, :conditions => {model_key => param_value})
+        if record = tail.find(:first, :conditions => ["lower(#{model_key}) = ?", param_value.downcase])
           self.instance_variable_set("@#{base}", record)
           self.instance_variable_set("@#{base}_found", true)
           log << "- Found record #{type.name}##{record.id} and assigned to @#{base}"
