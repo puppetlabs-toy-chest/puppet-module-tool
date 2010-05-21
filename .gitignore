@@ -20,7 +20,7 @@ log/*.log
 log/*.pid
 nbproject
 public/javascripts/all.js
-public/stylesheets
+public/stylesheets/*.css
 public/system
 spec/rcov.opts
 spec/spec.opts
