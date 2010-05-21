@@ -5,6 +5,7 @@ r0.2.8
 ------
 
 * Fixed rake tasks so that RSpec isn't required to run those tasks that don't need it.
+* Fixed generated dependency metadata so that version and repository values are only set if specified.
 
 r0.2.7
 ------
