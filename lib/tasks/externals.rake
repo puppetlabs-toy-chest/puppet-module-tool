@@ -79,4 +79,18 @@ namespace :externals do
     output.rewind
     puts output.read
   end
+
+  task :fix_refs do
+    require 'fileutils'
+
+    for filename in Dir[File.join(RAILS_ROOT, 'public', 'stylesheets', 'externals', '*.css')]
+      next if filename =~ /fancybox/
+      FileUtils.cp(filename, filename+'.bak')
+      data = File.read(filename)
+      File.open("#{filename}", "wb") do |h|
+        h.write data.gsub(/url\(['"]?(.+?)['"]?\)/, 'url("/\1")')
+      end
+    end
+  end
+
 end

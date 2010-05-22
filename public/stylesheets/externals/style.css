@@ -123,7 +123,7 @@ body {
   min-width: 940px;
   margin: 0 auto;
   position: relative;
-/*background: url(images/grid.png) !important;*/
+/*background: url("/images/grid.png") !important;*/
 }
 
 .site-width:after {
@@ -138,8 +138,8 @@ body {
 
 @font-face {
 	font-family: 'CallunaRegular';
-	src: url('fonts/Calluna-Regular.eot');
-	src: local('Calluna Regular'), local('Calluna-Regular'), url('fonts/Calluna-Regular.woff') format('woff'), url('fonts/Calluna-Regular.otf') format('opentype'), url('fonts/Calluna-Regular.svg#Calluna-Regular') format('svg');
+	src: url("/fonts/Calluna-Regular.eot");
+	src: local('Calluna Regular'), local('Calluna-Regular'), url("/fonts/Calluna-Regular.woff") format('woff'), url("/fonts/Calluna-Regular.otf") format('opentype'), url("/fonts/Calluna-Regular.svg#Calluna-Regular") format('svg');
 }
 
 
@@ -244,14 +244,14 @@ a:hover {
 }
 
 a[rel="external"] {
-  background: url(images/icons/external.png) right center no-repeat;
+  background: url("/images/icons/external.png") right center no-repeat;
 	padding-right: 20px;
   -webkit-transition: 0.25s all linear;
   -moz-transition: 0.25s all linear;
 }
 
 a[rel="external"]:hover {
-  background-image: url(images/icons/external_50.png);
+  background-image: url("/images/icons/external_50.png");
 }
 
 a.gateway {
@@ -402,7 +402,7 @@ body{
 }
 header#header {
   border-top: 4px solid #514a6b;
-  background: #403e56 url(images/matte-blue.png) bottom repeat-x;
+  background: #403e56 url("/images/matte-blue.png") bottom repeat-x;
   color: white;
   white-space: nowrap;
   z-index: 1;
@@ -439,7 +439,7 @@ header#header h1 a {
 	display: block;
 	height: 100%;
 	width: 100%;
-  background: url(images/puppet-labs.png) left center no-repeat;
+  background: url("/images/puppet-labs.png") left center no-repeat;
   position: relative;
   opacity: 0.5;
   -webkit-transition: 0.33s linear;
@@ -608,9 +608,9 @@ header#header ul span.drop-down-trigger {
   display: block;
   width: 20px;
   height: 2.6em;
-  background: url(images/icons/dropdown_indicator.png) center 51% no-repeat #342d44;
-  background: url(images/icons/dropdown_indicator.png) center 51% no-repeat, -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4c3272), to(#342d44));
-  background: url(images/icons/dropdown_indicator.png) center 51% no-repeat, -moz-linear-gradient(#4c3272, #342d44);
+  background: url("/images/icons/dropdown_indicator.png") center 51% no-repeat #342d44;
+  background: url("/images/icons/dropdown_indicator.png") center 51% no-repeat, -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4c3272), to(#342d44));
+  background: url("/images/icons/dropdown_indicator.png") center 51% no-repeat, -moz-linear-gradient(#4c3272, #342d44);
   position: absolute;
   top: 0;
   right: 0;
@@ -627,11 +627,11 @@ header#header ul li:hover span.drop-down-trigger {
 
 header#header ul span.drop-down-trigger:hover {
   border-left: 1px solid rgba(0,0,0,0.1);
-  background: #672e9f url(images/icons/dropdown_indicator.png) no-repeat center 51%;
+  background: #672e9f url("/images/icons/dropdown_indicator.png") no-repeat center 51%;
 }
 
 header#header ul li.active span.drop-down-trigger {
-  background: #2b2538 url(images/icons/dropdown_indicator_active.png) center center no-repeat;
+  background: #2b2538 url("/images/icons/dropdown_indicator_active.png") center center no-repeat;
 }
 
 header#header li a span.subtitle {
@@ -720,7 +720,7 @@ section#masthead .site-width {
 
 section#masthead {
   padding: 0.75em 0 0.9em;
-  background: #ad6738 url(images/orange-argyle.png);
+  background: #ad6738 url("/images/orange-argyle.png");
   border-top: 1px solid #ab5b4b;
   -webkit-box-shadow: 0 -2px 0 rgba(0,0,0,0.25);
   -moz-box-shadow: 0 -2px 0 rgba(0,0,0,0.25);
@@ -765,7 +765,7 @@ section#masthead a.back {
   float: left;
   height: 28px;
   width: 28px;
-  background: #8d4333 url(images/icons/16/white/undo.png) no-repeat center 5px;
+  background: #8d4333 url("/images/icons/16/white/undo.png") no-repeat center 5px;
   -webkit-border-radius: 32px;
   -moz-border-radius: 32px;
   position: relative;
@@ -841,7 +841,7 @@ span.edit a:hover {
 /* @group Content */
 
 section#content {
-  background: #fdfdfd url(images/texture_fade.png) top center no-repeat;
+  background: #fdfdfd url("/images/texture_fade.png") top center no-repeat;
   color: #444;
   padding-top: 2em;
   padding-bottom: 2.5em;
@@ -880,8 +880,8 @@ section#content {
 
 footer#footer {
   margin-bottom: 1em;
-  background: #eee url(images/argyle.png);
-  background: url(images/argyle.png), -webkit-gradient(linear, 0% 100%, 0% 120, from(#eee), to(#fafafa));
+  background: #eee url("/images/argyle.png");
+  background: url("/images/argyle.png"), -webkit-gradient(linear, 0% 100%, 0% 120, from(#eee), to(#fafafa));
   color: #555;
   padding: 30px 0 25px;
   -webkit-box-shadow: 0 2px 0 rgba(0,0,0,0.1);
@@ -942,23 +942,23 @@ footer#footer ul li span.indicator {
 }
 
 footer#footer ul li.chat span.indicator {
-  background: url(images/icons/16/aim.png);
+  background: url("/images/icons/16/aim.png");
 }
 
 footer#footer ul li.discussion span.indicator {
-  background: url(images/icons/16/google.png);
+  background: url("/images/icons/16/google.png");
 }
 
 footer#footer ul li.subscribe span.indicator {
-  background: url(images/icons/16/rss.png);
+  background: url("/images/icons/16/rss.png");
 }
 
 footer#footer ul li.facebook span.indicator {
-  background: url(images/icons/16/facebook.png);
+  background: url("/images/icons/16/facebook.png");
 }
 
 footer#footer ul li.twitter span.indicator {
-  background: url(images/icons/16/twitter.png);
+  background: url("/images/icons/16/twitter.png");
 }
 
 footer#footer #newsletter {
@@ -1035,7 +1035,7 @@ footer#footer button {
 /* @group Masthead */
 
 body#home section#masthead {
-  background: #ffd480 url(images/yellow-argyle.png);
+  background: #ffd480 url("/images/yellow-argyle.png");
   border: none;
   padding: 0;
   height: 320px;
@@ -1062,7 +1062,7 @@ body#home section#masthead h1 {
 body#home #masthead .site-width {
   padding-top: 3em;
   padding-bottom: 1em;
-  background: url(images/puppet-logo-280-colorized.png) left -80px no-repeat;
+  background: url("/images/puppet-logo-280-colorized.png") left -80px no-repeat;
 }
 
 body#home section#masthead a {
@@ -1095,7 +1095,7 @@ body#home section#masthead ul li.download a span.indicator {
   width: 48px;
   height: 48px;
   position: absolute;
-  background: url(images/icons/32/box_download.png);
+  background: url("/images/icons/32/box_download.png");
   left: 2px;
   top: -7px;
 }
@@ -1223,7 +1223,7 @@ body#home #events-section .event span.indicator {
   display: block;
   width: 16px;
   height: 16px;
-  background-image: url(images/icons/16/16x16/notepad_2.png);
+  background-image: url("/images/icons/16/16x16/notepad_2.png");
   opacity: 0.5;
   -webkit-transition: 0.25s opacity linear;
   -moz-transition: 0.25s opacity linear;
@@ -1517,8 +1517,8 @@ body#resources.docs #masthead span.drop-down-trigger {
   display: block;
   width: 20px;
   height: 1.4em;
-  background: #2b2538 url(images/icons/dropdown_indicator.png) center 51% no-repeat;
-  background: url(images/icons/dropdown_indicator.png) center 60% no-repeat rgba(0,0,0,0.5);
+  background: #2b2538 url("/images/icons/dropdown_indicator.png") center 51% no-repeat;
+  background: url("/images/icons/dropdown_indicator.png") center 60% no-repeat rgba(0,0,0,0.5);
   position: absolute;
   top: 0.25em;
   right: 0.25em;
@@ -1685,8 +1685,8 @@ body.blog #masthead ol li span.drop-down-trigger {
   display: block;
   width: 20px;
   height: 1.4em;
-  background: #2b2538 url(images/icons/dropdown_indicator.png) center 51% no-repeat;
-  background: url(images/icons/dropdown_indicator.png) center 60% no-repeat rgba(0,0,0,0.33);
+  background: #2b2538 url("/images/icons/dropdown_indicator.png") center 51% no-repeat;
+  background: url("/images/icons/dropdown_indicator.png") center 60% no-repeat rgba(0,0,0,0.33);
   position: absolute;
   top: 0.25em;
   right: 0.25em;
@@ -1796,7 +1796,7 @@ body.blog #masthead ol li.with-submenu > ul a:hover {
 #subscription-section span.indicator {
   width: 32px;
   height: 32px;
-  background: url(images/icons/32/rss.png) no-repeat;
+  background: url("/images/icons/32/rss.png") no-repeat;
   position: absolute;
   left: 0.5em;
   top: 50%;
@@ -1825,11 +1825,11 @@ body.blog #masthead ol li.with-submenu > ul a:hover {
 }
 
 #subscription-section a.subscribers span.indicator {
-  background-image: url(images/icons/32/rss_2.png);
+  background-image: url("/images/icons/32/rss_2.png");
 }
 
 #subscription-section a.followers span.indicator {
-  background-image: url(images/icons/32/twitter_2.png);
+  background-image: url("/images/icons/32/twitter_2.png");
 }
 
 #subscription-section a span.count {
@@ -1916,7 +1916,7 @@ ul.threads li.thread span.indicator {
   display: block;
   width: 16px;
   height: 16px;
-  background: url(images/icons/16/speech_bubble.png) no-repeat;
+  background: url("/images/icons/16/speech_bubble.png") no-repeat;
   opacity: 0.5;
   -webkit-transition: 0.25s opacity linear;
   -moz-transition: 0.25s opacity linear;
@@ -2491,7 +2491,7 @@ ul.users:hover li.user a.case-study{
 }
 
 ul.users li.user.with-case-study span.indicator{
-	background: url(images/icons/16/16x16/doc_lines.png);
+	background: url("/images/icons/16/16x16/doc_lines.png");
 	width: 16px;
 	height: 16px;
 	display: block;
@@ -2662,11 +2662,11 @@ body#services table span.indicator {
   display: inline-block !important;
   width: 16px;
   height: 16px;
-  background: url(images/icons/16/tick.png);
+  background: url("/images/icons/16/tick.png");
 }
 
 body#services table td.no span.indicator {
-  background: url(images/icons/16/cross.png);
+  background: url("/images/icons/16/cross.png");
 }
 
 body#services table#subscription-tiers{
@@ -2695,7 +2695,7 @@ body#services table#subscription-tiers tr td:first-child {
 body#services td#silver-technical-contacts span.indicator,
 body#services td#gold-technical-contacts span.indicator,
 body#services td#platinum-technical-contacts span.indicator {
-  background: url(images/icons/16/user_tile.png);
+  background: url("/images/icons/16/user_tile.png");
   display: block !important;
   height: 16px;
   width: 40px;
@@ -2707,7 +2707,7 @@ body#services td#gold-technical-contacts span.indicator {
 }
 
 body#services td#platinum-technical-contacts span.indicator {
-  background: url(images/icons/16/user_unlimited.png);
+  background: url("/images/icons/16/user_unlimited.png");
   width: 120px;
 }
 
@@ -3023,7 +3023,7 @@ ul.solutions li.solution h3 {
 /* @group div#notice */
 
 section#notice {
-  background: #d29729 url(images/notice.png) repeat-x;
+  background: #d29729 url("/images/notice.png") repeat-x;
   color: white;
   text-shadow: 1px 1px rgba(0,0,0,0.5);
   padding: 10px;
@@ -3053,7 +3053,7 @@ section#notice a {
   padding-left: 28px;
   -webkit-border-radius: 16px;
   -moz-border-radius: 16px;
-  background: url(images/icons/16/cross.png) 8px 60% no-repeat rgba(0,0,0,0.5);
+  background: url("/images/icons/16/cross.png") 8px 60% no-repeat rgba(0,0,0,0.5);
   position: absolute;
   top: 10px;
   right: 0;
@@ -3309,7 +3309,7 @@ ul.local-navigation li.current_page_parent ul li {
   display: block;
   width: 16px;
   height: 16px;
-  background-image: url(images/icons/16/16x16/calendar_1.png);
+  background-image: url("/images/icons/16/16x16/calendar_1.png");
   opacity: 0.5;
   -webkit-transition: 0.25s opacity linear;
   -moz-transition: 0.25s opacity linear;
