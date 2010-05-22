@@ -1,6 +1,6 @@
 - if can_change?
-  %p
-    = link_to "Delete release", [@user, @mod, @release], :class => 'section-link', :method => :delete, :confirm => "Delete release '#{h @mod.name}'?"
+  %ul.minimenubar
+    %li= link_to "Delete release", [@user, @mod, @release], :method => :delete, :confirm => "Delete release '#{h @mod.name}'?"
 
 %h2
   = succeed ':' do

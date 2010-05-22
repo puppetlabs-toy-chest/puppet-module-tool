@@ -1,11 +1,12 @@
-- if admin? && current_user != @user
-  %p
-    = link_to("Sign in as this user #{privilege_label}", switch_user_path(@user), :method => "post", :class => "section-link")
-    = link_to("Edit this user #{privilege_label}", edit_user_path(@user), :class => "section-link")
+- if admin? || current_user
+  %ul.minimenubar
+    - if current_user == @user
+      %li= link_to "Add a module", new_mod_path
+    - if admin? && current_user != @user
+      %li= link_to "Sign in as this user #{privilege_label}", switch_user_path(@user), :method => "post"
+      %li= link_to "Edit this user #{privilege_label}", edit_user_path(@user)
 
 %h2
-  &= @user.display_name
-  = surround '(', ')' do
-    &= @user.username
+  &= @user.label
 
 = render :partial => 'mods/list'
