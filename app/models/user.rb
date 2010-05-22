@@ -44,6 +44,9 @@ class User < ActiveRecord::Base
   named_scope :admins, :conditions => {:admin => true}
   named_scope :nonadmins, :conditions => {:admin => false}
 
+  # Triggers
+  before_save :update_mod_full_names!
+
   # TODO Implement Watches
 =begin
   has_many :watches, :dependent => :destroy
@@ -71,6 +74,16 @@ class User < ActiveRecord::Base
   # Should new users be confirmed via email?
   def self.confirmable?
     return self.devise_modules.include?(:confirmable)
+  end
+
+  # Update the associated Mod record's :full_name cache.
+  def update_mod_full_names!
+    if self.changed.map(&:to_sym).include?(:username)
+      self.logger.debug("User#update_mod_full_names!")
+      for mod in self.mods(true)
+         mod.update_full_name!(self)
+      end
+    end
   end
 
 end
