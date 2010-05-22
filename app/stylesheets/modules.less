@@ -3,6 +3,22 @@
 Additional CSS, build on top of Andrew's design.  It may make sense to integrate this with the main design CSS
 */
 
+/*---[ Mixins ]-------------------------------------------------------*/
+
+.rounded_corners {
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+/*---[ Colors ]-------------------------------------------------------*/
+
+@button_background: #DEEDD7;
+@button_foreground: #5B8049;
+
+@backing_background: #F2F2F2;
+
+/*---[ Specifics ]----------------------------------------------------*/
 
 body#modules header li#resources-tab > a {
    color: white;
@@ -21,11 +37,13 @@ body#modules #content > div.site-width > div.primary-secondary-content:first-chi
 }
 
 body#modules #content > div.site-width > div.primary-secondary-content:first-child > .secondary-content {
-   width: 280px;
+   width: 260px;
    margin-right: -360px;
    left: 40px;
    position: relative;
    float: left;
+   padding-left: 2em;
+   border-left: 2px solid #EEEEEE;
 }
 
 body#modules .secondary-content h3 {
@@ -52,9 +70,14 @@ body#modules .secondary-content h4 {
    border-bottom: 2px solid #EEEEEE;
    padding-bottom: 0.25em;
    margin-top: 0.25em;
+   margin-bottom: 1em;
 }
 #mods > li:hover { border-color: #ccc; }
 #mods > li:last-child { border-bottom: 0; }
+
+#mods > li > .details {
+    margin-left: 1em;
+}
 
 .meta { font-size: 0.85em; margin: 0 0 10px 0; }
 
@@ -100,27 +123,29 @@ body#modules form input[type=checkbox] { display: inline; }
 input[type=hidden] { display: none; }
 
 .section-link { 
+   .rounded_corners;
+
    -moz-background-clip: border;
    -moz-background-inline-policy: continuous;
    -moz-background-origin: padding;
-   background: #EFFFE7 none repeat scroll 0 0;
+
+   background: @button_background none repeat scroll 0 0;
    display: inline-block;
    font-size: 0.85em;
    float: right;
    padding: 0.5em 0.75em;
-   color: #87BD6C;
+   color: @button_foreground;
    margin: 0.25em;
 }
 
-.download-link { 
-   background: #EFFFE7 none repeat scroll 0 0;
+.download-link {
+   .rounded_corners;
+   background: @button_background none repeat scroll 0 0;
    display: inline-block;
    font-size: 1.2em;
    padding: 0.5em 0.75em;
-   color: #87BD6C;
-   -webkit-border-radius: 6px;
-   -moz-border-radius: 6px;
-   border-radius: 6px;     
+   color: @button_foreground;
+   margin-right: 1em;
 }
 
 
@@ -186,4 +211,101 @@ em {
   background-color: #EDE7E6;
   border: 1px solid #E6E0DF;
   color: #806866;
+}
+
+ul.minimenubar {
+    float: right;
+    li {
+        .rounded_corners;
+
+        -moz-background-clip: border;
+        -moz-background-inline-policy: continuous;
+        -moz-background-origin: padding;
+
+        background: @button_background none repeat scroll 0 0;
+        display: inline-block;
+        font-size: 0.85em;
+        padding: 0.5em 0.75em;
+        margin: 0.25em;
+
+        a {
+             color: @button_foreground;
+        }
+    }
+}
+
+.backing {
+    .rounded_corners;
+    background: @backing_background;
+    padding: 1em;
+}
+
+.sessions_new_action {
+    label[for="user_remember_me"] {
+        display: inline;
+    }
+}
+
+.module_release_overview {
+    .backing;
+    margin-bottom: 1em;
+    td {
+        vertical-align: top;
+    }
+    td.left a {
+        vertical-align: middle;
+        padding: 1.5em 0.75em;
+    }
+    td.right {
+        width: 100%;
+        ul {
+            margin: 0;
+            padding: 0;
+            li {
+                font-size: 0.85em;
+                margin: 0 0 0.1em 0;
+                padding: 0;
+            }
+        }
+    }
+}
+
+.reset {
+    font-size: 1em;
+    text-transform: none;
+    letter-spacing: 0;
+    border: none;
+    color: #444444;
+    background: transparent;
+}
+
+
+section#metadata {
+    h3, h4, h5, div, p, ul, li {
+        .reset;
+    }
+
+    h3, h4, h5 {
+        font-weight: bold;
+        }
+    h3 {
+        font-size: 1.25em;
+        }
+    h4 {
+        font-size: 1.20em;
+        color: #514D71;
+        .backing;
+    }
+    h5 {
+        font-size: 1.05em;
+    }
+
+    .indent, p, ul {
+        margin-left: 1.5em;
+    }
+
+    .dependencies {
+        margin-bottom: 1em;
+    }
+
 }

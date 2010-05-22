@@ -2,30 +2,23 @@
   = project_feed_link(@mod)
 
 - if can_change?
-  %p
-    = link_to "Delete module", [@user, @mod], :class => 'section-link', :method => :delete, :confirm => "Delete module '#{h @mod.name}'?"
-    = link_to "Edit module", [:edit, @user, @mod], :class => 'section-link'
-    = link_to "Add release", new_user_mod_release_path(@user, @mod), :class => 'section-link'
+  %ul.minimenubar
+    %li= link_to "Add release", new_user_mod_release_path(@user, @mod)
+    %li= link_to "Edit module", [:edit, @user, @mod]
+    %li= link_to "Delete module", [@user, @mod], :method => :delete, :confirm => "Delete module '#{h @mod.name}'?"
 
-%h2&= @mod.full_name
+%h2
+  &= @mod.full_name
 
-= render :partial => 'mods/intro', :locals => {:mod => @mod}
-
-%h3
-  - if @release
-    Latest Release: 
-    = link_to @release.version, vanity_release_path(@user, @mod, @release)
-    = link_to "Download", @release.file.url, :class => 'download-link'
-  - else
-    This module has not been released.
+= render :partial => "mods/document", :object => @mod
 
 - content_for :sidebar do
-  \ TODO Implement Watches
-  \ = render :partial => 'mods/watching'
+  -# TODO Implement Watches
+  -# = render :partial => 'mods/watching'
   .section#releases
     - if can_change?
-      = link_to 'Add a release', new_user_mod_release_path(@user, @mod), :class => 'section-link'
-    %h3 Releases
+      = link_to 'Add release', new_user_mod_release_path(@user, @mod), :class => 'section-link'
+    %h3 Module's releases
     - if @releases.any?
       %ul
         - @releases.each do |release|

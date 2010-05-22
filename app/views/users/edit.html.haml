@@ -1,3 +1,7 @@
-%h2 Edit your profile
+%h2
+  - if @user == current_user
+    Edit your profile
+  - else
+    Edit #{current_user.username}'s profile
 
 = render :partial => 'form'

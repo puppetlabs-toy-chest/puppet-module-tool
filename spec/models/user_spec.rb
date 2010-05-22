@@ -63,6 +63,13 @@ describe User do
     end
   end
 
+  describe "label" do
+    it "should return a string like 'Display Name (username)'" do
+      user = Factory :user, :display_name => "Display Name", :username => "username"
+      user.label.should == "Display Name (username)"
+    end
+  end
+
   # TODO Implement Watches
 =begin
 describe "adding a watch" do

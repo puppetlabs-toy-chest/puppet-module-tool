@@ -1,15 +1,11 @@
 - if can_change?
-  %p
-    = link_to "Delete release", [@user, @mod, @release], :class => 'section-link', :method => :delete, :confirm => "Delete release '#{h @mod.name}'?"
+  %ul.minimenubar
+    %li= link_to "Delete release", [@user, @mod, @release], :method => :delete, :confirm => "Delete release '#{h @mod.name}'?"
 
 %h2
   = succeed ':' do
     = link_to @mod.full_name, module_path(@mod.owner, @mod)
   = @release.version
 
-- unless @release.notes.blank?
-  %p.introduction= markdown(@release.notes)
+= render :partial => "mods/document", :object => (@release || @mod)
 
-%p= link_to "Download", @release.file.url, :class => 'download-link'
-
-= render :partial => 'metadata'
