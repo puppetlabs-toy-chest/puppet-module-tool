@@ -9,7 +9,6 @@ class TagsController < ApplicationController
       @category = Categories[@tag]
       @mods = Mod.tagged_with(@tag).ordered.paginate :page => params[:page]
     else
-      @tag = nil
       @category = nil
       @mods = []
 
