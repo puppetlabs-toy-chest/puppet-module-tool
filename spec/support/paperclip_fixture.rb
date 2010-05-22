@@ -63,7 +63,6 @@ class PaperclipFixture
     return true if model_class.instance_methods.include?("#{attribute_name}_with_paperclip_fixture")
 
     model_class.class_eval(<<-HERE, __FILE__, __LINE__)
-p :patch
       # Add class-wide toggle to model for enabling the fixtures:
       cattr_accessor :paperclip_fixture_enabled
       self.paperclip_fixture_enabled = true
