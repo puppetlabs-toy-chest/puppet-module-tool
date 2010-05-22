@@ -142,6 +142,32 @@ describe Mod do
 
   end
 
+  describe "full_name cache" do
+    it "should set when created" do
+      mod = Factory :mod
+
+      mod.full_name.should == [mod.owner.username, mod.name].join('/')
+    end
+
+    it "should set when updated" do
+      mod = Factory :mod
+      mod.name = "foo"
+      mod.save!
+
+      mod.full_name.should == [mod.owner.username, "foo"].join('/')
+    end
+
+    it "should set when user's name is updated" do
+      user = Factory :user
+      mod = Factory :mod, :owner => user
+      user.username = "newusername"
+      user.save!
+
+      mod.reload
+      mod.full_name.should == [mod.owner.username, mod.name].join('/')
+    end
+  end
+
   # TODO Implement Watches
 =begin
 describe "adding a watch" do

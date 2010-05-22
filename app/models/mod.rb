@@ -34,6 +34,9 @@ class Mod < ActiveRecord::Base
     end
   end
 
+  # Triggers
+  before_validation :set_full_name
+
   # TODO Implement Watches
 =begin
   has_many :watches
@@ -49,6 +52,7 @@ class Mod < ActiveRecord::Base
   # Scopes
   named_scope :with_releases, :joins => :releases, :group => 'mods.id', :include => :releases
   named_scope :matching, proc { |q| {:conditions => ['name like ?', "%#{q}%"]} }
+  named_scope :ordered, :order => 'lower(full_name) asc'
 
   # Validations
   validates_format_of :name, :with => /\A[[:alnum:]]{2,}\z/, :message => "should be 2 or more alphanumeric characters"
@@ -56,11 +60,6 @@ class Mod < ActiveRecord::Base
 
   validates_url_format_of(:project_url, :allow_blank => true)
   validates_url_format_of(:project_feed_url, :allow_blank => true)
-
-  # Return string uniquely describing mod, which is the owner's username and the mod's name.
-  def full_name
-    return "#{owner.username}/#{self.name}"
-  end
 
   # Return unique human-readable string key for this record.
   def to_param
@@ -78,6 +77,24 @@ class Mod < ActiveRecord::Base
   # Can this +user+ change this record?
   def can_be_changed_by?(user)
     return user && (user.admin? || user == self.owner)
+  end
+
+  # Set the record's :full_name cache.
+  def set_full_name
+    self.full_name = self.raw_full_name
+  end
+
+  # Update the record's full_name cache and save record.
+  def update_full_name!(user=nil)
+    if value = self.raw_full_name(user)
+      self.update_attribute(:full_name, value)
+    end
+  end
+
+  # Return the record's full name (e.g., "username/modulename") by doing a query.
+  def raw_full_name(user=nil)
+    user ||= self.owner
+    return [user.username, self.name].join('/') if user
   end
 
   # TODO Implement Watches
