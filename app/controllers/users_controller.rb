@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by_username(params[:id])
-    @mods = @user.mods.paginate(:page => params[:page], :order => 'name desc')
+    @mods = @user.mods.ordered.paginate(:page => params[:page])
   end
 
   def edit

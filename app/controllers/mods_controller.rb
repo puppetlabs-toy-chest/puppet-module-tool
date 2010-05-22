@@ -19,7 +19,7 @@ class ModsController < ApplicationController
         render :json => json_for(@mods)
       end
       format.html do
-        @mods = @mods.paginate :page => params[:page], :order => 'name DESC'
+        @mods = @mods.paginate :page => params[:page]
       end
     end
   end
@@ -78,10 +78,12 @@ class ModsController < ApplicationController
       @user.mods :
       Mod
 
+    base = base.with_releases.ordered
+
     return \
       params[:q] ?
-      base.with_releases.matching(params[:q]) :
-      base.with_releases
+      base.matching(params[:q]) :
+      base
   end
 
   # Serialize one or more mods to JSON.

@@ -52,6 +52,7 @@ class Mod < ActiveRecord::Base
   # Scopes
   named_scope :with_releases, :joins => :releases, :group => 'mods.id', :include => :releases
   named_scope :matching, proc { |q| {:conditions => ['name like ?', "%#{q}%"]} }
+  named_scope :ordered, :order => 'lower(full_name) asc'
 
   # Validations
   validates_format_of :name, :with => /\A[[:alnum:]]{2,}\z/, :message => "should be 2 or more alphanumeric characters"
