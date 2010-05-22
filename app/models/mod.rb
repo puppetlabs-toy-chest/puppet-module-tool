@@ -24,7 +24,7 @@ class Mod < ActiveRecord::Base
   acts_as_taggable_on :tags
 
   # Associations
-  belongs_to :owner, :polymorphic => true
+  belongs_to :owner, :class_name => "User"
   has_many :releases, :dependent => :destroy do
     def ordered
       sort_by { |release| Versionomy.parse(release.version) }.reverse
