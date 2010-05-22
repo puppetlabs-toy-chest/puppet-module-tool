@@ -40,6 +40,15 @@ describe ModsController do
 
       context "for user's mods" do
 
+        # CURRENTLY: We redirect /username/modules back to /username since these both display modules.
+        it "should redirect to user's page" do
+          get :index, :user_id => @user1.to_param, :format => "html"
+
+          response.should redirect_to(user_path @user1)
+        end
+
+        # PREVIOUSLY: We rendered slightly different pages for these, which was confusing.
+=begin
         it "should render all mods with releases for a user" do
           get :index, :user_id => @user1.to_param, :format => "html"
 
@@ -48,6 +57,7 @@ describe ModsController do
           assigns[:mods].should_not include @user2mod_with_release
           assigns[:mods].should_not include @user2mod_without_release
         end
+=end
 
         it "should display error if user doesn't exist" do
           get :index, :user_id => "invalid_user_name"

@@ -10,6 +10,11 @@ class ModsController < ApplicationController
   before_filter :authorize_change!,  :except => [:index, :show]
 
   def index
+    # NOTE: The user's page has a module listing, use that instead.
+    if @user_found
+      return redirect_to [@user]
+    end
+
     if @user_found == false
       return ensure_user!
     end
