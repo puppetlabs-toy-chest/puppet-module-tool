@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :username
 
   # Associations
-  has_many :mods, :as => :owner, :dependent => :destroy
+  has_many :mods, :foreign_key => :owner_id, :dependent => :destroy
 
   # Scopes
   named_scope :ordered, :order => 'lower(username) asc'
