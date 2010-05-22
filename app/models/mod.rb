@@ -25,10 +25,13 @@ class Mod < ActiveRecord::Base
 
   # Associations
   belongs_to :owner, :polymorphic => true
+  belongs_to :current_release, :class_name => "Release"
   has_many :releases, :dependent => :destroy do
     def ordered
       sort_by { |release| Versionomy.parse(release.version) }.reverse
     end
+
+    # Return current Release through expensive calculation. Return cached result with Mod#current_release.
     def current
       ordered.first
     end
@@ -67,17 +70,23 @@ class Mod < ActiveRecord::Base
     return self.name
   end
 
-  # Return the version of this mod's current release, or nil.
+  # Return the current version of this mod, or nil.
   def version
-    current_release = self.releases.current
-    if current_release
-      return current_release.version
+    if self.current_release
+      return self.current_release.version
     end
   end
 
   # Can this +user+ change this record?
   def can_be_changed_by?(user)
     return user && (user.admin? || user == self.owner)
+  end
+
+  # Update the record's current release cache.
+  def update_current_release!
+    self.logger.debug("Mod#update_current_release!")
+    # The `releases(true)` refetches the association.
+    self.update_attribute(:current_release, self.releases(true).current)
   end
 
   # TODO Implement Watches

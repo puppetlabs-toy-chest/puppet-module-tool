@@ -39,6 +39,8 @@ class Release < ActiveRecord::Base
 
   # Triggers
   before_destroy :destroy_attachment
+  after_save :update_mod_current_release!
+  after_destroy :update_mod_current_release!
 
   # TODO Implement TimelineEvent
 =begin
@@ -159,6 +161,13 @@ class Release < ActiveRecord::Base
   # Destroy the file attachment when destroying the release record.
   def destroy_attachment
     self.file.destroy
+  end
+
+  # Update the associated mod's current release reference.
+  def update_mod_current_release!
+    if self.mod
+      self.mod.update_current_release!
+    end
   end
 
 end
