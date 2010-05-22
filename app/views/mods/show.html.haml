@@ -10,23 +10,7 @@
 %h2
   &= @mod.full_name
 
-%ul.meta
-  %li
-    Shared by
-    = user_link(@mod.owner)
-  %li
-    Tagged with
-    = tag_list @mod
-
-%div.backing
-  - if @release
-    = link_to "Download", @release.file.url, :class => 'download-link'
-    Latest Release: 
-    = link_to @release.version, vanity_release_path(@user, @mod, @release)
-    &middot;
-    = @mod.created_at.to_date.to_s(:long)
-  - else
-    This module has not been released.
+= render :partial => "mods/document", :object => @mod
 
 - content_for :sidebar do
   -# TODO Implement Watches
