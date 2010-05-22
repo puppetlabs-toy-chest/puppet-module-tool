@@ -1,6 +1,19 @@
 puppet-module-site changes
 ==========================
 
+r0.1.0
+------
+
+* Fixed module and release views to display all information gathered and in an attractive way.
+* Fixed external resources, the site now has all the stylesheets and images intended.
+* Fixed module model to link directly to the current release, simplifying and speeding the code
+* Fixed module/release listings to format nicely and include information like date.
+* Fixed user-module relationship, eliminated needlessly problematic polymorphic association.
+* Fixed menubar so its items are ordered, readable and don't derail the page heading.
+* Fixed tags and modules views to sort modules by their full name.
+* Fixed duplication of pages, made '/USERNAME/modules' redirect to '/USERNAME'.
+* Fixed missing or non-obvious buttons for things like "add release", "add module", etc.
+
 r0.0.7.7
 --------
 
