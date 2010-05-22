@@ -3,6 +3,22 @@
 Additional CSS, build on top of Andrew's design.  It may make sense to integrate this with the main design CSS
 */
 
+/*---[ Mixins ]-------------------------------------------------------*/
+
+.rounded_corners {
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+/*---[ Colors ]-------------------------------------------------------*/
+
+@button_background: #DEEDD7;
+@button_foreground: #5B8049;
+
+@backing_background: #F2F2F2;
+
+/*---[ Specifics ]----------------------------------------------------*/
 
 body#modules header li#resources-tab > a {
    color: white;
@@ -52,9 +68,14 @@ body#modules .secondary-content h4 {
    border-bottom: 2px solid #EEEEEE;
    padding-bottom: 0.25em;
    margin-top: 0.25em;
+   margin-bottom: 1em;
 }
 #mods > li:hover { border-color: #ccc; }
 #mods > li:last-child { border-bottom: 0; }
+
+#mods > li > .details {
+    margin-left: 1em;
+}
 
 .meta { font-size: 0.85em; margin: 0 0 10px 0; }
 
@@ -100,27 +121,29 @@ body#modules form input[type=checkbox] { display: inline; }
 input[type=hidden] { display: none; }
 
 .section-link { 
+   .rounded_corners;
+
    -moz-background-clip: border;
    -moz-background-inline-policy: continuous;
    -moz-background-origin: padding;
-   background: #DEEDD7 none repeat scroll 0 0;
+
+   background: @button_background none repeat scroll 0 0;
    display: inline-block;
    font-size: 0.85em;
    float: right;
    padding: 0.5em 0.75em;
-   color: #87BD6C;
+   color: @button_foreground;
    margin: 0.25em;
 }
 
-.download-link { 
-   background: #DEEDD7 none repeat scroll 0 0;
+.download-link {
+   .rounded_corners;
+   background: @button_background none repeat scroll 0 0;
    display: inline-block;
    font-size: 1.2em;
    padding: 0.5em 0.75em;
-   color: #87BD6C;
-   -webkit-border-radius: 6px;
-   -moz-border-radius: 6px;
-   border-radius: 6px;     
+   color: @button_foreground;
+   margin-right: 1em;
 }
 
 
@@ -188,17 +211,30 @@ em {
   color: #806866;
 }
 
-ul#minimenubar {
-  float: right;
-  li {
-     -moz-background-clip: border;
-     -moz-background-inline-policy: continuous;
-     -moz-background-origin: padding;
-     background: #DEEDD7 none repeat scroll 0 0;
-     display: inline-block;
-     font-size: 0.85em;
-     padding: 0.5em 0.75em;
-     color: #87BD6C;
-     margin: 0.25em;
-  }
+ul.minimenubar {
+    float: right;
+    li {
+        .rounded_corners;
+
+        -moz-background-clip: border;
+        -moz-background-inline-policy: continuous;
+        -moz-background-origin: padding;
+
+        background: @button_background none repeat scroll 0 0;
+        display: inline-block;
+        font-size: 0.85em;
+        padding: 0.5em 0.75em;
+        margin: 0.25em;
+
+        a {
+             color: @button_foreground;
+        }
+    }
 }
+
+.backing {
+    .rounded_corners;
+    background: @backing_background;
+    padding: 1em;
+}
+
