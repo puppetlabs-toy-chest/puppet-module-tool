@@ -167,7 +167,7 @@ body#home .scroll{
 body#home #masthead .site-width {
   padding-top: 3em;
   padding-bottom: 1em;
-  background: url(images/puppet-logo-280-colorized.png) left -80px no-repeat;
+  background: url("/images/puppet-logo-280-colorized.png") left -80px no-repeat;
   height: 320px !important;
   zoom: 1;
 }
