@@ -4,7 +4,7 @@ module ReleasesHelper
 
   # Return string a guess of the next version of this module, else nil.
   def guess_next_version
-    return @mod.releases.current.try(:guess_next_version)
+    return @mod.current_release.try(:guess_next_version)
   end
 
   # Return link to release's +dependency+.

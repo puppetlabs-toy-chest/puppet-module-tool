@@ -25,10 +25,13 @@ class Mod < ActiveRecord::Base
 
   # Associations
   belongs_to :owner, :class_name => "User"
+  belongs_to :current_release, :class_name => "Release"
   has_many :releases, :dependent => :destroy do
     def ordered
       sort_by { |release| Versionomy.parse(release.version) }.reverse
     end
+
+    # Return current Release through expensive calculation. Return cached result with Mod#current_release.
     def current
       ordered.first
     end
@@ -50,7 +53,7 @@ class Mod < ActiveRecord::Base
 =end
 
   # Scopes
-  named_scope :with_releases, :joins => :releases, :group => 'mods.id', :include => :releases
+  named_scope :with_releases, :joins => :releases, :group => 'mods.id', :include => [:owner, :releases, :current_release]
   named_scope :matching, proc { |q| {:conditions => ['name like ?', "%#{q}%"]} }
   named_scope :ordered, :order => 'lower(full_name) asc'
 
@@ -66,11 +69,10 @@ class Mod < ActiveRecord::Base
     return self.name
   end
 
-  # Return the version of this mod's current release, or nil.
+  # Return the current version of this mod, or nil.
   def version
-    current_release = self.releases.current
-    if current_release
-      return current_release.version
+    if self.current_release
+      return self.current_release.version
     end
   end
 
@@ -95,6 +97,13 @@ class Mod < ActiveRecord::Base
   def raw_full_name(user=nil)
     user ||= self.owner
     return [user.username, self.name].join('/') if user
+  end
+
+  # Update the record's current release cache.
+  def update_current_release!
+    self.logger.debug("Mod#update_current_release!")
+    # The `releases(true)` refetches the association.
+    self.update_attribute(:current_release, self.releases(true).current)
   end
 
   # TODO Implement Watches

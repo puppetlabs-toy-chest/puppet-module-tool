@@ -1,6 +1,6 @@
 %p.meta
   - if mod.releases.any?
-    - mod.releases.current.tap do |release|
+    - mod.current_release.tap do |release|
       = link_to(release.version, vanity_release_path(mod.owner, mod, release))
   - else
     %span

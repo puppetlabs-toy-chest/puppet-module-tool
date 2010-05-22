@@ -5,10 +5,10 @@
     The version number for this release.  Only use numbers, dots, and letters.
     - if @release.new_record?
       %b
-        - if @mod.releases.any?
+        - if @mod.version
           The most recent version is
           = succeed '.' do
-            = @mod.releases.current.version
+            = @mod.version
         - else
           This is the first release for this module.
   %p= f.text_field :version, :value => guess_next_version
