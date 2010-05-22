@@ -50,7 +50,7 @@ class Mod < ActiveRecord::Base
 =end
 
   # Scopes
-  named_scope :with_releases, :joins => :releases, :group => 'mods.id', :include => :releases
+  named_scope :with_releases, :joins => :releases, :group => 'mods.id', :include => [:owner, :releases, :current_release]
   named_scope :matching, proc { |q| {:conditions => ['name like ?', "%#{q}%"]} }
 
   # Validations
