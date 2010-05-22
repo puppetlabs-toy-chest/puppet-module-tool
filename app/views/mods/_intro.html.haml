@@ -1,11 +1,14 @@
 %p.meta
   - if mod.releases.any?
     - mod.current_release.tap do |release|
-      = link_to(release.version, vanity_release_path(mod.owner, mod, release))
+      = link_to("Version #{release.version}", vanity_release_path(mod.owner, mod, release))
+      &middot;
+      = mod.created_at.to_date.to_s(:long)
   - else
     %span
       Not released
-  &middot;
-  = tag_list mod
+  - if mod.tags.count > 0
+    &middot;
+    = tag_list mod
 
 %p.introduction= markdown(mod.description)
