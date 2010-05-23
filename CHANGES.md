@@ -1,6 +1,11 @@
 puppet-module-tool changes
 ==========================
 
+r0.2.9
+------
+
+* Fixed `pmt generate` files and directories to follow Puppet best-practices.
+
 r0.2.8
 ------
 
