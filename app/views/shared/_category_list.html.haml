@@ -3,9 +3,17 @@
   %h3 Modules
   %ul.local-navigation
     - mods_class = controller.controller_name == 'mods' && action_name == 'index' ? 'important active' : 'important inactive'
-    %li{:class => mods_class}
-      = link_to 'All Modules', mods_path
-    - Categories.populated.each do |title, tag_name|
-      - mod_class = (@tag && @tag.name == tag_name.to_s) ? :active : :inactive
-      %li{:class => mod_class}
-        = link_to title, tag_path(tag_name)
+    - cache_key = "shared-category_list-categories-mods_class_#{mods_class}" 
+    - cache_key << "-tag_#{@tag.name}" if @tag
+    - cache cache_key do
+      %li{:class => mods_class}
+        = link_to 'All Modules', mods_path
+      - Categories.populated.each do |title, tag_name|
+        - mod_class = (@tag && @tag.name == tag_name.to_s) ? :active : :inactive
+        %li{:class => mod_class}
+          = link_to title, tag_path(tag_name)
+.section#tags
+  %h3 Popular Tags
+  - cache 'shared-category_list-tag_cloud' do
+    - tag_cloud(Mod.tag_counts_on(:tags), %w(css1 css2 css3 css4)) do |tag, css_class| 
+      = link_to tag.name, tag, :class => css_class

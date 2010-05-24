@@ -29,9 +29,5 @@
             = text_field_tag :q, params[:q], :id => 'search'
         = yield :sidebar
         = render 'shared/category_list'
-        .section#tags
-          %h3 Popular Tags
-          - tag_cloud(Mod.tag_counts_on(:tags), %w(css1 css2 css3 css4)) do |tag, css_class| 
-            = link_to tag.name, tag, :class => css_class
 
 = render :partial => 'shared/footer'
