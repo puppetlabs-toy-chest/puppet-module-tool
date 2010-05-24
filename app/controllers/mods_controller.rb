@@ -28,7 +28,8 @@ class ModsController < ApplicationController
         render :json => json_for(@mods)
       end
       format.html do
-        @mods = @mods.paginate :page => params[:page]
+        mods = @mods
+        @mods = Defer { mods.paginate :page => params[:page] }
       end
     end
   end
@@ -49,8 +50,8 @@ class ModsController < ApplicationController
   end
 
   def show
-    @releases = @mod.releases.ordered.paginate :page => params[:page], :order => 'version desc'
-    @release = @releases.first
+    @releases = Defer { @mod.releases.ordered.paginate :page => params[:page], :order => 'version desc' }
+    @release = Defer { @releases.first }
     respond_to do |format|
       format.json { render :json => json_for(@mod) }
       format.html

@@ -6,8 +6,8 @@ class TagsController < ApplicationController
   def show
     @tag_name = params[:id]
     if @tag
-      @category = Categories[@tag]
-      @mods = Mod.tagged_with(@tag).ordered.paginate :page => params[:page]
+      @category = Defer { Categories[@tag] }
+      @mods = Defer { Mod.tagged_with(@tag).ordered.paginate :page => params[:page] }
 
       @cache_key_for_mods_list = "tags-show_#{@tag.id}"
     else

@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   before_filter :authorize_change!,  :except => [:index, :new, :create, :show, :switch]
 
   def index
-    @users = User.ordered
+    @users = Defer { User.ordered }
   end
 
   def new
@@ -34,8 +34,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by_username(params[:id])
-    @mods = @user.mods.ordered.paginate(:page => params[:page])
+    @user = Defer { User.find_by_username(params[:id]) }
+    @mods = Defer { @user.mods.ordered.paginate(:page => params[:page]) }
     @cache_key_for_mods_list = "users-show_#{@user.id}"
   end
 
