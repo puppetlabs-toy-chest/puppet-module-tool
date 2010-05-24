@@ -32,6 +32,10 @@ Rails::Initializer.run do |config|
     config.gem 'rspec', :lib => false
     config.gem 'rspec-rails', :lib => false
   end
+  if ENV['NEWRELIC']
+    # Provide profiling information at URI '/newrelic' if app started with `NEWRELIC=1 ./script/server`
+    config.gem 'newrelic_rpm'
+  end
   
   # Libraries
   require 'zlib'
