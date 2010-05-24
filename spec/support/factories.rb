@@ -33,3 +33,12 @@ Factory.define :release do |f|
   f.file "mymodule-0.0.1.tar.gz"
   f.association :mod
 end
+
+Factory.define :tag do |f|
+  f.sequence(:name) { |n| "tag_#{n}" }
+end
+
+Factory.define :tagging do |f|
+  f.association :tag
+  f.association :mod
+end
