@@ -42,4 +42,11 @@ Rails::Initializer.run do |config|
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
+
+  # Observers, which watch for changes to model objects
+  config.active_record.observers = :cache_observer
+
+  # Setup cache
+  require 'rails_cache_configurator'
+  RailsCacheConfigurator.apply(config)
 end
