@@ -83,7 +83,7 @@ class ModsController < ApplicationController
       @user.mods :
       Mod
 
-    base = base.with_releases.ordered
+    base = base.with_current_release.ordered
 
     return \
       params[:q] ?
