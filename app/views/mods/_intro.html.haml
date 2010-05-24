@@ -1,15 +1,18 @@
-%div.details
-  %p.meta
-    - if mod.releases.any?
-      - mod.current_release.tap do |release|
-        = link_to("Version #{release.version}", vanity_release_path(mod.owner, mod, release))
-        &middot;
-        = mod.created_at.to_date.to_s(:long)
-    - else
-      %span
-        Not released
-    - if mod.tags.count > 0
-      &middot;
-      = tag_list mod
+-# Display an introduction for a +mod+ record.
 
-  %div.introduction= markdown(mod.description)
+- cache "mods-intro_#{mod.id}" do
+  %div.details
+    %p.meta
+      - if mod.current_release
+        - mod.current_release.tap do |release|
+          = link_to("Version #{release.version}", vanity_release_path(mod.owner, mod, release))
+          &middot;
+          = mod.created_at.to_date.to_s(:long)
+      - else
+        %span
+          Not released
+      - if mod.tags.size > 0
+        &middot;
+        = tag_list mod
+
+    %div.introduction= markdown(mod.description)
