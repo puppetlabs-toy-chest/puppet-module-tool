@@ -1,9 +1,12 @@
-= count 'module', @mods
+-# Display a list of +@mods+.
 
-%ul#mods
-  - @mods.each do |mod|
-    %li
-      %h3= link_to mod.full_name, module_path(mod.owner, mod)
-      = render :partial => 'mods/intro', :locals => {:mod => mod}
+- cache_if (params[:q].blank? && params[:page].blank? && @cache_key_for_mods_list.present?), @cache_key_for_mods_list do
+  = count 'module', @mods
 
-= will_paginate @mods
+  %ul#mods
+    - @mods.each do |mod|
+      %li
+        %h3= link_to mod.full_name, module_path(mod.owner, mod)
+        = render :partial => 'mods/intro', :locals => {:mod => mod}
+
+  = will_paginate @mods

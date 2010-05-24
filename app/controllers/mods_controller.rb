@@ -10,15 +10,19 @@ class ModsController < ApplicationController
   before_filter :authorize_change!,  :except => [:index, :show]
 
   def index
-    # NOTE: The user's page has a module listing, use that instead.
     if @user_found
+      # NOTE: The user's page has a module listing, use that instead.
       return redirect_to [@user]
-    end
-
-    if @user_found == false
+    elsif @user_found == false
       return ensure_user!
     end
+
     @mods = search_scope
+
+    @cache_key_for_mods_list = "mods-index".tap do |k|
+      k << "-user_#{@user.id}" if @user
+    end
+    
     respond_to do |format|
       format.json do
         render :json => json_for(@mods)

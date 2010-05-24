@@ -36,6 +36,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by_username(params[:id])
     @mods = @user.mods.ordered.paginate(:page => params[:page])
+    @cache_key_for_mods_list = "users-show_#{@user.id}"
   end
 
   def edit
