@@ -36,6 +36,9 @@ Rails::Initializer.run do |config|
   # Libraries
   require 'zlib'
 
+  # Local libraries
+  require 'lib/defer_proxy'
+
   # Run "rake -D time" for a list of tasks for finding time zone names.
   config.time_zone = 'UTC'
 
