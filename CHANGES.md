@@ -1,6 +1,13 @@
 puppet-module-site changes
 ==========================
 
+r0.1.1
+------
+
+* Added caching and optimizataions to make app run ~5x faster.
+* Added `rake clear` task to clear out the view, stylesheet and javascript caches.
+* Added support for conditionally loading New Relic performance profiler, see README.
+
 r0.1.0
 ------
 
