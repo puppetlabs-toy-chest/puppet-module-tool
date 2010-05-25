@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+r0.1.2
+------
+
+* Reworked New Relic to activate in `production` environment if a configuration file is found, see README.
+
 r0.1.1
 ------
 
