@@ -78,7 +78,7 @@ describe ModsController do
       end
 
       it "should return mods" do
-        get :index
+        get :index, :format => 'json'
 
         response.should be_success
         data = response_json
