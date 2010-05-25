@@ -7,7 +7,9 @@ Setup
 -----
 
 1. Run `sudo gem install less`
-2. Run `sudo rake gems:install`
+2. Install gems the Rails application depends on:
+    * For development: Run `sudo rake RAILS_ENV=test gems:install`
+    * For production: Run `sudo rake gems:install`
 3. Run `rake setup` to create the required directories and these files using sensible defaults: `config/database.yml`, `spec/spec.opts` and `spec/rcov.opts`.
 4. Customize the above files if you'd like, but do not check them into the repository.
 5. Create the database using your database's tools or using these tasks:
