@@ -10,7 +10,8 @@
 %h2
   &= @mod.full_name
 
-= render :partial => "mods/document", :object => @mod
+- cache "mods-show_#{@mod.id}-document" do
+  = render :partial => "mods/document", :object => @mod
 
 - content_for :sidebar do
   -# TODO Implement Watches

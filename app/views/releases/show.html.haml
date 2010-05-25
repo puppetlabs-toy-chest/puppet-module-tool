@@ -7,5 +7,5 @@
     = link_to @mod.full_name, module_path(@mod.owner, @mod)
   = @release.version
 
-= render :partial => "mods/document", :object => (@release || @mod)
-
+- cache "releases-show_#{@mod.id}-document" do
+  = render :partial => "mods/document", :object => (@release || @mod)
