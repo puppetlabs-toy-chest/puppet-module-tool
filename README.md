@@ -29,9 +29,8 @@ Environmental variables
 
 You can alter the behavior of the application by setting environmental variables:
 
-* `CACHE=1` enables caching in the `test` and `development` environments.
-* `CACHE=0` disables caching in the `test` and `development` environments.
-* `NEWRELIC=1` enables the [New Relic](http://newrelic.com/) plugin and provides request profiling information at the `/newrelic` URI.
+* Caching is enabled in the `production` and `preview` environments, but you can disable it with `CACHE=0`. To enable caching in the `development` and `test` environments, use `CACHE=1`.
+* [New Relic](http://newrelic.com/) profiling and monitoring is enabled in the `production` and `preview` environments if a `config/newrelic.yml` file is found (a sample is provided at `config/newrelic~sample.yml`), but you can disable it with `NEWRELIC=0`. To enable New Relic in the `development` and `test` environments, create the configuration file and use `NEWRELIC=1`.
 
 You can set these environmental variables easily from the command-line like this:
 
