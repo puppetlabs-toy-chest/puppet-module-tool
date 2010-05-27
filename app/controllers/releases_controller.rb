@@ -22,7 +22,7 @@ class ReleasesController < ApplicationController
         if @release
           render :json => {:version => @release.version, :file => @release.file.url, :version => @release.version}.to_json
         else
-          render :status => 404
+          render :json => {:error => "Release not found."}, :status => 404
         end
       end
     end
