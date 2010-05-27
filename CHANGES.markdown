@@ -1,10 +1,17 @@
-puppet-module-tool changes
-==========================
+puppet-module changes
+=====================
+
+r0.3.0
+------
+
+* Renamed CLI tool and gem to `puppet-module`. Please run `gem uninstall pmt` to get rid of old versions of the program.
+* Added 'usage' action to display the usage information for this tool.
+* Added 'changelog' action to display the changelog for this tool.
 
 r0.2.9
 ------
 
-* Fixed `pmt generate` files and directories to follow Puppet best-practices.
+* Fixed 'generate' action to create files and directories that follow Puppet best-practices.
 
 r0.2.8
 ------

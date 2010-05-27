@@ -37,13 +37,13 @@ module Puppet
       end
 
       # Return Pathname for this tool's working directory.
-      def self.pmtdir
-        @pmtdir ||= Pathname.new(Puppet.settings[:pmtdir])
+      def self.working_dir
+        @working_dir ||= Pathname.new(Puppet.settings[:puppet_module_working_dir])
       end
 
       # Return Repository to fetch data from based on Puppet's config file.
       def self.repository
-        @repository ||= Repository.new(Puppet.settings[:modulerepository])
+        @repository ||= Repository.new(Puppet.settings[:puppet_module_repository])
       end
 
       FULL_NAME_PATTERN = /\A(.+)[\/\-](.+)\z/
@@ -56,6 +56,16 @@ module Puppet
         else
           raise ArgumentError, "Not a valid full name: #{full_name}"
         end
+      end
+
+      # Return the filename with the usage documenation.
+      def self.usage_filename
+        return File.expand_path(File.join(self.root, 'README.markdown'))
+      end
+
+      # Return the filename with the changelog.
+      def self.changelog_filename
+        return File.expand_path(File.join(self.root, 'CHANGES.markdown'))
       end
     end
   end

@@ -6,7 +6,7 @@ end
 
 # = CLI
 #
-# This class is used by the `bin/pmt` program to dispatch actions.
+# This class is used by the command-line program to dispatch actions.
 class Puppet::Module::Tool::CLI < Thor
   include Thor::Actions
   
@@ -15,7 +15,7 @@ class Puppet::Module::Tool::CLI < Thor
   class_option :config, :aliases => '-c', :default => Puppet.settings[:config], :desc => "Configuration file"
   
   def self.method_option_repository
-    method_option :modulerepository, :aliases => '-r', :default => Puppet.settings[:modulerepository], :desc => "Module repository to use"
+    method_option :puppet_module_repository, :aliases => '-r', :default => Puppet.settings[:puppet_module_repository], :desc => "Module repository to use"
   end
 
   desc "version", "Show the version information for this tool"
@@ -90,7 +90,27 @@ class Puppet::Module::Tool::CLI < Thor
   desc "repository", "Show currently configured repository"
   def repository
     Puppet::Module::Tool.prepare_settings(options)
-    say Puppet.settings[:modulerepository]
+    say Puppet.settings[:puppet_module_repository]
+  end
+
+  desc "usage", "Display detailed usage documentation for this tool"
+  def usage
+    Puppet::Module::Tool.prepare_settings(options)
+    if ENV['PAGER']
+      exec ENV['PAGER'], Puppet::Module::Tool.usage_filename
+    else
+      puts File.read(Puppet::Module::Tool.usage_filename)
+    end
+  end
+
+  desc "changelog", "Display the changelog for this tool"
+  def changelog
+    Puppet::Module::Tool.prepare_settings(options)
+    if ENV['PAGER']
+      exec ENV['PAGER'], Puppet::Module::Tool.changelog_filename
+    else
+      puts File.read(Puppet::Module::Tool.changelog_filename)
+    end
   end
 
   no_tasks do

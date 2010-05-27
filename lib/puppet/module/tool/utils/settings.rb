@@ -12,18 +12,17 @@ module Puppet::Module::Tool::Utils
         Puppet.settings.send(:set_value, :config, options[:config], :cli)
       end
 
-      Puppet.setdefaults(:pmt,
-        :modulerepository => [Puppet::Module::Tool::REPOSITORY_URL, "The module repository"],
-        :pmtdir => ['$vardir/pmt', "The directory in which module tool data is stored"])
+      Puppet.setdefaults(:puppet_module,
+        :puppet_module_repository => [Puppet::Module::Tool::REPOSITORY_URL, "The module repository"],
+        :puppet_module_working_dir => ['$vardir/puppet-module', "The directory in which module tool data is stored"])
 
-      # Create directory for pmt's use inside ~/.puppet
-      Puppet::Module::Tool.pmtdir.mkpath
+      Puppet::Module::Tool.working_dir.mkpath
 
-      Puppet.settings.use(:pmt)
+      Puppet.settings.use(:puppet_module)
 
       Puppet.settings.parse
 
-      [:modulerepository].each do |key|
+      [:puppet_module_repository].each do |key|
         if options[key]
           Puppet.settings.send(:set_value, key, options[key], :cli)
         end

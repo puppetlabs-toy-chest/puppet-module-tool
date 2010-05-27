@@ -26,7 +26,7 @@ module Puppet::Module::Tool
 
     # Return Pathname of custom templates directory.
     def custom_path
-      Puppet::Module::Tool.pmtdir + 'skeleton'
+      Puppet::Module::Tool.working_dir + 'skeleton'
     end
 
     # Return Pathname of default template directory.

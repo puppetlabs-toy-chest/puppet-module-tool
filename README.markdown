@@ -1,13 +1,13 @@
 Puppet Module Tool
 ==================
 
-The Puppet Module Tool, `pmt`, helps you author, publish, and manage
-Puppet modules.
+The Puppet Module Tool, `puppet-module`, creates, installs and searches for
+modules on the Puppet Forge at http://forge.puppetlabs.com
 
 Dependencies
 ------------
 
-To run `pmt`, you must have the following installed:
+To run `puppet-module`, you must have the following installed:
 
 * Ruby 1.8.x: http://www.ruby-lang.org/en/downloads/
 * RubyGems 1.3.x: http://rubygems.org/pages/download/
@@ -27,12 +27,12 @@ control system and running:
 Running
 -------
 
-There are a number of ways to run the `pmt` program:
+There are a number of ways to run the `puppet-module` program:
 
 1. *From a source code checkout:* Checkout the source code and from the checkout
 directory, run:
 
-    alias pmt=$PWD/bin/pmt
+    alias puppet-module=$PWD/bin/puppet-module
 
 2. *From a locally-built gem:* Checkout the source code and from the checkout
 directory, run:
@@ -40,28 +40,27 @@ directory, run:
     # Build the gem
     rake gem
     # Install the file produced by the above command, e.g.:
-    sudo gem install pkg/pmt-0.2.4.gem
+    sudo gem install pkg/puppet-module-0.3.0.gem
 
 3. *From an official gem:* Install it by running:
 
-    # FIXME: THIS DOES NOT WORK, WE HAVEN'T PUBLISHED THE GEM YET!
-    sudo gem install pmt
+    sudo gem install puppet-module
 
 Basics
 ------
 
 Display the program's built-in help by running:
 
-    pmt help
+    puppet-module help
 
 Display information on a specific command by running a command like:
 
-    pmt help install
+    puppet-module help install
 
 Many commands will use a specific repository if you pass it to the `-r`
 option at the end, like:
 
-    pmt search mymodule -r http://forge.puppetlabs.com/
+    puppet-module search mymodule -r http://forge.puppetlabs.com/
 
 Search for modules
 ------------------
@@ -71,7 +70,7 @@ Searching displays modules on the repository that match your query.
 For example, search the default repository for modules whose names
 include the substring `mymodule`:
 
-    pmt search mymodule
+    puppet-module search mymodule
 
 Install a module release
 ------------------------
@@ -84,11 +83,11 @@ directory* to your Puppet configuration files to use it.
 For example, install the latest release of the module named `mymodule`
 written by `myuser` from the default repository:
 
-    pmt install myuser-mymodule
+    puppet-module install myuser-mymodule
 
 Or install a specific version:
 
-    pmt install myuser-mymodule --version=0.0.1
+    puppet-module install myuser-mymodule --version=0.0.1
 
 Generate a module
 -----------------
@@ -98,7 +97,7 @@ directory structure and files recommended for Puppet best practices.
 
 For example, generate a new module:
 
-    pmt generate myuser-mymodule
+    puppet-module generate myuser-mymodule
 
 The above command will create a new *module directory* called
 `myuser-mymodule` under your current directory with the generated files.
@@ -113,7 +112,7 @@ and produces a special archive file that you can share or install.
 
 For example, build a module release from within the module directory:
 
-    pmt build
+    puppet-module build
 
 The above command will report where it created the module release
 archive file.
@@ -150,8 +149,7 @@ wheel, and encourages them to help with your work by improving it. For
 every module you share, we hope you'll find many modules by others that
 will be useful to you.
 
-You can share your modules at
-[http://forge.puppetlabs.com/](http://forge.puppetlabs.com/)
+You can share your modules at http://forge.puppetlabs.com/
 
 Building and sharing a new module version
 -----------------------------------------
@@ -159,7 +157,7 @@ Building and sharing a new module version
 To build and share a new module version:
 
 1. Edit the `Modulefile` and increase the `version` number.
-2. Run the `pmt build` as explained in the *Build a module release* section.
+2. Run the `puppet-module build` as explained in the *Build a module release* section.
 3. Upload the new release file as explained in the *Share a module* section.
 
 Cleaning the cache
@@ -168,7 +166,7 @@ Cleaning the cache
 Modules that you install are saved to a cache within your `~/.puppet`
 directory. This cache can be cleaned out by running:
 
-    pmt clean
+    puppet-module clean
 
 Deleting a module
 -----------------

@@ -43,7 +43,7 @@ module Puppet::Module::Tool
 
     # Return the base Pathname for all the caches.
     def self.base_path
-      return(Puppet::Module::Tool.pmtdir + 'cache')
+      return(Puppet::Module::Tool.working_dir + 'cache')
     end
 
     # Clean out all the caches.
