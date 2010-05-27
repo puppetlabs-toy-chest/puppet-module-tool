@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+r0.1.3
+------
+
+* Opened the site to the public and added link to homepage for the new public issue tracker.
+
 r0.1.2
 ------
 
