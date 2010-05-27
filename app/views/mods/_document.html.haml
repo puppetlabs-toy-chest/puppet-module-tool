@@ -31,6 +31,8 @@
               - else
                 This module has not been released.
             %li Shared by #{user_link user}
+            - if mod.project_url.present?
+              %li Homepage at #{link_to h(mod.project_url), h(mod.project_url)}
             %li Tagged with #{tag_list mod}
 
   -# Display details
