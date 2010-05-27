@@ -1,0 +1,13 @@
+<p>Welcome to the Puppet Forge, <%= @resource.display_name %>!</p>
+
+<p>Please confirm your account by clicking this link:</p>
+
+<p><%= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>
+
+<p>Or by visiting this URL:</p>
+
+<p><%= confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>
+
+<p>Thanks!</p>
+
+<p>--Puppet Labs</p>
