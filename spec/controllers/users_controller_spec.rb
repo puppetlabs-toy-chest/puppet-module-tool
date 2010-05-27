@@ -234,7 +234,7 @@ describe UsersController do
       sign_in @user
       delete :destroy, :id => @user.to_param
 
-      response.should redirect_to(home_path)
+      response.should redirect_to(root_path)
       User.exists?(@user.id).should be_false
     end
 
