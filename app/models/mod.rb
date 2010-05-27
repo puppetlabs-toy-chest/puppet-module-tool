@@ -107,6 +107,12 @@ class Mod < ActiveRecord::Base
     self.update_attribute(:current_release, self.releases(true).current)
   end
 
+  # Set the #tag_list but remove unnecessary commas and extra spaces
+  def tag_list_with_sanitizer=(value)
+    self.tag_list_without_sanitizer = value.present? ? value.gsub(/,|\s+/, ' ') : nil
+  end
+  alias_method_chain :tag_list=, :sanitizer
+
   # TODO Implement Watches
 =begin
   def watchable_by?(user)
