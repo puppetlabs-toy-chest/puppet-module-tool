@@ -18,7 +18,6 @@ namespace :externals do
     # the URL and local name to use).
     externals = {
       :javascripts => [
-        ['http://puppetlabs.com/wp-includes/js/jquery/jquery.js?ver=1.3.2', 'jquery-1.3.2.js'],
         'http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/html5.js',
         'http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.localScroll.js',
         'http://puppetlabs.com/wp-content/themes/puppetlabs/javascripts/jquery.serialScroll.js',
