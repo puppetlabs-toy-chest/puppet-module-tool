@@ -1,6 +1,17 @@
 puppet-module-site changes
 ==========================
 
+r0.1.4
+------
+
+* MIGRATION: Fixed stray commas in tags by renaming or reassigning taggings of affected tags.
+* Fixed unwanted commas in tags by removing them if they're entered by the user.
+* Fixed exceptions when someone tried to install a module that didn't exist or have a release.
+* Fixed emails sent for account confirmation and password reset to include text links and better text.
+* Fixed jQuery to use modern release and allow usage through shortcut.
+* Added favicon.ico file.
+* Added link to header pointing back to homepage.
+
 r0.1.3
 ------
 
