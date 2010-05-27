@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+r0.1.5
+------
+
+* Fixed module/release pages to display link to project homepage if available.
+
 r0.1.4
 ------
 
