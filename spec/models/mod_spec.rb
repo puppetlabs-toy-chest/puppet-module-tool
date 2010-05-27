@@ -138,6 +138,12 @@ describe Mod do
           mods.first.name.should == mod1.name
         end
       end
+
+      it "should remove unwanted commas and spaces when setting" do
+        mod = Factory :mod, :tag_list => "foo, bar,,baz,,,"
+
+        mod.tag_list.should == ['foo', 'bar', 'baz']
+      end
     end
 
   end
