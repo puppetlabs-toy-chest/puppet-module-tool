@@ -1,6 +1,14 @@
 puppet-module-site changes
 ==========================
 
+r0.1.6
+------
+
+* Fixed styling to remove huge whitespace by the sidebar.
+* Updated homepage's text.
+* Split "Operating Systems and Virtualization" into two separate categories.
+* Added Google Analytics and Loopfuse Tracker.
+
 r0.1.5
 ------
 
