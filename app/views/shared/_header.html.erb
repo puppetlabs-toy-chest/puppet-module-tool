@@ -82,6 +82,8 @@
       Cufon.replace('h1, h2', { fontWeight: '600' });
     </script>
 
+    <%= javascript_include_tag "loopfuse-async.js" %>
+
     <%= javascript_include_tag 'jquery.form', 'application' %>
     <%= stylesheet_link_tag 'modules' %>
     <%= yield :head %>

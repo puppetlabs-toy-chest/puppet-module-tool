@@ -64,25 +64,28 @@
 <% if ENV['ANALYTICS'] == '1' || %w[production preview].include?(Rails.env) %>
   <!-- BEGIN: Google Analytics -->
   <script type="text/javascript">
-    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-  </script>
-  <script type="text/javascript">
-    try {
-      var pageTracker = _gat._getTracker("UA-1537572-5");
-      pageTracker._setDomainName(".puppetlabs.com");
-      pageTracker._trackPageview();
-    } catch(err) {}
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1537572-5']);
+    _gaq.push(['_setDomainName', '.puppetlabs.com']);
+    _gaq.push(['_trackPageview']);
+    $(document).ready(function() {
+      var ga = document.createElement('script');
+      ga.src = ('https:' == document.location.protocol ?
+          'https://ssl' : 'http://www') +
+          '.google-analytics.com/ga.js';
+      ga.setAttribute('async', 'true');
+      ga.setAttribute('type', 'text/javascript');
+      document.documentElement.firstChild.appendChild(ga);
+    });
   </script>
   <!-- END: Google Analytics -->
 
   <!-- BEGIN: Loopfuse Tracking -->
-  <script src="http://lfov.net/webrecorder/js/listen.js" type="text/Javascript"></script>
-  <script type="text/Javascript">
-    _lf_cid = "LF_c268993e";
-    _lf_remora();
+  <script type="text/javascript">
+    $(document).ready(function () {
+      _lf_track("LF_c268993e");
+    });
   </script>
-
   <!-- END: LOOPFUSE TRACKING -->
 <% end %>
 
