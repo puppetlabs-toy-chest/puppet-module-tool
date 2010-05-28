@@ -60,5 +60,31 @@
     </span>          
   </div>
 </div>
+
+<% if ENV['ANALYTICS'] == '1' || %w[production preview].include?(Rails.env) %>
+  <!-- BEGIN: Google Analytics -->
+  <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+    try {
+      var pageTracker = _gat._getTracker("UA-1537572-5");
+      pageTracker._setDomainName(".puppetlabs.com");
+      pageTracker._trackPageview();
+    } catch(err) {}
+  </script>
+  <!-- END: Google Analytics -->
+
+  <!-- BEGIN: Loopfuse Tracking -->
+  <script src="http://lfov.net/webrecorder/js/listen.js" type="text/Javascript"></script>
+  <script type="text/Javascript">
+    _lf_cid = "LF_c268993e";
+    _lf_remora();
+  </script>
+
+  <!-- END: LOOPFUSE TRACKING -->
+<% end %>
+
 </body>
 </html>
