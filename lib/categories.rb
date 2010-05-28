@@ -43,7 +43,8 @@ module Categories
   category :packaging, 'Package Management'
   category :applications, 'Applications'
   category :networking, 'Networking'
-  category :os, 'Operating Systems and Virtualization'
+  category :os, 'Operating Systems'
+  category :virtualization, 'Virtualization'
   category :security, "Security"
   category :utilities, "Utilities"
 
