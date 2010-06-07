@@ -1,6 +1,11 @@
 puppet-module changes
 =====================
 
+r0.3.1
+------
+
+* Fixed documentation formatting.
+
 r0.3.0
 ------
 
