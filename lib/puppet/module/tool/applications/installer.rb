@@ -67,7 +67,7 @@ module Puppet::Module::Tool
           begin
             raw_result = read_match(url)
           rescue => e
-            abort "Could not request version match (#{e.message})"
+            abort "Could not find a release for this module (#{e.message})"
           end
           @match = PSON.parse(raw_result)
         end
