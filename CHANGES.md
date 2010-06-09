@@ -1,6 +1,14 @@
 puppet-module-site changes
 ==========================
 
+r0.1.7
+------
+
+* Fixed obsolete header menu, updated it using contents of the main Puppet Labs site.
+* Fixed styling of login form to display correctly when showing an error.
+* Fixed invalid HTML in layout's "body" tag and "search" field.
+* Added "Go" button to search for better accessbility.
+
 r0.1.6
 ------
 
