@@ -26,7 +26,7 @@
         .section#search
           %h3 Search Modules
           - form_tag mods_path, :method => 'get' do
-            = text_field_tag :q, params[:q], :id => 'search'
+            = text_field_tag :q, params[:q]
         = yield :sidebar
         = render 'shared/category_list'
 
