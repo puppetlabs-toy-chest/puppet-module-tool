@@ -34,7 +34,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = Defer { User.find_by_username(params[:id]) }
     @mods = Defer { @user.mods.ordered.paginate(:page => params[:page]) }
     @cache_key_for_mods_list = "users-show_#{@user.id}"
   end

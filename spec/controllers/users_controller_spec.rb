@@ -78,6 +78,14 @@ describe UsersController do
       assigns[:user].should == user
       response.should be_success
     end
+
+    it "should display a user without regard to case" do
+      user = Factory :user
+      get :show, :id => user.to_param.upcase
+
+      assigns[:user].should == user
+      response.should be_success
+    end
     
     it "should fail when given an invalid user" do
       get :show, :id => "invalid user"
