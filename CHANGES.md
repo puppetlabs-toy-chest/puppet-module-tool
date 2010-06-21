@@ -1,6 +1,12 @@
 puppet-module-site changes
 ==========================
 
+r0.1.8
+------
+
+* Fixed user modules page to load the User record in case-insensitive manner.
+* Fixed module and release pages to display documentation if some metadata was available but the Puppet types were blank.
+
 r0.1.7
 ------
 
