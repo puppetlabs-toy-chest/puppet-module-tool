@@ -59,7 +59,7 @@
       %div.types
         %h3 Types
         %div.indent
-          - if release.metadata.blank? || release.metadata['types'].empty?
+          - if release.metadata.blank? || release.metadata['types'].blank?
             %p.blank No type information provided.
           - else
             - release.metadata['types'].each do |type|
