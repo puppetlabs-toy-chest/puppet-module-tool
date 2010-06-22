@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
 
   # Validations
   validates_format_of :username, :with => /\A[[:alnum:]]{3,}\z/, :message => "should be 3 or more alphanumeric characters"
-  validates_uniqueness_of :username
+  validates_uniqueness_of :username, :case_sensitive => false
 
   # Associations
   has_many :mods, :foreign_key => :owner_id, :dependent => :destroy
