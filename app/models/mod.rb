@@ -55,7 +55,7 @@ class Mod < ActiveRecord::Base
   # Scopes
   named_scope :with_releases, :joins => :releases, :group => 'mods.id', :include => [:owner, :releases, :current_release, :tags]
   named_scope :with_current_release, :joins => :releases, :group => 'mods.id', :include => [:owner, :current_release, :tags]
-  named_scope :matching, proc { |q| {:conditions => ['name like ?', "%#{q}%"]} }
+  named_scope :matching, proc { |q| {:conditions => ['lower(mods.name) like ?', "%#{q.downcase}%"]} }
   named_scope :ordered, :order => 'lower(full_name) asc'
 
   # Validations

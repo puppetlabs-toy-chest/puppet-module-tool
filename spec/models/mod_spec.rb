@@ -35,6 +35,63 @@ describe Mod do
     end
   end
 
+  describe "scopes" do
+    describe "::with_releases" do
+      it "should return only modules with releases" do
+        with_release = Factory(:mod)
+        Factory(:release, :mod => with_release)
+        without_release = Factory(:mod)
+
+        matches = Mod.with_releases
+
+        matches.should include(with_release)
+        matches.should_not include(without_release)
+      end
+
+      it "should have preloaded releases"
+    end
+
+    describe "::with_current_release" do
+      it "should return modules along current release" do
+        with_release = Factory(:mod)
+        Factory(:release, :mod => with_release)
+        without_release = Factory(:mod)
+
+        matches = Mod.with_releases
+
+        matches.should include(with_release)
+        matches.should_not include(without_release)
+      end
+
+      it "should have preloaded current_release"
+    end
+
+    describe "::matching" do
+      it "should return matching modules" do
+        foo = Factory :mod, :name => "foo"
+        bar = Factory :mod, :name => "bar"
+        baz = Factory :mod, :name => "baz"
+
+        matches = Mod.matching("ba")
+
+        matches.should_not include(foo)
+        matches.should include(bar)
+        matches.should include(baz)
+      end
+    end
+
+    describe "::ordered" do
+      it "should return modules sorted by fullname" do
+        user = Factory :user
+        foo = Factory(:mod, :owner => user, :name => "foo")
+        bar = Factory(:mod, :owner => user, :name => "bar")
+        baz = Factory(:mod, :owner => user, :name => "baz")
+
+        Mod.ordered.should == [bar, baz, foo]
+      end
+    end
+  end
+
   describe "full_name" do
     it "should have username and mod name" do
       mod = Factory :mod
