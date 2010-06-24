@@ -41,6 +41,7 @@ describe ApplicationHelper do
       name = "thing"
       taggable = mock(Mod, :tags => [Tag.new(:name => name)])
       helper.tag_list(taggable).should have_tag("a", name)
+      helper.tag_list(taggable).should have_tag("a[href=#{tag_path(name)}]")
     end
 
     it "should list categories" do
@@ -48,6 +49,23 @@ describe ApplicationHelper do
       category = Categories[name.to_sym]
       taggable = mock(Mod, :tags => [Tag.new(:name => "os")])
       helper.tag_list(taggable).should have_tag("a", category)
+      helper.tag_list(taggable).should have_tag("a[href=#{tag_path(name)}]")
+    end
+
+    it "should list tags alphabetically" do
+      foo = Tag.new(:name => "foo")
+      bar = Tag.new(:name => "bar")
+      baz = Tag.new(:name => "baz")
+      taggable = mock(Mod, :tags => [foo, bar, baz])
+
+      response.body = helper.tag_list(taggable)
+      
+      elements = assert_select("a")
+      elements.map{|element| element.attributes['href']}.should == [
+        tag_path("bar"),
+        tag_path("baz"),
+        tag_path("foo")
+      ]
     end
   end
 

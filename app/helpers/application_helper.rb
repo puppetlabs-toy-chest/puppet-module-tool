@@ -23,9 +23,9 @@ module ApplicationHelper
 
   # Return clickable list of tags for the +taggable+ record with the categories expanded.
   def tag_list(taggable)
-    tags = taggable.tags.map do |tag|
+    tags = taggable.tags.sort_by{ |tag| tag.name.downcase }.map do |tag|
       name = Categories[tag] || tag
-      link_to(name, tag, :title => %(Tagged "#{h tag.name}"))
+      link_to(name, tag_path(tag), :title => %(Tagged "#{h tag.name}"))
     end
     return tags.join(', ')
   end

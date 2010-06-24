@@ -15,5 +15,5 @@
 .section#tags
   %h3 Popular Tags
   - cache 'shared-category_list-tag_cloud' do
-    - tag_cloud(Mod.tag_counts_on(:tags), %w(css1 css2 css3 css4)) do |tag, css_class| 
+    - tag_cloud(Mod.tag_counts_on(:tags, :order => 'lower(tags.name)'), %w(css1 css2 css3 css4)) do |tag, css_class|
       = link_to tag.name, tag, :class => css_class
