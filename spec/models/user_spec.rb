@@ -33,9 +33,23 @@ describe User do
     should_not_allow_values_for :username, 'bad|char', :message => /alphanumeric/
     should_not_allow_values_for :username, '12', :message => /3 or more/
 
-    it "should validate uniqueness" do
-      Factory :user
-      should validate_uniqueness_of :username
+    describe "when validating username" do
+      before :each do
+        @username = "username"
+        @user = Factory :user, :username => @username
+      end
+
+      it "should allow unique usernames" do
+        Factory.build(:user, :username => "#{@username}unique").should be_valid
+      end
+
+      it "should forbid identical usernames" do
+        Factory.build(:user, :username => @username).should_not be_valid
+      end
+
+      it "should forbid identical usernames that use different case" do
+        Factory.build(:user, :username => @username.swapcase).should_not be_valid
+      end
     end
   end
 
