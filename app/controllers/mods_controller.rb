@@ -29,7 +29,7 @@ class ModsController < ApplicationController
         @mods = Defer { mods.paginate :page => params[:page] }
       end
       format.json do
-        render :json => json_for(@mods)
+        render :json => json_for_mods(@mods)
       end
     end
   end
@@ -54,7 +54,7 @@ class ModsController < ApplicationController
     @release = Defer { @releases.first }
     respond_to do |format|
       format.html
-      format.json { render :json => json_for(@mod) }
+      format.json { render :json => json_for_mods(@mod) }
     end
   end
 
@@ -94,14 +94,6 @@ class ModsController < ApplicationController
       params[:q] ?
       base.matching(params[:q]) :
       base
-  end
-
-  # Serialize one or more mods to JSON.
-  def json_for(obj)
-    obj.to_json(
-      :only => [:name, :project_url],
-      :methods => [:full_name, :version]
-    )
   end
 
   #===[ Helpers ]=========================================================

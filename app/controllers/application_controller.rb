@@ -216,6 +216,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Serialize one or more mods to JSON.
+  def json_for_mods(obj)
+    # TODO should this be done with Mod#to_json instead?
+    obj.to_json(
+      :only => [:name, :project_url],
+      :methods => [:full_name, :version]
+    )
+  end
+
   #===[ Helpers ]===========================================================
 
   # Is the currently logged in user an admin?
