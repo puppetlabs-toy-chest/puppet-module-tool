@@ -1,6 +1,15 @@
 puppet-module-site changes
 ==========================
 
+r0.1.9
+------
+
+* Fixed usernames to be unique regardless of case.
+* Fixed counts shown on pages to be the total number of items rather than the number of items on the page.
+* Fixed display of tags so that they're sorted alphabetically.
+* Fixed modules listing page to not show the modules' documentation.
+* Added `rake db:rollback` to allow simple rollback to previous version of schema.
+
 r0.1.8
 ------
 
