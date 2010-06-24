@@ -1,7 +1,7 @@
 -# Display a list of +@mods+.
 
 - cache_if (params[:q].blank? && params[:page].blank? && @cache_key_for_mods_list.present?), @cache_key_for_mods_list do
-  = count 'module', @mods
+  = count 'module', @mods_count
 
   %ul#mods
     - @mods.each do |mod|

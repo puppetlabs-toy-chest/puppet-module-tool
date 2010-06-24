@@ -17,18 +17,18 @@ class ModsController < ApplicationController
       return ensure_user!
     end
 
-    @mods = search_scope
-
     @cache_key_for_mods_list = "mods-index".tap do |k|
       k << "-user_#{@user.id}" if @user
     end
     
     respond_to do |format|
       format.html do
-        mods = @mods
+        mods = search_scope
         @mods = Defer { mods.paginate :page => params[:page] }
+        @mods_count = Defer { mods.count }
       end
       format.json do
+        @mods = search_scope
         render :json => json_for_mods(@mods)
       end
     end
@@ -50,8 +50,10 @@ class ModsController < ApplicationController
   end
 
   def show
-    @releases = Defer { @mod.releases.ordered.paginate :page => params[:page], :order => 'version desc' }
-    @release = Defer { @releases.first }
+    releases = @mod.releases.ordered
+    @releases = Defer { releases.paginate :page => params[:page], :order => 'version desc' }
+    @releases_count = Defer { releases.count }
+    @release = Defer { releases.first }
     respond_to do |format|
       format.html
       format.json { render :json => json_for_mods(@mod) }
