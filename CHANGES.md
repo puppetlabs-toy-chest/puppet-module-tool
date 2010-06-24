@@ -1,6 +1,11 @@
 puppet-module-site changes
 ==========================
 
+r0.1.10
+-------
+
+* Fixed search by module name caused by bad named scope. Added comprehensive specs for all module-related named scopes.
+
 r0.1.9
 ------
 
