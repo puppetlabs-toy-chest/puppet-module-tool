@@ -14,26 +14,45 @@ describe TagsController do
       @mod_with_category = Factory :mod, :tag_list => @category
     end
 
-    it "should show a tag and its mods" do
-      get :show, :id => @tag
+    shared_examples_for "tags_controller_show_common" do
+      it "should show a tag and its mods" do
+        get :show, :format => @format, :id => @tag
 
-      response.should be_success
-      assigns[:mods].should == [@mod_with_tag]
-      assigns[:category].should be_nil
+        response.should be_success
+        assigns[:mods].should == [@mod_with_tag]
+        assigns[:category].should be_nil
+      end
+
+      it "should show a category and its mods" do
+        get :show, :format => @format, :id => @category
+
+        response.should be_success
+        assigns[:mods].should == [@mod_with_category]
+        assigns[:category].should == @category_text
+      end
+
+      it "should redirect if given an invalid tag" do
+        get :show, :format => @format, :id => "Invalid Tag"
+
+        response_should_be_not_found
+      end
     end
 
-    it "should show a category and its mods" do
-      get :show, :id => @category
+    describe "as HTML" do
+      before do
+        @format = "html"
+      end
 
-      response.should be_success
-      assigns[:mods].should == [@mod_with_category]
-      assigns[:category].should == @category_text
+      it_should_behave_like "tags_controller_show_common"
     end
 
-    it "should redirect if given an invalid tag" do
-      get :show, :id => "Invalid Tag"
+    describe "as JSON" do
+      before do
+        @format = "json"
+      end
 
-      response_should_be_not_found
+      it_should_behave_like "tags_controller_show_common"
     end
+
   end
 end
