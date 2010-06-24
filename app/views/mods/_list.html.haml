@@ -7,6 +7,6 @@
     - @mods.each do |mod|
       %li
         %h3= link_to mod.full_name, module_path(mod.owner, mod)
-        = render :partial => 'mods/intro', :locals => {:mod => mod}
+        = render :partial => 'mods/intro', :locals => {:mod => mod, :docs => false}
 
   = will_paginate @mods

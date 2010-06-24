@@ -1,4 +1,8 @@
--# Display an introduction for a +mod+ record.
+-# Display an introduction for a module.
+-# Variables:
+-# * mod: Mod record to display. Required.
+-# * docs: Display docs? Defaults to true.
+- docs = local_assigns[:docs] != false
 
 - cache "mods-intro_#{mod.id}" do
   %div.details
@@ -15,4 +19,5 @@
         &middot;
         = tag_list mod
 
-    %div.introduction= markdown(mod.description)
+    - if docs
+      %div.introduction= markdown(mod.description)
