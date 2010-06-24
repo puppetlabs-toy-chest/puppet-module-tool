@@ -7,7 +7,18 @@ class TagsController < ApplicationController
     @tag_name = params[:id]
     if @tag
       @category = Defer { Categories[@tag] }
-      @mods = Defer { Mod.tagged_with(@tag).ordered.paginate :page => params[:page] }
+      mods = Defer { Mod.tagged_with(@tag).ordered }
+
+      respond_to do |format|
+        format.html do
+          @mods = Defer { mods.paginate :page => params[:page] }
+          @mods_count = Defer { mods.count }
+        end
+        format.json do
+          @mods = mods
+          render :json => json_for_mods(@mods)
+        end
+      end
 
       @cache_key_for_mods_list = "tags-show_#{@tag.id}"
     else

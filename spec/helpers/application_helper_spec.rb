@@ -3,12 +3,36 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe ApplicationHelper do
 
   describe "count" do
-    it "should show a count for a populated collection" do
-      helper.count("thing", [1,2,3]).should have_tag('p', /3 things found/)
+    shared_examples_for "application_helper_count_common" do
+      it "should show a count of items" do
+        helper.count("thing", @populated).should have_tag('p', /3 things found/)
+      end
+
+      it "should show a disclaimer if no items" do
+        helper.count("thing", @unpopulated).should have_tag("p", /No things found/)
+      end
     end
 
-    it "should show a disclaimer for an empty collection" do
-      helper.count("thing", []).should have_tag("p", /No things found/)
+    describe "with collection" do
+      before do
+        @populated = [1,2,3]
+        @unpopulated = []
+      end
+
+      it_should_behave_like "application_helper_count_common"
+    end
+
+    describe "with number" do
+      before do
+        @populated = 3
+        @unpopulated = 0
+      end
+
+      it_should_behave_like "application_helper_count_common"
+    end
+
+    it "should fail if given invalid arguments" do
+      lambda { helper.count("thing", ApplicationHelper) }.should raise_exception(TypeError)
     end
   end
 

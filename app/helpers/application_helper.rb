@@ -2,10 +2,18 @@
 module ApplicationHelper
   include TagsHelper
   
-  # Return paragraph describing the number of +named+ (e.g. "module") items in a +collection+.
+  # Return paragraph describing the number of +named+ (e.g. "module") items in
+  # a +collection+. The +collection+ can also be the number to use for the count.
   def count(name, collection)
-    method = collection.respond_to?(:count) ? :count : :size
-    number = collection.send(method)
+    number =
+      if collection.kind_of?(Numeric)
+        collection
+      elsif collection.respond_to?(:count)
+        collection.count
+      else
+        raise TypeError, "Unknown collection type: #{collection.class.name}"
+      end
+      
     if number == 0
       return(content_tag :p, "No #{h(name).pluralize} found.", :class => 'blank')
     else
