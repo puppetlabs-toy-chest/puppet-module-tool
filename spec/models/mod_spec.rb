@@ -23,7 +23,6 @@ describe Mod do
   describe "validations" do
     should_allow_values_for     :name, 'foo'
     should_not_allow_values_for :name, 'bad_char', :message => /alphanumeric/
-    should_not_allow_values_for :name, '1', :message => /2 or more/
 
     should_not_allow_values_for :project_url, 'foo', :message => /not appear to be valid/
     should_allow_values_for     :project_url, 'http://github.com/bar/foo'
