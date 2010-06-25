@@ -4,5 +4,6 @@ class PagesController < ApplicationController
   end
 
   def root
+    page_title "Home"
   end
 end

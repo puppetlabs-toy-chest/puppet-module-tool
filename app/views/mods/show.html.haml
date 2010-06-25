@@ -8,7 +8,8 @@
     %li= link_to "Delete module", [@user, @mod], :method => :delete, :confirm => "Delete module '#{h @mod.name}'?"
 
 %h2
-  &= @mod.full_name
+  Module
+  = usermodrelease_links @mod
 
 - cache "mods-show_#{@mod.id}-document" do
   = render :partial => "mods/document", :object => @mod

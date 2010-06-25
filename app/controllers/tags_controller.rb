@@ -5,6 +5,7 @@ class TagsController < ApplicationController
 
   def show
     @tag_name = params[:id]
+    page_title "Tag: #{@tag_name}"
     if @tag
       @category = Defer { Categories[@tag] }
       mods = Defer { Mod.tagged_with(@tag).ordered }

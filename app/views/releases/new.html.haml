@@ -1,6 +1,6 @@
 %h2
   = succeed ':' do
-    = link_to @mod.full_name, module_path(@mod.owner, @mod)
+    = usermodrelease_links @mod
   Add a release
 
 = render :partial => 'form'

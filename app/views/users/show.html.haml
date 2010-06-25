@@ -6,7 +6,6 @@
       %li= link_to "Sign in as this user #{privilege_label}", switch_user_path(@user), :method => "post"
       %li= link_to "Edit this user #{privilege_label}", edit_user_path(@user)
 
-%h2
-  &= @user.label
+%h2&= page_title
 
 = render :partial => 'mods/list'

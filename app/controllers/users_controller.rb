@@ -8,16 +8,19 @@ class UsersController < ApplicationController
   before_filter :authorize_change!,  :except => [:index, :new, :create, :show, :switch]
 
   def index
+    page_title "Users"
     scope = User.ordered
     @users = Defer { scope }
     @users_count = Defer { scope.count }
   end
 
   def new
+    page_title "Register"
     @user = User.new
   end
 
   def create
+    page_title "Register"
     @user = User.new(params[:user])
     
     if @user.save
@@ -36,6 +39,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    page_title "User: #{@user.label}"
     mods = @user.mods.ordered
     @mods = Defer { mods.paginate(:page => params[:page]) }
     @mods_count = Defer { mods.count }
@@ -43,9 +47,11 @@ class UsersController < ApplicationController
   end
 
   def edit
+    page_title "Update user: #{@user.label}"
   end
 
   def update
+    page_title "Update user: #{@user.label}"
     if admin? && params[:user]
       @user.admin = params[:user][:admin]
     end

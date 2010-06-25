@@ -1,7 +1,8 @@
 %h2
-  - if @category
+  - if @category.present?
+    Modules for
     &= @category
-  - elsif @tag
+  - elsif @tag.present?
     Modules tagged
     = surround "&ldquo;", "&rdquo;" do
       &= @tag.name

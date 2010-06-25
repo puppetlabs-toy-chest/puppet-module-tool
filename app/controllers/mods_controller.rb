@@ -10,6 +10,8 @@ class ModsController < ApplicationController
   before_filter :authorize_change!,  :except => [:index, :show]
 
   def index
+    page_title "Modules"
+
     if @user_found
       # NOTE: The user's page has a module listing, use that instead.
       return redirect_to [@user]
@@ -35,10 +37,12 @@ class ModsController < ApplicationController
   end
 
   def new
+    page_title "Add a module"
     @mod = Mod.new
   end
 
   def create
+    page_title "Add a module"
     @mod = current_user.mods.new(params[:mod])
     if @mod.save
       notify_of "Module added"
@@ -50,6 +54,7 @@ class ModsController < ApplicationController
   end
 
   def show
+    page_title "Module: #{@mod.full_name}"
     releases = @mod.releases.ordered
     @releases = Defer { releases.paginate :page => params[:page], :order => 'version desc' }
     @releases_count = Defer { releases.count }
@@ -61,9 +66,11 @@ class ModsController < ApplicationController
   end
 
   def edit
+    page_title "Edit module: #{@mod.full_name}"
   end
 
   def update
+    page_title "Edit module: #{@mod.full_name}"
     if @mod.update_attributes(params[:mod])
       notify_of "Updated module"
       redirect_to module_path(@mod.owner, @mod)

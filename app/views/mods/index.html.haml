@@ -2,6 +2,9 @@
   - if @user
     All modules for user
     &= @user.username
+  - elsif params[:q]
+    Search for modules matching:
+    %span.search_highlight&= params[:q]
   - else
     All Modules
 

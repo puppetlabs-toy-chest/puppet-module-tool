@@ -11,6 +11,7 @@ class ReleasesController < ApplicationController
   before_filter :authorize_change!,  :except => [:index, :show, :find]
   
   def new
+    page_title "Add a release: #{@mod.full_name}"
     @release = @mod.releases.new
   end
 
@@ -29,6 +30,7 @@ class ReleasesController < ApplicationController
   end
 
   def create
+    page_title "Add a release: #{@mod.full_name}"
     @release = @mod.releases.new(params[:release])
     if @release.save
       notify_of "Released #{@release.version}"
@@ -54,6 +56,7 @@ class ReleasesController < ApplicationController
   end
 
   def show
+    page_title "Release: #{@mod.full_name} #{@release.version}"
   end
 
   def destroy
