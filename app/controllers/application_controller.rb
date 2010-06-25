@@ -5,6 +5,9 @@ class ApplicationController < ActionController::Base
   # Include all helpers, all the time
   helper :all
 
+  # Set the #page_title
+  include PageTitleHelper
+
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
 
