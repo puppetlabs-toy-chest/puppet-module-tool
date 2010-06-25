@@ -1,6 +1,17 @@
 puppet-module-site changes
 ==========================
 
+r0.1.11
+-------
+
+* Updated module validations to allow names as short as one character, e.g. "x" for the X11 module.
+* Improved search to return matching modules if where the query matches the username or module name.
+* Improved search to highlight the matched term to make it easier visually scan the list.
+* Improved modules listing to display separate links for the user and module.
+* Improved modules listing to make each section showing a module clickable to make it easier to navigate to it.
+* Improved user label to only show the display name if it's the same as the username.
+* Added useful page titles and headers to all views.
+
 r0.1.10
 -------
 
