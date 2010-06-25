@@ -42,5 +42,16 @@ module ApplicationHelper
       end
     end
   end
-  
+
+  # Return a string with matches highlighted using HTML.
+  #
+  # Arguments:
+  # * string: The string to search within, e.g. "this"
+  # * regexp: The regular expresion to highlight in the string, e.g. /is/
+  # * style: The CSS class for the highlight, e.g. :highlighted
+  def highlight_matches(string, regexp, style=:search_highlight)
+    replacement = '<span class="%s">\1</span>' % style
+    return string.gsub(/(#{regexp.to_s})/, replacement)
+  end
+
 end

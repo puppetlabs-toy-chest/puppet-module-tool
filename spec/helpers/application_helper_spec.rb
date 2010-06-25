@@ -86,4 +86,11 @@ describe ApplicationHelper do
     end
   end
 
+  describe "#highlight_matches" do
+    it "should highlight matches in a string" do
+      helper.highlight_matches('this is text, it is', /is/, :highlight).should ==
+        'th<span class="highlight">is</span> <span class="highlight">is</span> text, it <span class="highlight">is</span>'
+    end
+  end
+
 end
