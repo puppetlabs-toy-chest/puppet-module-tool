@@ -5,8 +5,9 @@
 
   %ul#mods
     - @mods.each do |mod|
-      %li
-        %h3= link_to mod.full_name, module_path(mod.owner, mod)
+      %li.mod_link{:data => {:mod_link => module_path(mod.owner, mod)}}
+        - query_regexp = params[:q] ? /(#{params[:q]})/ : nil
+        %h3= usermodrelease_links(mod, query_regexp, :search_highlight)
         = render :partial => 'mods/intro', :locals => {:mod => mod, :docs => false}
 
   = will_paginate @mods

@@ -19,3 +19,20 @@ function watchingForm() {
 }
 
 */
+
+// For the module listings produced by mods#_list, make the individual module backgrounds clickable to make it easier to navigate.
+function mods_list_links() {
+  $("#mods li[data-mod_link]")
+    .click(function (event) {
+      mod_link = $(this).attr('data-mod_link');
+      if (mod_link) {
+        window.location = mod_link;
+      }
+      event.stopPropogation();
+      return false;
+    });
+}
+
+$(document).ready(function() {
+    mods_list_links();
+});
