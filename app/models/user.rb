@@ -88,7 +88,10 @@ class User < ActiveRecord::Base
 
   # Return string containing "Display Name (username)" for this user.
   def label
-    return "#{self.display_name} (#{self.username})"
+    return(
+      self.display_name == self.username ?
+        self.display_name :
+        "#{self.display_name} (#{self.username})")
   end
 
 end

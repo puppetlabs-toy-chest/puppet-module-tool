@@ -82,6 +82,11 @@ describe User do
       user = Factory :user, :display_name => "Display Name", :username => "username"
       user.label.should == "Display Name (username)"
     end
+
+    it "should return a string like 'Display Name' if both the display_name and username are the same" do
+      user = Factory :user, :display_name => "username", :username => "username"
+      user.label.should == "username"
+    end
   end
 
   # TODO Implement Watches
