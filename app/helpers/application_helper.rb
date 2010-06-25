@@ -54,4 +54,33 @@ module ApplicationHelper
     return string.gsub(/(#{regexp.to_s})/, replacement)
   end
 
+  # Return a nicely formatted set of links for the username, module name and optional release number.
+  #
+  # Arguments:
+  # * mod_or_release: A Mod or Release record. Required.
+  # * regexp: Highlight text matching this regular expression, e.g., /is/. Optional.
+  # * style: CSS class to use for highlighting. Optional.
+  def usermodrelease_links(mod_or_release, regexp=nil, style=nil)
+    case mod_or_release
+    when Mod
+      release = nil
+      mod = mod_or_release
+    when Release
+      release = mod_or_release
+      mod = release.mod
+    else
+      raise TypeError, "Unknown type: #{mod_or_release.class.name}"
+    end
+    username = mod.owner.to_param
+    modname = mod.to_param
+    result = [
+      link_to((regexp ? highlight_matches(username, /#{regexp.to_s}/i, style) : username), user_path(mod.owner)),
+      link_to((regexp ? highlight_matches(modname,  /#{regexp.to_s}/i, style) : modname),  module_path(mod.owner, mod))
+    ].join('/')
+    if release
+      result << " " << link_to(release.to_param, vanity_release_path(mod.owner, mod, release))
+    end
+    return result
+  end
+
 end

@@ -91,6 +91,34 @@ describe ApplicationHelper do
       helper.highlight_matches('this is text, it is', /is/, :highlight).should ==
         'th<span class="highlight">is</span> <span class="highlight">is</span> text, it <span class="highlight">is</span>'
     end
+   end
+
+  describe "usermodrelease_links" do
+    it "should return links for a user and mod when given a mod" do
+      user = Factory :user
+      mod = Factory :mod, :owner => user
+
+      helper.usermodrelease_links(mod).should == %{<a href="#{user_path(user)}">#{user.to_param}</a>/<a href="#{module_path(user, mod)}">#{mod.to_param}</a>}
+    end
+
+    it "should return links for a user, mod and release when given a release" do
+      user = Factory :user
+      mod = Factory :mod, :owner => user
+      release = Factory :release, :mod => mod
+
+      helper.usermodrelease_links(release).should == %{<a href="#{user_path(user)}">#{user.to_param}</a>/<a href="#{module_path(user, mod)}">#{mod.to_param}</a> <a href="#{vanity_release_path(user, mod, release)}">#{release.to_param}</a>}
+    end
+
+    it "should return links with highlighting" do
+      user = Factory :user, :username => "username"
+      mod = Factory :mod, :owner => user, :name => "modname"
+
+      helper.usermodrelease_links(mod, /name/, :highlight).should == %{<a href="#{user_path(user)}">user<span class="highlight">name</span></a>/<a href="#{module_path(user, mod)}">mod<span class="highlight">name</span></a>}
+    end
+
+    it "should fail if given an unknown type" do
+      lambda { helper.usermodrelease_links("invalid_type") }.should raise_exception(TypeError)
+    end
   end
 
 end
