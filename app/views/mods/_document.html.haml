@@ -1,5 +1,6 @@
 -# Parameters:
 -# - document: Must be a Mod or Release instance.
+- document = local_assigns[:document]
 
 -# Assign records
 - case document
@@ -27,7 +28,7 @@
                 Latest Release:
                 = link_to release.version, vanity_release_path(user, mod, release)
                 &middot;
-                = mod.created_at.to_date.to_s(:long)
+                = release.created_at.to_date.to_s(:long)
               - else
                 This module has not been released.
             %li Shared by #{user_link user}
