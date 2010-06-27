@@ -25,6 +25,7 @@ Factory.define :mod do |f|
   f.sequence(:name) { |n| "name#{n}" }
   f.sequence(:project_url) { |n| "http://example.com/mod#{n}" }
   f.association :owner, :factory => :user
+  f.description "Description for this module."
 end
 
 Factory.define :release do |f|
