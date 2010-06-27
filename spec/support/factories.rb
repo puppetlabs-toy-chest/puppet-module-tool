@@ -1,5 +1,7 @@
 require 'factory_girl'
 
+#---[ Factory definitions ]---------------------------------------------
+
 Factory.define :user do |f|
   f.sequence(:username) { |n| "user#{n}" }
   f.sequence(:email) { |n| "user#{n}@example.com" }
@@ -42,4 +44,20 @@ end
 Factory.define :tagging do |f|
   f.association :tag
   f.association :mod
+end
+
+#---[ Factory methods ]-------------------------------------------------
+
+# Return a Mod and its User.
+def populated_mod_and_user
+  user = Factory :user
+  mod = Factory :mod, :owner => user
+  return [mod, user]
+end
+
+# Return a Release, Mod and User.
+def populated_release_and_mod_and_user
+  mod, user = populated_mod_and_user
+  release = Factory(:release, :mod => mod)
+  return [release, mod, user]
 end
