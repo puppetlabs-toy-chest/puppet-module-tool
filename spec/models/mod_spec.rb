@@ -21,8 +21,12 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Mod do
 
   describe "validations" do
+    should_allow_values_for     :name, 'f'
+    should_allow_values_for     :name, 'f_'
+    should_allow_values_for     :name, 'f_o'
     should_allow_values_for     :name, 'foo'
-    should_not_allow_values_for :name, 'bad_char', :message => /alphanumeric/
+    should_not_allow_values_for :name, '_foo', :message => /should start with a letter/
+    should_not_allow_values_for :name, 'bad$char', :message => /should contain letters/
 
     should_not_allow_values_for :project_url, 'foo', :message => /not appear to be valid/
     should_allow_values_for     :project_url, 'http://github.com/bar/foo'
