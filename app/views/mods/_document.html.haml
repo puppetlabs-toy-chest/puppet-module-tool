@@ -33,6 +33,8 @@
             %li Shared by #{user_link user}
             - if mod.project_url.present?
               %li Homepage at #{link_to h(mod.project_url), h(mod.project_url)}
+            - if mod.project_issues_url.present?
+              %li Report issues at #{link_to h(mod.project_issues_url), h(mod.project_issues_url)}
             %li Tagged with #{tag_list mod}
 
   -# Display details

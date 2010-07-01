@@ -18,7 +18,7 @@
 class Mod < ActiveRecord::Base
 
   # Protection
-  attr_accessible :name, :description, :project_url, :address, :project_feed_url, :tag_list
+  attr_accessible :name, :description, :project_url, :address, :project_feed_url, :project_issues_url, :tag_list
 
   # Plugins
   acts_as_taggable_on :tags
@@ -64,6 +64,7 @@ class Mod < ActiveRecord::Base
 
   validates_url_format_of(:project_url, :allow_blank => true)
   validates_url_format_of(:project_feed_url, :allow_blank => true)
+  validates_url_format_of(:project_issues_url, :allow_blank => true)
 
   # Return unique human-readable string key for this record.
   def to_param
