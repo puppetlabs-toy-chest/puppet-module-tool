@@ -41,14 +41,14 @@
     - if mod.description.present?
       %div.mod_description
         %h3 Module description
-        = markdown(mod.description)
+        ~ markdown(mod.description)
     - if release
       - if release.notes.present?
         %div.release_notes
           %h3
             Release notes for version
             = release.version
-          = markdown(release.notes)
+          ~ markdown(release.notes)
 
       - if release.metadata.present?
         - if release.metadata['dependencies'].present?

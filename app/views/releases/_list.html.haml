@@ -4,6 +4,6 @@
   - @releases.each do |release|
     %li
       %p= link_to release.version, vanity_release_path(@mod.owner, @mod, release)
-      %div.introduction= markdown(release.notes)
+      %div.introduction~ markdown(release.notes)
 
 = will_paginate @releases
