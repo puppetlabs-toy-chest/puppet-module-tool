@@ -1,5 +1,6 @@
 -# Parameters:
 -# - document: Must be a Mod or Release instance.
+- document = local_assigns[:document]
 
 -# Assign records
 - case document
@@ -27,66 +28,60 @@
                 Latest Release:
                 = link_to release.version, vanity_release_path(user, mod, release)
                 &middot;
-                = mod.created_at.to_date.to_s(:long)
+                = release.created_at.to_date.to_s(:long)
               - else
-                This module has not been released.
+                No releases
             %li Shared by #{user_link user}
             - if mod.project_url.present?
               %li Homepage at #{link_to h(mod.project_url), h(mod.project_url)}
             - if mod.project_issues_url.present?
               %li Report issues at #{link_to h(mod.project_issues_url), h(mod.project_issues_url)}
-            %li Tagged with #{tag_list mod}
+            - if mod.tags.any?
+              %li Tagged with #{tag_list mod}
 
-  -# Display details
-  - if release && release.notes.present?
-    %div.release_notes
-      = markdown(release.notes)
+  %section#metadata
+    - if mod.description.present?
+      %div.mod_description
+        %h3 Module description
+        ~ markdown(mod.description)
+    - if release
+      - if release.notes.present?
+        %div.release_notes
+          %h3
+            Release notes for version
+            = release.version
+          ~ markdown(release.notes)
 
-  -# Display metadata
-  - if release && release.metadata.present?
-    %section#metadata
-      %div.dependencies
-        %h3 Dependencies
-        %div
-          - if release.metadata['dependencies'].blank?
-            %p.blank No dependencies on other modules.
-          - else
+      - if release.metadata.present?
+        - if release.metadata['dependencies'].present?
+          %div.dependencies
+            %h3 Dependencies
             %ul
-              - release.metadata['dependencies'].each do |dep|
+              - for dependency in release.metadata['dependencies']
                 %li
-                  %b= link_to_dependency dep
-                  - if dep['version_requirement']
+                  %b= link_to_dependency(dependency)
+                  - if dependency['version_requirement'].present?
                     = surround '(', ')' do
-                      &= dep['version_requirement']
-      %div.types
-        %h3 Types
-        %div.indent
-          - if release.metadata.blank? || release.metadata['types'].blank?
-            %p.blank No type information provided.
-          - else
-            - release.metadata['types'].each do |type|
+                      &= dependency['version_requirement']
+        - if release.metadata['types'].present?
+          %div.types
+            %h3 Types
+            %div.indent
+            - for type in release.metadata['types']
               %div.type
-                %h4&= type['name']
+                - if type['name'].present?
+                  %h4.type_name&= type['name']
                 %div.indent
-                  %h5 Description
-                  -# FIXME eliminate this craziness
-                  = type['doc'].split(/\n{2,}/).map { |t| "<p>#{h t}</p>" }
-                  %h5 Parameters
-                  - if type['parameters'].present?
-                    %ul
-                      - type['parameters'].each do |param|
-                        %li
-                          = label_doc param
-                  %h5 Properties
-                  - if type['properties'].present?
-                    %ul
-                      - type['properties'].each do |prop|
-                        %li
-                          = label_doc prop
-                  %h5 Providers
-                  - if type['providers'].present?
-                    %ul
-                      - type['providers'].each do |provider|
-                        %li
-                          = label_doc provider
-
+                  - if type['doc'].present?
+                    %div.type_description
+                      %h5 Description
+                      -# FIXME eliminate this craziness
+                      = type['doc'].split(/\n{2,}/).map { |t| "<p>#{h t}</p>" }
+                  - for kind in %w[parameter property provider]
+                    - singular = kind
+                    - plural = kind.pluralize
+                    - if type[plural].present?
+                      %div{:class => "type_#{plural}"}
+                        %h5= plural.titleize
+                        - for element in type[plural]
+                          = label_doc element, :html => {:class => "type_#{singular}"}

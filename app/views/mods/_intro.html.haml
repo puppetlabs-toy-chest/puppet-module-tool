@@ -2,6 +2,7 @@
 -# Variables:
 -# * mod: Mod record to display. Required.
 -# * docs: Display docs? Defaults to true.
+- mod = local_assigns[:mod]
 - docs = local_assigns[:docs] != false
 
 - cache "mods-intro_#{mod.id}" do
@@ -11,7 +12,7 @@
         - mod.current_release.tap do |release|
           = link_to("Version #{release.version}", vanity_release_path(mod.owner, mod, release))
           &middot;
-          = mod.created_at.to_date.to_s(:long)
+          = release.created_at.to_date.to_s(:long)
       - else
         %span
           Not released
@@ -20,4 +21,4 @@
         = tag_list mod
 
     - if docs
-      %div.introduction= markdown(mod.description)
+      %div.introduction~ markdown(mod.description)
