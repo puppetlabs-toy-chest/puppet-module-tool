@@ -1,4 +1,4 @@
-/* # TODO Implement Watches 
+/* # TODO Implement Watches
 
 $(document).ready(function() {
     watchingForm();
@@ -33,6 +33,33 @@ function mods_list_links() {
     });
 }
 
+// On the mods#_form, autocomplete the :project_issues_url based on the :project_url.
+function mod_form_project_issue_tracker_autocomplete() {
+  $('.mods_form_action #mod_project_url').blur(function() {
+      var homepage_field = $('#mod_project_url');
+      var homepage_url = homepage_field.val();
+
+      var issues_field = $('#mod_project_issues_url');
+      var issues_url = issues_field.val();
+
+      if (
+          typeof(homepage_url) == 'string' &&
+          homepage_url.length > 0 &&
+          typeof(issues_url) == 'string' &&
+          issues_url.length == 0
+      ) {
+        var github_re = new RegExp('(http://github.com/[^/]+/[^/]+)');
+        var matches = homepage_url.match(github_re);
+        if (matches) {
+          issues_field.val(matches[1] + '/issues');
+          issues_field.effect('highlight', {}, 3000);
+        }
+      }
+  });
+}
+
+// Activate unobtrusive JavaScript.
 $(document).ready(function() {
     mods_list_links();
+    mod_form_project_issue_tracker_autocomplete();
 });

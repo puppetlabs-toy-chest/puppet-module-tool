@@ -1,5 +1,6 @@
 - form_for [@user, @mod] do |f|
   = f.error_messages
+
   %p= f.label :name
   %p.introduction
     The name of the module.  This should be short, descriptive, and only consist of letters and numbers.
@@ -7,12 +8,19 @@
     = succeed '.' do
       %b= [h((@user || current_user).username), '/', '&lt;name&gt;'].join('')
   %p= f.text_field :name
+
   %p= f.label :project_url, "Project URL"
   %p.introduction Where can people go to collaborate with you on your module?  If provided, this should be a valid URL.
   %p= f.text_field :project_url
+
+  %p= f.label :project_issues_url, "Project Issue Tracker URL"
+  %p.introduction Where can people report issues with your module?  If provided, this should be a valid URL.
+  %p= f.text_field :project_issues_url
+
   %p= f.label :project_feed_url, "Project Feed URL"
   %p.introduction Do you have an RSS/Atom feed that can be used to track the project's progress?
   %p= f.text_field :project_feed_url
+
   %p= f.label :description
   %p.introduction
     Provide some information on your module.
@@ -22,7 +30,9 @@
     = link_to "markdown", 'http://daringfireball.net/projects/markdown/', :popup => true
     formatting.
   %p= f.text_area :description, :rows => 5
+
   %p= f.label :tag_list, "Tags"
   %p.introduction A list of <em>space-separated tags</em>.  This will determine in which categories your module will be listed.
   %p= f.text_field :tag_list
+
   %p= f.submit(@mod.new_record? ? 'Add module' : 'Update module')

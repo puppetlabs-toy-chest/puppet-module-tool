@@ -14,6 +14,7 @@
 
     <%#*<script type='text/javascript' src='http://puppetlabs.com/wp-includes/js/jquery/jquery.js?ver=1.3.2'></script>%>
     <%= javascript_include_tag "jquery-1.3.2.min.js" %>
+    <%= javascript_include_tag "jquery-ui-1.7.3.min.js" %>
     
     <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://puppetlabs.com/xmlrpc.php?rsd" />
     <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://puppetlabs.com/wp-includes/wlwmanifest.xml" />
@@ -90,7 +91,16 @@
 
   </head>
 
-  <body id="modules" class="page page-id-783 page-child parent-pageid-780 page-template page-template-default <%= @controller.controller_name %>_controller <%= @controller.controller_name %>_<%= @controller.action_name %>_action">
+  <% 
+    body_classes = [
+      "#{controller.controller_name}_controller",
+      "#{controller.controller_name}_#{controller.action_name}_action"
+    ] 
+    if %w[new create edit update].include?(controller.action_name)
+      body_classes << "#{controller.controller_name}_form_action"
+    end
+  %>
+  <body id="modules" class="page page-id-783 page-child parent-pageid-780 page-template page-template-default <%= body_classes.join(' ') %>">
 
     <header id="header">
       <div class="site-width">

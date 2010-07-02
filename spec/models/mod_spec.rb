@@ -24,13 +24,15 @@ describe Mod do
     should_allow_values_for     :name, 'foo'
     should_not_allow_values_for :name, 'bad_char', :message => /alphanumeric/
 
-    should_not_allow_values_for :project_url, 'foo', :message => /not appear to be valid/
-    should_allow_values_for     :project_url, 'http://github.com/bar/foo'
-    should_allow_values_for     :project_url, 'https://github.com/bar/foo'
-
     it "should validate uniqueness" do
       Factory :mod
       should validate_uniqueness_of :name, :scope => [:owner_id, :owner_type]
+    end
+
+    for attribute in [:project_url, :project_feed_url, :project_issues_url]
+      should_not_allow_values_for attribute, 'foo', :message => /not appear to be valid/
+      should_allow_values_for     attribute, 'http://github.com/bar/foo'
+      should_allow_values_for     attribute, 'https://github.com/bar/foo'
     end
   end
 
