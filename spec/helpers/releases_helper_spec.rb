@@ -25,17 +25,27 @@ describe ReleasesHelper do
 
   describe "label_doc" do
     it "should return the name if present" do
-      helper.label_doc(:name => "MyName").should have_tag("b", "MyName")
+      helper.label_doc(:name => "MyName").should have_tag("dt", "MyName")
     end
 
-    it "should return the documentation if present" do
-      helper.label_doc(:doc => "*MyDoc*").should have_tag("em", "MyDoc")
+    it "should return Markdown processed documentation if present" do
+      helper.label_doc(:name => "MyName", :doc => "*MyDoc*").should have_tag("dd") do
+        with_tag("em", "MyDoc")
+      end
+    end
+
+    it "should return nothing if a name isn't specified" do
+      helper.label_doc(:doc => "*MyDoc*").should be_blank
     end
 
     it "should return the name and documentation if present" do
       result = helper.label_doc(:name => "MyName", :doc => "*MyDoc*")
-      result.should have_tag("b", /MyName:/)
-      result.should have_tag("em", "MyDoc")
+      result.should have_tag("dt", "MyName")
+      result.should have_tag("dd", "MyDoc")
+    end
+
+    it "should set HTML attributes if present" do
+      helper.label_doc({:name => "MyName"}, {:class => "myclass"}).should have_tag("dl[class=?]", "myclass")
     end
 
     it "should return nothing if no name or documentation" do

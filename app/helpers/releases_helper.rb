@@ -33,25 +33,26 @@ module ReleasesHelper
     end
   end
 
-  # Return HTML with name and documentation for a Puppet property, parameter or provider. 
+  # Return HTML with name and documentation for a Puppet property, parameter or provider.
   #
-  # Options:
-  # * :name => Name of the property, parameter or provider.
-  # * :doc => Docuentation about the property, parameter or provider as Markdown.
-  def label_doc(opts)
-    if opts.kind_of?(Hash)
-      opts = opts.symbolize_keys
-      html = ""
-      has_name = opts[:name].present?
-      has_doc  = opts[:doc].present?
-      if has_name
-        html << "<b>#{h(opts[:name]) + (has_doc ? ':&nbsp' : '')}</b>"
+  # Arguments:
+  # * element: Required hash containing:
+  #   * :name => Name of the property, parameter or provider.
+  #   * :doc => Docuentation about the property, parameter or provider as Markdown.
+  # * html: Optional hash containing any HTML options to pass to the #content_tag, e.g. :class.
+  def label_doc(element, html={})
+    if element.kind_of?(Hash)
+      element = element.symbolize_keys
+      name = element[:name]
+      doc  = element[:doc]
+
+      return "" unless name
+
+      content_tag :dl, html do
+        [content_tag(:dt, name),
+        content_tag(:dd, markdown(doc))]
       end
-      if has_doc
-        html << markdown(opts[:doc])
-      end
-      return html
     end
   end
-  
+
 end
