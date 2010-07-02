@@ -28,7 +28,7 @@ function mods_list_links() {
       if (mod_link) {
         window.location = mod_link;
       }
-      event.stopPropogation();
+      event.stopPropagation();
       return false;
     });
 }
