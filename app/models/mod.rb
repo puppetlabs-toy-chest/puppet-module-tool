@@ -59,8 +59,10 @@ class Mod < ActiveRecord::Base
   named_scope :ordered, :order => 'lower(full_name) asc'
 
   # Validations
-  validates_format_of :name, :with => /\A[[:alnum:]]{1,}\z/, :message => "should be 1 or more alphanumeric characters"
   validates_uniqueness_of :name, :scope => [:owner_id, :owner_type]
+  validates_length_of :name, :minimum => 1
+  validates_format_of :name, :with => /\A[[:alnum:]]/, :message => "should start with a letter"
+  validates_format_of :name, :with => /\A.(_|[[:alnum:]])*\z/, :message => "should contain letters, numbers or underscores"
 
   validates_url_format_of(:project_url, :allow_blank => true)
   validates_url_format_of(:project_feed_url, :allow_blank => true)
