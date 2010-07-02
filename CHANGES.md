@@ -1,6 +1,27 @@
 puppet-module-site changes
 ==========================
 
+r0.1.12
+-------
+
+* Improved modules, added an issue tracker URL and JavaScript to autofill it if possible.
+* Fixed module validations to allow underscores in names.
+* Fixed the module and release display pages:
+    * Display the module description if available.
+    * Display the release notes if available.
+    * Don't display useless "No dependencies on other modules" message.
+    * Don't display useless "No type information provided" message.
+    * Don't display a type's name, description, properties, parameters or providers unless they're specified.
+    * Don't display tags header if a module has no tags.
+    * Fixed spacing of headers.
+    * Eliminated duplicated code.
+    * Added more CSS classes to simplify styling and testing.
+    * Improved appearance of page.
+* Fixed Markdown helper:
+    * Allow use of CODE and PRE HTML tags.
+    * Wrap generated contents in a DOM class.
+    * Added styling so tags like user's H1 are given different style than site-wide H1.
+
 r0.1.11
 -------
 
