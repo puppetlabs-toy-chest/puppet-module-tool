@@ -81,7 +81,5 @@
                     - if type[plural].present?
                       %div{:class => "type_#{plural}"}
                         %h5= plural.titleize
-                        %ul
-                          - for element in type[plural]
-                            %li{:class => "type_#{singular}"}
-                              = label_doc element
+                        - for element in type[plural]
+                          = label_doc element, :html => {:class => "type_#{singular}"}
