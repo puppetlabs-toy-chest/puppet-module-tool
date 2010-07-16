@@ -33,16 +33,14 @@ There are a number of ways to run the `puppet-module` program:
 
         sudo gem install puppet-module
 
-2. **From a locally-built gem:** Checkout the source code and from the checkout
-directory, run:
+2. **From a locally-built gem:** Checkout the source code and from the checkout directory, run:
 
         # Build the gem
         rake gem
         # Install the file produced by the above command, e.g.:
         sudo gem install pkg/puppet-module-0.3.0.gem
 
-3. **From a source code checkout:** Checkout the source code and from the checkout
-directory, run:
+3. **From a source code checkout:** Checkout the source code and from the checkout directory, run:
 
         alias puppet-module=$PWD/bin/puppet-module
 
