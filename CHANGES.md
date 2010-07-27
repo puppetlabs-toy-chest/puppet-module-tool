@@ -1,6 +1,13 @@
 puppet-module-site changes
 ==========================
 
+r0.1.13
+-------
+
+* Fixed exceptions caused if a module tag contains a period.
+* Fixed module list row links to only pass a single click.
+* Added database check on start-up to ensure that the latest schema is being used.
+
 r0.1.12
 -------
 
