@@ -206,6 +206,12 @@ describe Mod do
 
         mod.tag_list.should == ['foo', 'bar', 'baz']
       end
+
+      it "should replace periods with underscores when setting" do
+        mod = Factory :mod, :tag_list => 'foo.bar baz_qux'
+
+        mod.tag_list.should == ['foo_bar', 'baz_qux']
+      end
     end
 
   end

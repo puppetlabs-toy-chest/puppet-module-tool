@@ -110,9 +110,11 @@ class Mod < ActiveRecord::Base
     self.update_attribute(:current_release, self.releases(true).current)
   end
 
-  # Set the #tag_list but remove unnecessary commas and extra spaces
+  # Safely sets the #tag_list from user arguments:
+  # * Removes unnecessary commas, which otherwise become part of the tag.
+  # * Replaces periods, which otherwise causes #urlfor to fail by mapping these to a custom filetype.
   def tag_list_with_sanitizer=(value)
-    self.tag_list_without_sanitizer = value.present? ? value.gsub(/,|\s+/, ' ') : nil
+    self.tag_list_without_sanitizer = value.present? ? value.gsub(/,/, ' ').gsub('.', '_') : nil
   end
   alias_method_chain :tag_list=, :sanitizer
 
