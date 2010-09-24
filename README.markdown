@@ -172,6 +172,15 @@ Deleting a module
 The tool does not keep track of what modules you have installed. TO delete a
 module just delete the directory the module was extracted into.
 
+Developing or submitting patches
+--------------------------------
+
+You need the following RubyGems to run the test suite: mocha, rspec.
+
+You can run the tests with:
+
+    rake spec
+
 Get involved
 ------------
 
