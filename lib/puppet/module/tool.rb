@@ -46,7 +46,7 @@ module Puppet
         @repository ||= Repository.new(Puppet.settings[:puppet_module_repository])
       end
 
-      FULL_NAME_PATTERN = /\A(.+)[\/\-](.+)\z/
+      FULL_NAME_PATTERN = /\A([^-\/|.]+)[-|\/](.+)\z/
 
       # Return the +username+ and +modname+ for a given +full_name+, or raise an
       # ArgumentError if the argument isn't parseable.
