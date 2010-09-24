@@ -39,7 +39,7 @@ module Puppet::Module::Tool
         Net::HTTP.start(@uri.host, @uri.port) do |http|
           http.request(request)
         end
-      rescue Errno::ECONNREFUSED
+      rescue Errno::ECONNREFUSED, SocketError
         abort "Could not reach remote repository"
       end
     end
