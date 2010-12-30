@@ -39,6 +39,54 @@ module Puppet::Module::Tool
       return @dependencies ||= []
     end
 
+    def author
+      @author || @username
+    end
+
+    def author=(author)
+      @author = author
+    end
+
+    def source
+      @source || 'UNKNOWN'
+    end
+
+    def source=(source)
+      @source = source
+    end
+
+    def license
+      @license || 'UNKNOWN'
+    end 
+
+    def license=(license)
+      @license = license
+    end 
+
+    def summary
+      @summary || 'UNKNOWN'
+    end 
+
+    def summary=(summary)
+      @summary = summary
+    end 
+
+    def description
+      @description || 'UNKNOWN'
+    end 
+
+    def description=(description)
+      @description = description
+    end 
+
+    def project_page
+      @project_page || 'UNKNOWN'
+    end 
+
+    def project_page=(project_page)
+      @project_page = project_page
+    end 
+
     # Return an array of the module's Puppet types, each one is a hash
     # containing :name and :doc.
     # TODO Shouldn't this be it's own class?
@@ -69,6 +117,12 @@ module Puppet::Module::Tool
       return {
         :name         => @full_name,
         :version      => @version,
+        :source       => source,
+        :author       => author,
+        :license      => license,
+        :summary      => summary,
+        :description  => description,
+        :project_page => project_page,
         :dependencies => dependencies,
         :types        => types,
         :checksums    => checksums
@@ -76,5 +130,5 @@ module Puppet::Module::Tool
     end
 
   end
-  
+
 end

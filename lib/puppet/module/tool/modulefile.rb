@@ -42,6 +42,35 @@ module Puppet::Module::Tool
       @metadata.dependencies << Dependency.new(name, version_requirement, repository)
     end
 
+    # Set the source
+    def source(source)
+      @metadata.source = source
+    end
+
+    # Set the author or default to +username+
+    def author(author)
+        @metadata.author = author
+    end
+
+    # Set the license
+    def license(license)
+      @metadata.license = license
+    end
+
+   # Set the summary
+   def summary(summary)
+      @metadata.summary = summary
+    end
+
+   # Set the description
+   def description(description)
+      @metadata.description = description
+   end
+
+   # Set the project page
+   def project_page(project_page)
+      @metadata.project_page = project_page
+    end
   end
 
 end
