@@ -119,25 +119,40 @@ For example, if this was version `0.0.1` of `myuser-mymodule`, then this
 would have created a `pkg/myuser-mymodule-0.0.1.tar.gz` release file.
 
 The build process reads a `Modulefile` in your module directory and uses
-its contents to direct its work.
-
-The `Modulefile` is a *Ruby domain-specific language (DSL)*.
-
-Here's an example of a `Modulefile`:
-
-    name 'myuser-mymodule'
-    version '0.0.1'
-    dependency 'otheruser-othermodule', '1.2.3'
-
-The build process reads the `Modulefile` and uses it to build a
-`metadata.json` file. This generated JSON file is included in the module
-release archive so that repositories and installers can extract details
-from your release. Do **not** edit this `metadata.json` file yourself
-because it's clobbered each time during the build process -- you should
-make all your changes to the `Modulefile` instead.
+its contents to build a `metadata.json` file. This generated JSON file
+is included in the module release archive so that repositories and
+installers can extract details from your release. Do **not** edit this
+`metadata.json` file yourself, because it's clobbered each time during
+the build process -- you should make all your changes to the
+`Modulefile` instead.
 
 All the files in the `pkg` directory of your module directory are
 artifacts of the build process. You can delete them when you're done.
+
+Write a valid `Modulefile`
+--------------------------
+
+The Modulefile resembles a configuration or data file, but is actually a Ruby domain-specific language (DSL), which means it's evaluated as code by the puppet-module tool. A Modulefile consists of a series of method calls which write or append to the available fields in the metadata object. 
+
+Normal rules of Ruby syntax apply:
+
+    name 'myuser-mymodule'
+    version '0.0.1'
+    dependency( 'otheruser-othermodule', '1.2.3' )
+    description "This is a full description
+        of the module, and is being written as a multi-line string."
+
+The following metadata fields/methods are available:
+
+* `name` -- The full name of the module (e.g. "username-module").
+* `version` -- The current version of the module.
+* `dependency` -- A module that this module depends on. Unlike the other fields, the `dependency` method accepts up to three arguments: a module name, a version requirement, and a repository. A Modulefile may include multiple `dependency` lines.
+* `source` -- The module's source. The use of this field is not specified.
+* `author` -- The module's author. If not specified, this field will default to the username portion of the module's `name` field. 
+* `license` -- The license under which the module is made available.
+* `summary` -- One-line description of the module.
+* `description` -- Complete description of the module. 
+* `project_page` -- The module's website.
 
 Share a module
 --------------
