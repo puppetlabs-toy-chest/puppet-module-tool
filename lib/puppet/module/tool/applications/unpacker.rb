@@ -20,7 +20,7 @@ module Puppet::Module::Tool
 
       def run
         check_clobber!
-        build_dir = Puppet::Module::Tool::Cache.base_path + "tmp-unpacker-#{Digest::SHA1.hexdigest(@filename.basename)}"
+        build_dir = Puppet::Module::Tool::Cache.base_path + "tmp-unpacker-#{Digest::SHA1.hexdigest(@filename.basename.to_s)}"
         build_dir.mkpath
         begin
           FileUtils.cp @filename, build_dir
@@ -64,6 +64,6 @@ module Puppet::Module::Tool
       end
 
     end
-    
+
   end
 end
