@@ -44,6 +44,12 @@ There are a number of ways to run the `puppet-module` program:
 
         alias puppet-module=$PWD/bin/puppet-module
 
+**N.B.** you must have Puppet installed locally for `puppet-module` to work.
+
+If Puppet is not installed by your system's package manager, install the RubyGem with:
+
+        sudo gem install puppet
+
 Basics
 ------
 
@@ -132,7 +138,7 @@ artifacts of the build process. You can delete them when you're done.
 Write a valid `Modulefile`
 --------------------------
 
-The Modulefile resembles a configuration or data file, but is actually a Ruby domain-specific language (DSL), which means it's evaluated as code by the puppet-module tool. A Modulefile consists of a series of method calls which write or append to the available fields in the metadata object. 
+The Modulefile resembles a configuration or data file, but is actually a Ruby domain-specific language (DSL), which means it's evaluated as code by the puppet-module tool. A Modulefile consists of a series of method calls which write or append to the available fields in the metadata object.
 
 Normal rules of Ruby syntax apply:
 
@@ -148,10 +154,10 @@ The following metadata fields/methods are available:
 * `version` -- The current version of the module.
 * `dependency` -- A module that this module depends on. Unlike the other fields, the `dependency` method accepts up to three arguments: a module name, a version requirement, and a repository. A Modulefile may include multiple `dependency` lines.
 * `source` -- The module's source. The use of this field is not specified.
-* `author` -- The module's author. If not specified, this field will default to the username portion of the module's `name` field. 
+* `author` -- The module's author. If not specified, this field will default to the username portion of the module's `name` field.
 * `license` -- The license under which the module is made available.
 * `summary` -- One-line description of the module.
-* `description` -- Complete description of the module. 
+* `description` -- Complete description of the module.
 * `project_page` -- The module's website.
 
 Share a module

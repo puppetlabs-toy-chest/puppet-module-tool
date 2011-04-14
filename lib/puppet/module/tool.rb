@@ -86,8 +86,11 @@ require 'rubygems'
 # Load Puppet
 begin
   minimum_version = Gem::Version.new("0.25.0")
-  message = "You must have Puppet #{minimum_version} or greater installed"
-
+  message = [ "You must have Puppet #{minimum_version} or greater installed",
+              "",
+              "Please either:",
+              "  - install with your system's package manager",
+              "  - install with RubyGems: sudo gem install puppet" ].join("\n")
   begin
     require 'puppet'
   rescue LoadError

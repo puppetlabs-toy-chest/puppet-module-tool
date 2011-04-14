@@ -48,6 +48,11 @@ gemspec = Gem::Specification.new do |gemspec|
   * Usage instructions: read "README.markdown" or run `puppet-module usage`
   * Changelog: read "CHANGES.markdown" or run `puppet-module changelog`
   * Puppet Forge: visit http://forge.puppetlabs.com/
+  * If you don't have Puppet installed locally by your system package
+    manager, please install it with:
+
+        sudo gem install puppet
+
 
 #{'*'*78}
     POST_INSTALL_MESSAGE
