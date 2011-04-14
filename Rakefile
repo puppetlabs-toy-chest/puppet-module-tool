@@ -6,7 +6,7 @@ require 'rubygems'
 require 'rake'
 require 'rake/gempackagetask'
 require 'fileutils'
-require 'ftools'
+require 'ftools' if RUBY_VERSION =~ /^1.8/
 
 # Return filename matching an array of glob patterns, minus any ephemeral files
 # that don't belong in the gem.
