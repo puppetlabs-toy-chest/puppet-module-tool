@@ -70,10 +70,8 @@ module Puppet::Module::Tool
         unless @username && @module_name
           abort "Username and Module name not provided"
         end
-        begin
-          Gem::Version.new(@version)
-        rescue ArgumentError => e
-          abort "Invalid version format: #{@version}"
+        if @version !~ /^(\d+)\.(\d+)\.(\d+)$|^(\d)+\.(\d)+\.(\d+)([a-zA-Z][a-zA-Z0-9-]*)$/ then
+          abort "Invalid version format: #{@version} (Semantic Versions are acceptable: http://semver.org)"
         end
       end
     end
