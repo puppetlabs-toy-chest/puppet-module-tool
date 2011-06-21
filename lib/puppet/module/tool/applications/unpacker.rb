@@ -20,7 +20,7 @@ module Puppet::Module::Tool
 
       def run
         # Check if the module directory already exists.
-        if File.exist?(@module_name) then
+        if File.exist?(@module_name) || File.symlink?(@module_name) then
           if force? then
             FileUtils.rm_rf @module_name rescue nil
           else
@@ -61,7 +61,7 @@ module Puppet::Module::Tool
       end
 
       def check_clobber!
-        if File.exist?(@module_name) && !force?
+        if (File.exist?(@module_name) || File.symlink?(@module_name)) && !force?
           header "Existing module '#{@module_name}' found"
           response = prompt "Overwrite module installed at ./#{@module_name}? [y/N]"
           unless response =~ /y/i
