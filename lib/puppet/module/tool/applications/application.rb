@@ -65,12 +65,17 @@ module Puppet::Module::Tool
       # Note: Must have @filename set to use this
       def parse_filename!
         @release_name = File.basename(@filename,'.tar.gz')
-        @username, @module_name, @version = @release_name.split('-', 3)
+        match = /^(.*?)-(.*?)-(\d+\.\d+\.\d+.*?)$/.match(@release_name)
+        if match then
+          @username, @module_name, @version = match.captures
+        else
+          abort "Could not parse filename to obtain the username, module name and version.  (#{@release_name})"
+        end
         @full_name = [@username, @module_name].join('-')
         unless @username && @module_name
           abort "Username and Module name not provided"
         end
-        if @version !~ /^(\d+)\.(\d+)\.(\d+)$|^(\d)+\.(\d)+\.(\d+)([a-zA-Z][a-zA-Z0-9-]*)$/ then
+        if @version !~ /^(\d+)\.(\d+)\.(\d+)([a-zA-Z][a-zA-Z0-9-]*){0,1}$/ then
           abort "Invalid version format: #{@version} (Semantic Versions are acceptable: http://semver.org)"
         end
       end
