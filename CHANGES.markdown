@@ -1,6 +1,14 @@
 puppet-module changes
 =====================
 
+r0.3.4
+------
+
+* Add ability to install modules with hyphens
+* Add check for symlink when installing
+* Install modules to their name not "full name"
+* Add semantic version support
+
 r0.3.1
 ------
 
