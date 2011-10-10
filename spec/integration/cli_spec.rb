@@ -270,9 +270,9 @@ describe "cli" do
 
         app.install("#{@release_name}.tar.gz")
 
-        File.directory?(@full_name).should == true
-        File.file?(File.join(@full_name, 'metadata.json')).should == true
-      end.should =~ /Installed "myuser-mymodule-0.0.1" into directory: myuser-mymodule/
+        File.directory?(@module_name).should == true
+        File.file?(File.join(@module_name, 'metadata.json')).should == true
+      end.should =~ /Installed "myuser-mymodule-0.0.1" into directory: mymodule/
     end
 
     it "should install a module from a webserver URL" do
@@ -289,9 +289,9 @@ describe "cli" do
 
         app.install(@full_name)
 
-        File.directory?(@full_name).should == true
-        File.file?(File.join(@full_name, 'metadata.json')).should == true
-      end.should =~ /Installed #{@release_name.inspect} into directory: #{@full_name}/
+        File.directory?(@module_name).should == true
+        File.file?(File.join(@module_name, 'metadata.json')).should == true
+      end.should =~ /Installed #{@release_name.inspect} into directory: #{@module_name}/
     end
 
     it "should install a module from a webserver URL using a version requirement" # TODO
@@ -357,7 +357,7 @@ describe "cli" do
         end
         puts "CHANGES:"
         app.changes(".")
-      end.should =~ /CHANGES:.+Modulefile\s*\z/m
+      end.should match /CHANGES:.+Modulefile\s*metadata.json\s*\z/m
     end
   end
 
