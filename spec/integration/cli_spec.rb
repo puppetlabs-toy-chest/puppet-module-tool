@@ -357,7 +357,7 @@ describe "cli" do
         end
         puts "CHANGES:"
         app.changes(".")
-      end.should match /CHANGES:.+Modulefile\s*metadata.json\s*\z/m
+      end.should match /CHANGES:.+metadata.json\s*Modulefile\s*\z/m
     end
   end
 
