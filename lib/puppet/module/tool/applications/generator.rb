@@ -19,7 +19,11 @@ module Puppet::Module::Tool
       def skeleton
         @skeleton ||= Skeleton.new
       end
-      
+
+      def get_binding
+        binding
+      end
+
       def run
         if destination.directory?
           abort "#{destination} already exists."
@@ -95,7 +99,7 @@ module Puppet::Module::Tool
         end
         def contents
           template = ERB.new(read)
-          template.result(@generator.send(:binding))
+          template.result(@generator.send(:get_binding))
         end
         def install!
           target.open('w') { |f| f.write contents }
