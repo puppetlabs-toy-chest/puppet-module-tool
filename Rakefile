@@ -64,23 +64,12 @@ Rake::GemPackageTask.new(gemspec) do |pkg|
 end
 
 begin
-  require 'spec/rake/spectask'
-  Spec::Rake::SpecTask.new(:spec) do |spec|
-      spec.libs << 'lib' << 'spec'
-      spec.spec_files = ['spec/**/*_spec.rb']
-  end
-
-  Spec::Rake::SpecTask.new(:rcov) do |spec|
-      spec.libs << 'lib' << 'spec'
-      spec.pattern = 'spec/**/*_spec.rb'
-      spec.rcov = true
-  end
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
 rescue LoadError
   task :spec do
     puts 'ERROR! RSpec not found, install it by running: sudo gem install rspec'
   end
-
-  task :rcov => :spec
 end
 
 task :default => :spec
