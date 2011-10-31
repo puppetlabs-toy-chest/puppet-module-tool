@@ -36,7 +36,10 @@ module Puppet::Module::Tool
     # Return a Net::HTTPResponse read from this HTTPRequest +request+.
     def read_contact(request)
       begin
-        Net::HTTP.start(@uri.host, @uri.port) do |http|
+        Net::HTTP::Proxy(
+            Puppet::Module::Tool::http_proxy_host,
+            Puppet::Module::Tool::http_proxy_port
+            ).start(@uri.host, @uri.port) do |http|
           http.request(request)
         end
       rescue Errno::ECONNREFUSED, SocketError
