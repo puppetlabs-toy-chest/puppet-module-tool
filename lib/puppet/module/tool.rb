@@ -67,6 +67,14 @@ module Puppet
       def self.changelog_filename
         return File.expand_path(File.join(self.root, 'CHANGES.markdown'))
       end
+
+      # Read HTTP proxy configurationm from Puppet's config file.
+      def self.http_proxy_host
+          @http_proxy_host ||= Puppet.settings[:http_proxy_host]
+      end
+      def self.http_proxy_port
+          @http_proxy_port ||= Puppet.settings[:http_proxy_port]
+      end
     end
   end
 end
