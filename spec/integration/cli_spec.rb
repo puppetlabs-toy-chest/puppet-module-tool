@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', 'spec_helper')
+require 'spec_helper'
 
 # Directory that contains sample releases.
 RELEASE_FIXTURES_DIR = File.join(File.dirname(File.expand_path(__FILE__)), "..", "fixtures", "releases")

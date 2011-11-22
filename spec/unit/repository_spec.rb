@@ -1,4 +1,5 @@
-require File.join(File.dirname(__FILE__), '..', 'spec_helper')
+require 'spec_helper'
+require 'net/http'
 
 describe Puppet::Module::Tool::Repository do
   describe 'instances' do
@@ -8,13 +9,16 @@ describe Puppet::Module::Tool::Repository do
 
     describe '#contact' do
       before do
+        # Do a mock of the Proxy call so we can do proper expects for
+        # Net::HTTP
+        Net::HTTP.expects(:Proxy).returns(Net::HTTP)
         Net::HTTP.expects(:start)
       end
       context "when not given an :authenticate option" do
         it "should authenticate" do
           @repository.expects(:authenticate).never
           @repository.contact(nil)
-        end        
+        end
       end
       context "when given an :authenticate option" do
         it "should authenticate" do
@@ -28,13 +32,13 @@ describe Puppet::Module::Tool::Repository do
       before do
         @request = stub
         @repository.expects(:header)
-        @repository.expects(:prompt).twice        
+        @repository.expects(:prompt).twice
       end
 
       it "should set basic auth on the request" do
         @request.expects(:basic_auth)
         @repository.authenticate(@request)
-      end      
+      end
     end
 
     describe '#retrieve' do
@@ -46,6 +50,6 @@ describe Puppet::Module::Tool::Repository do
         @repository.retrieve(@uri)
       end
     end
-    
+
   end
 end

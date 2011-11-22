@@ -74,6 +74,11 @@ end
 
 task :default => :spec
 
+# Aliases for rvm
+task :specs => :spec
+task :tests => :spec
+task :test => :spec
+
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
     version = File.read('VERSION')
