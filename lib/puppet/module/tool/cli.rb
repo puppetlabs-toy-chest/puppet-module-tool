@@ -1,8 +1,4 @@
-begin
-  require 'thor'
-rescue LoadError
-  abort "Requires 'thor'"
-end
+require 'thor'
 
 # = CLI
 #
