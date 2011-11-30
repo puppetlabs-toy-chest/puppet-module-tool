@@ -1,7 +1,7 @@
 class apache::params{
   $user  = 'www-data'
   $group = 'www-data'
-  
+
   case $operatingsystem {
     "centos": {
        $apache_name = httpd

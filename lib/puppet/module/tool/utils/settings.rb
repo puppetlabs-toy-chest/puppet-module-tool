@@ -32,5 +32,5 @@ module Puppet::Module::Tool::Utils
     end
 
   end
-  
+
 end

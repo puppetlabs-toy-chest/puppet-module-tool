@@ -1,7 +1,7 @@
 class apache::ssl {
   include apache
 
-  
+
   case $operatingsystem {
      "centos": {
         package { $apache::params::ssl_package:

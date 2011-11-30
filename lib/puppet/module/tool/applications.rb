@@ -13,6 +13,6 @@ module Puppet::Module::Tool
     require 'puppet/module/tool/applications/searcher'
     require 'puppet/module/tool/applications/unpacker'
     require 'puppet/module/tool/applications/unreleaser'
-    
+
   end
 end

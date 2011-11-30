@@ -1,7 +1,7 @@
 # ensure apache is installed
 class apache {
   include apache::params
-  package{'httpd': 
+  package{'httpd':
     name   => $apache::params::apache_name,
     ensure => present,
   }
@@ -30,5 +30,5 @@ class apache {
     recurse => true,
     purge => true,
     notify => Service['httpd'],
-  } 
+  }
 }

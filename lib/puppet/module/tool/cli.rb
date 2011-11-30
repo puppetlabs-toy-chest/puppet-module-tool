@@ -9,11 +9,11 @@ end
 # This class is used by the command-line program to dispatch actions.
 class Puppet::Module::Tool::CLI < Thor
   include Thor::Actions
-  
+
   map '-V' => :version
 
   class_option :config, :aliases => '-c', :default => Puppet.settings[:config], :desc => "Configuration file"
-  
+
   def self.method_option_repository
     method_option :puppet_module_repository, :aliases => '-r', :default => Puppet.settings[:puppet_module_repository], :desc => "Module repository to use"
   end
@@ -123,5 +123,5 @@ class Puppet::Module::Tool::CLI < Thor
       abort "Could not find a valid module at #{path ? path.inspect : 'current directory'}"
     end
   end
-  
+
 end

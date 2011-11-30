@@ -180,7 +180,7 @@ describe "cli" do
             dependency1['version_requirement'].should == dependency1_requirement
             dependency1['repository'].should be_nil
           end
-          
+
           dependencies[1].tap do |dependency2|
             dependency2['name'].should == dependency2_name
             dependency2['version_requirement'].should == dependency2_requirement
