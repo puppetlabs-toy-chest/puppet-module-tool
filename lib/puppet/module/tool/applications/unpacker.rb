@@ -7,70 +7,62 @@ module Puppet::Module::Tool
 
     class Unpacker < Application
 
-      def initialize(filename, environment_path, options = {})
+      def initialize(filename, options = {})
         @filename = Pathname.new(filename)
-        @environment_path = Pathname.new(environment_path)
         parse_filename!
         super(options)
-      end
-
-      def force?
-        options[:force]
+        @module_dir = Puppet::Module::Tool.install_dir + @module_name
       end
 
       def run
-        # Check if the module directory already exists.
-        if File.exist?(@module_name) || File.symlink?(@module_name) then
-          if force? then
-            FileUtils.rm_rf @module_name rescue nil
-          else
-            check_clobber!
-            # JJM 2011-06-20 And remove it anyway (This is a dumb way to do it, but...  it works.)
-            FileUtils.rm_rf @module_name rescue nil
-          end
-        end
-        build_dir = Puppet::Module::Tool::Cache.base_path + "tmp-unpacker-#{Digest::SHA1.hexdigest(@filename.basename.to_s)}"
-        build_dir.mkpath
-        begin
-          FileUtils.cp @filename, build_dir
-          Dir.chdir(build_dir) do
-            unless system "tar xzf #{@filename.basename}"
-              abort "Could not extract contents of module archive."
-            end
-          end
-          # grab the first directory
-          extracted = build_dir.children.detect { |c| c.directory? }
-          # Nothing should exist at this point named @module_name
-          FileUtils.cp_r extracted, @module_name
-          tag_revision
-        ensure
-          build_dir.rmtree
-        end
-        say "Installed #{@release_name.inspect} into directory: #{@module_name}"
+        extract_module_to_install_dir
+        tag_revision
+        say "Installed #{@release_name.inspect} into directory: #{@module_dir.expand_path}"
       end
 
       private
 
       def tag_revision
-        File.open("#{@module_name}/REVISION", 'w') do |f|
+        File.open("#{@module_dir}/REVISION", 'w') do |f|
           f.puts "module: #{@username}/#{@module_name}"
           f.puts "version: #{@version}"
-          f.puts "url: file://#{@filename.realpath}"
+          f.puts "url: file://#{@filename.expand_path}"
           f.puts "installed: #{Time.now}"
         end
       end
 
-      def check_clobber!
-        if (File.exist?(@module_name) || File.symlink?(@module_name)) && !force?
-          header "Existing module '#{@module_name}' found"
-          response = prompt "Overwrite module installed at ./#{@module_name}? [y/N]"
+      def extract_module_to_install_dir
+        delete_existing_installation_or_abort!
+
+        build_dir = Puppet::Module::Tool::Cache.base_path + "tmp-unpacker-#{Digest::SHA1.hexdigest(@filename.basename.to_s)}"
+        build_dir.mkpath
+        begin
+          say "Installing #{@filename} to #{@module_dir.expand_path}"
+          unless system "tar xzf #{@filename} -C #{build_dir}"
+            abort "Could not extract contents of module archive."
+          end
+          # grab the first directory
+          extracted = build_dir.children.detect { |c| c.directory? }
+          FileUtils.mv extracted, @module_dir
+        ensure
+          build_dir.rmtree
+        end
+      end
+
+      def delete_existing_installation_or_abort!
+        return unless @module_dir.exist?
+
+        if !options[:force]
+          header "Existing module '#{@module_dir.expand_path}' found"
+          response = prompt "Overwrite module installed at #{@module_dir.expand_path}? [y/N]"
           unless response =~ /y/i
             abort "Aborted installation."
           end
         end
+
+        say "Deleting #{@module_dir.expand_path}"
+        FileUtils.rm_rf @module_dir
       end
-
     end
-
   end
 end

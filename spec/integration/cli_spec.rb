@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'tmpdir'
 
 # Directory that contains sample releases.
 RELEASE_FIXTURES_DIR = File.join(File.dirname(File.expand_path(__FILE__)), "..", "fixtures", "releases")
@@ -15,6 +16,11 @@ def install_release_fixture(name)
 end
 
 describe "cli" do
+	before do
+		@mytmpdir = Pathname.new(Dir.mktmpdir)
+		Puppet::Module::Tool.stubs(:install_dir).returns(@mytmpdir)
+	end
+
   # Return STDOUT and STDERR output generated from +block+ as it's run within a temporary test directory.
   def run(&block)
     return output_for do
@@ -260,6 +266,24 @@ describe "cli" do
   end
 
   describe "install" do
+    it "should install a module to the puppet modulepath by default" do
+			myothertmpdir = Pathname.new(Dir.mktmpdir)
+      run do
+				Puppet.settings[:puppet_module_install_dir] = myothertmpdir
+				Puppet::Module::Tool.unstub(:install_dir)
+        app.generate(@full_name)
+        app.build(@full_name)
+
+        FileUtils.mv("#{@full_name}/pkg/#{@release_name}.tar.gz", "#{@release_name}.tar.gz")
+        FileUtils.rm_rf(@full_name)
+
+        app.install("#{@release_name}.tar.gz")
+
+        File.directory?(myothertmpdir + @module_name).should == true
+        File.file?(myothertmpdir + @module_name + 'metadata.json').should == true
+      end.should =~ /Installed "myuser-mymodule-0.0.1" into directory: #{Regexp.escape(myothertmpdir + @module_name)}/
+    end
+
     it "should install a module from a filesystem path" do
       run do
         app.generate(@full_name)
@@ -270,9 +294,9 @@ describe "cli" do
 
         app.install("#{@release_name}.tar.gz")
 
-        File.directory?(@module_name).should == true
-        File.file?(File.join(@module_name, 'metadata.json')).should == true
-      end.should =~ /Installed "myuser-mymodule-0.0.1" into directory: mymodule/
+        File.directory?(@mytmpdir + @module_name).should == true
+        File.file?(@mytmpdir + @module_name + 'metadata.json').should == true
+      end.should =~ /Installed "myuser-mymodule-0.0.1" into directory: #{Regexp.escape(@mytmpdir + @module_name)}/
     end
 
     it "should install a module from a webserver URL" do
@@ -289,9 +313,9 @@ describe "cli" do
 
         app.install(@full_name)
 
-        File.directory?(@module_name).should == true
-        File.file?(File.join(@module_name, 'metadata.json')).should == true
-      end.should =~ /Installed #{@release_name.inspect} into directory: #{@module_name}/
+        File.directory?(@mytmpdir + @module_name).should == true
+        File.file?(@mytmpdir + @module_name + 'metadata.json').should == true
+      end.should =~ /Installed #{@release_name.inspect} into directory: #{Regexp.escape(@mytmpdir + @module_name)}/
     end
 
     it "should install a module from a webserver URL using a version requirement" # TODO

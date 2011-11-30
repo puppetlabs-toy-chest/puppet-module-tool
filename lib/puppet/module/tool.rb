@@ -36,6 +36,10 @@ module Puppet
         @version ||= (root + 'VERSION').read
       end
 
+      def self.install_dir
+        @install_dir ||= Pathname.new(Puppet.settings[:puppet_module_install_dir])
+      end
+
       # Return Pathname for this tool's working directory.
       def self.working_dir
         @working_dir ||= Pathname.new(Puppet.settings[:puppet_module_working_dir])
