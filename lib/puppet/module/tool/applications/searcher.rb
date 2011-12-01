@@ -28,7 +28,7 @@ module Puppet::Module::Tool
           say "Could not execute search (HTTP #{response.code})"
         end
       end
-      
+
     end
   end
 end

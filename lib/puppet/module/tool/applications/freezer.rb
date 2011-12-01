@@ -7,7 +7,7 @@ module Puppet::Module::Tool
       def skeleton
         @skeleton ||= Skeleton.new
       end
-        
+
       def run
         header "Freezing in #{skeleton.custom_path}"
         skeleton.freeze!
@@ -15,6 +15,6 @@ module Puppet::Module::Tool
       end
 =end
     end
-    
+
   end
 end

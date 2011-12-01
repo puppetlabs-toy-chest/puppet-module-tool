@@ -10,7 +10,7 @@ def output_for(&block)
   $stderr = output
 
   block.call
-  
+
   output.rewind
   return output.read
 ensure

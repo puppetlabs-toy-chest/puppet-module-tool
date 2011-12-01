@@ -45,7 +45,7 @@ module Puppet::Module::Tool
     def annotate(metadata)
       metadata.checksums.replace(data)
     end
-    
+
     # TODO: Move the Checksummer#run checksum checking to here?
 
   end

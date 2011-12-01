@@ -29,6 +29,6 @@ module Puppet::Module::Tool
       end
 =end
     end
-    
+
   end
 end

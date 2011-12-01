@@ -12,7 +12,7 @@ module Puppet::Module::Tool
     # end
 
     # Return Pathname with 'generate' templates.
-    def path 
+    def path
       paths.detect { |path| path.directory? }
     end
 

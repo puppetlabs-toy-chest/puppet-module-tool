@@ -24,7 +24,7 @@ module Puppet::Module::Tool
       end
 
       private
-      
+
       def validate!
         unless @username && @module_name
           abort "Username and Module name not provided"
@@ -37,6 +37,6 @@ module Puppet::Module::Tool
       end
 =end
     end
-    
+
   end
 end

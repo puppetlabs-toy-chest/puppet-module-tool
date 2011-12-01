@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'tmpdir'
 
 # Directory that contains sample releases.
 RELEASE_FIXTURES_DIR = File.join(File.dirname(File.expand_path(__FILE__)), "..", "fixtures", "releases")
@@ -15,6 +16,21 @@ def install_release_fixture(name)
 end
 
 describe "cli" do
+  before do
+    @mytmpdir = Pathname.new(Dir.mktmpdir)
+    Puppet::Module::Tool.stubs(:install_dir).returns(@mytmpdir)
+  end
+
+  def build_and_install_module
+    app.generate(@full_name)
+    app.build(@full_name)
+
+    FileUtils.mv("#{@full_name}/pkg/#{@release_name}.tar.gz", "#{@release_name}.tar.gz")
+    FileUtils.rm_rf(@full_name)
+
+    app.install("#{@release_name}.tar.gz")
+  end
+
   # Return STDOUT and STDERR output generated from +block+ as it's run within a temporary test directory.
   def run(&block)
     return output_for do
@@ -180,7 +196,7 @@ describe "cli" do
             dependency1['version_requirement'].should == dependency1_requirement
             dependency1['repository'].should be_nil
           end
-          
+
           dependencies[1].tap do |dependency2|
             dependency2['name'].should == dependency2_name
             dependency2['version_requirement'].should == dependency2_requirement
@@ -260,19 +276,26 @@ describe "cli" do
   end
 
   describe "install" do
+    it "should install a module to the puppet modulepath by default" do
+      myothertmpdir = Pathname.new(Dir.mktmpdir)
+      run do
+        Puppet.settings[:puppet_module_install_dir] = myothertmpdir
+        Puppet::Module::Tool.unstub(:install_dir)
+
+        build_and_install_module
+
+        File.directory?(myothertmpdir + @module_name).should == true
+        File.file?(myothertmpdir + @module_name + 'metadata.json').should == true
+      end.should =~ /Installed "myuser-mymodule-0.0.1" into directory: #{Regexp.escape(myothertmpdir + @module_name)}/
+    end
+
     it "should install a module from a filesystem path" do
       run do
-        app.generate(@full_name)
-        app.build(@full_name)
+        build_and_install_module
 
-        FileUtils.mv("#{@full_name}/pkg/#{@release_name}.tar.gz", "#{@release_name}.tar.gz")
-        FileUtils.rm_rf(@full_name)
-
-        app.install("#{@release_name}.tar.gz")
-
-        File.directory?(@module_name).should == true
-        File.file?(File.join(@module_name, 'metadata.json')).should == true
-      end.should =~ /Installed "myuser-mymodule-0.0.1" into directory: mymodule/
+        File.directory?(@mytmpdir + @module_name).should == true
+        File.file?(@mytmpdir + @module_name + 'metadata.json').should == true
+      end.should =~ /Installed "myuser-mymodule-0.0.1" into directory: #{Regexp.escape(@mytmpdir + @module_name)}/
     end
 
     it "should install a module from a webserver URL" do
@@ -289,9 +312,9 @@ describe "cli" do
 
         app.install(@full_name)
 
-        File.directory?(@module_name).should == true
-        File.file?(File.join(@module_name, 'metadata.json')).should == true
-      end.should =~ /Installed #{@release_name.inspect} into directory: #{@module_name}/
+        File.directory?(@mytmpdir + @module_name).should == true
+        File.file?(@mytmpdir + @module_name + 'metadata.json').should == true
+      end.should =~ /Installed #{@release_name.inspect} into directory: #{Regexp.escape(@mytmpdir + @module_name)}/
     end
 
     it "should install a module from a webserver URL using a version requirement" # TODO
@@ -330,11 +353,7 @@ describe "cli" do
   describe "clean" do
     it "should clean cache" do
       run do
-        app.generate(@full_name)
-        app.build(@full_name)
-        FileUtils.mv("#{@full_name}/pkg/#{@release_name}.tar.gz", "#{@release_name}.tar.gz")
-        FileUtils.rm_rf(@full_name)
-        app.install("#{@release_name}.tar.gz")
+        build_and_install_module
 
         Puppet::Module::Tool::Cache.base_path.directory?.should == true
 
