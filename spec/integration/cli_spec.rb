@@ -16,10 +16,20 @@ def install_release_fixture(name)
 end
 
 describe "cli" do
-	before do
-		@mytmpdir = Pathname.new(Dir.mktmpdir)
-		Puppet::Module::Tool.stubs(:install_dir).returns(@mytmpdir)
-	end
+  before do
+    @mytmpdir = Pathname.new(Dir.mktmpdir)
+    Puppet::Module::Tool.stubs(:install_dir).returns(@mytmpdir)
+  end
+
+  def build_and_install_module
+    app.generate(@full_name)
+    app.build(@full_name)
+
+    FileUtils.mv("#{@full_name}/pkg/#{@release_name}.tar.gz", "#{@release_name}.tar.gz")
+    FileUtils.rm_rf(@full_name)
+
+    app.install("#{@release_name}.tar.gz")
+  end
 
   # Return STDOUT and STDERR output generated from +block+ as it's run within a temporary test directory.
   def run(&block)
@@ -267,17 +277,12 @@ describe "cli" do
 
   describe "install" do
     it "should install a module to the puppet modulepath by default" do
-			myothertmpdir = Pathname.new(Dir.mktmpdir)
+      myothertmpdir = Pathname.new(Dir.mktmpdir)
       run do
-				Puppet.settings[:puppet_module_install_dir] = myothertmpdir
-				Puppet::Module::Tool.unstub(:install_dir)
-        app.generate(@full_name)
-        app.build(@full_name)
+        Puppet.settings[:puppet_module_install_dir] = myothertmpdir
+        Puppet::Module::Tool.unstub(:install_dir)
 
-        FileUtils.mv("#{@full_name}/pkg/#{@release_name}.tar.gz", "#{@release_name}.tar.gz")
-        FileUtils.rm_rf(@full_name)
-
-        app.install("#{@release_name}.tar.gz")
+        build_and_install_module
 
         File.directory?(myothertmpdir + @module_name).should == true
         File.file?(myothertmpdir + @module_name + 'metadata.json').should == true
@@ -286,13 +291,7 @@ describe "cli" do
 
     it "should install a module from a filesystem path" do
       run do
-        app.generate(@full_name)
-        app.build(@full_name)
-
-        FileUtils.mv("#{@full_name}/pkg/#{@release_name}.tar.gz", "#{@release_name}.tar.gz")
-        FileUtils.rm_rf(@full_name)
-
-        app.install("#{@release_name}.tar.gz")
+        build_and_install_module
 
         File.directory?(@mytmpdir + @module_name).should == true
         File.file?(@mytmpdir + @module_name + 'metadata.json').should == true
@@ -354,11 +353,7 @@ describe "cli" do
   describe "clean" do
     it "should clean cache" do
       run do
-        app.generate(@full_name)
-        app.build(@full_name)
-        FileUtils.mv("#{@full_name}/pkg/#{@release_name}.tar.gz", "#{@release_name}.tar.gz")
-        FileUtils.rm_rf(@full_name)
-        app.install("#{@release_name}.tar.gz")
+        build_and_install_module
 
         Puppet::Module::Tool::Cache.base_path.directory?.should == true
 
