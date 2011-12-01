@@ -60,6 +60,7 @@ class Puppet::Module::Tool::CLI < Thor
   desc "install MODULE_NAME_OR_FILE [OPTIONS]", "Install a module (eg, 'user-modname') from a repository or file"
   method_option :version, :alias => :v, :desc => "Version to install (can be a requirement, eg '>= 1.0.3', defaults to latest version)"
   method_option :force, :alias => :f, :type => :boolean, :desc => "Force overwrite of existing module, if any"
+  method_option :install_dir, :alias => :i, :desc => "The directory into which modules are installed"
   method_option_repository
   def install(name)
     Puppet::Module::Tool::Applications::Installer.run(name, options)
