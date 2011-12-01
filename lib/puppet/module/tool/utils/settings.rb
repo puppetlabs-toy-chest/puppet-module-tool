@@ -8,14 +8,35 @@ module Puppet::Module::Tool::Utils
     def prepare_settings(options = {})
       require 'puppet/util/run_mode'
 
-      return if @settings_prepared
-
       if options[:config]
         Puppet.settings.send(:set_value, :config, options[:config], :cli)
       end
 
       # in order to read the master's modulepath
       change_settings_used(:master)
+
+      define_settings
+
+      if options[:install_dir]
+        Puppet.settings.send(:set_value, :puppet_module_install_dir, options[:install_dir], :cli)
+      end
+
+      change_settings_used(:puppet_module)
+      Puppet.settings.use(:puppet_module)
+
+      [:puppet_module_repository].each do |key|
+        if options[key]
+          Puppet.settings.send(:set_value, key, options[key], :cli)
+        end
+      end
+
+    end
+
+    private
+
+    def define_settings
+      # Puppet defaults can only be set once
+      return if @defaults_set
 
       Puppet.setdefaults(:puppet_module,
         :puppet_module_repository  => [
@@ -31,23 +52,8 @@ module Puppet::Module::Tool::Utils
           "The directory into which modules are installed"
         ]
       )
-
-      Puppet::Module::Tool.working_dir.mkpath
-
-      Puppet.settings.use(:puppet_module)
-
-      change_settings_used(:puppet_module)
-
-      [:puppet_module_repository].each do |key|
-        if options[key]
-          Puppet.settings.send(:set_value, key, options[key], :cli)
-        end
-      end
-
-      @settings_prepared = true
+      @defaults_set = true
     end
-
-    private
 
     # The settings section we use when parsing is determined by the run_mode
     def change_settings_used(run_mode)
