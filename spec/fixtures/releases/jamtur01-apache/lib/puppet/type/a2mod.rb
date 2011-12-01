@@ -1,6 +1,6 @@
 Puppet::Type.newtype(:a2mod) do
     @doc = "Manage Apache 2 modules"
- 
+
     ensurable
 
     newparam(:name) do
@@ -8,5 +8,5 @@ Puppet::Type.newtype(:a2mod) do
 
        isnamevar
 
-    end 
+    end
 end

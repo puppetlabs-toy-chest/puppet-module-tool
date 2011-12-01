@@ -42,7 +42,7 @@ module Puppet::Module::Tool
             rescue OpenURI::HTTPError => e
               abort "Could not install module: #{e.message}"
             end
-            Unpacker.run(cache_path, Dir.pwd, options)
+            Unpacker.run(cache_path, options)
           else
             abort "Malformed response from module repository."
           end
@@ -50,7 +50,7 @@ module Puppet::Module::Tool
           repository = Repository.new('file:///')
           uri = URI.parse("file://#{File.expand_path(@filename)}")
           cache_path = repository.retrieve(uri)
-          Unpacker.run(cache_path, Dir.pwd, options)
+          Unpacker.run(cache_path, options)
         else
           abort "Could not determine installation source"
         end
@@ -78,6 +78,6 @@ module Puppet::Module::Tool
       end
 
     end
-    
+
   end
 end

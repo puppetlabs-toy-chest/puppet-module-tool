@@ -5,7 +5,7 @@ NameVirtualHost *:80
 <VirtualHost *:80>
   ServerName testvhost
   DocumentRoot /tmp/testvhost
-  <Directory /tmp/testvhost> 
+  <Directory /tmp/testvhost>
     Options Indexes FollowSymLinks MultiViews
     AllowOverride None
     Order allow,deny

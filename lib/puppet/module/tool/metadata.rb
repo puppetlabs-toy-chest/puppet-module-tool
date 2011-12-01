@@ -57,35 +57,35 @@ module Puppet::Module::Tool
 
     def license
       @license || 'UNKNOWN'
-    end 
+    end
 
     def license=(license)
       @license = license
-    end 
+    end
 
     def summary
       @summary || 'UNKNOWN'
-    end 
+    end
 
     def summary=(summary)
       @summary = summary
-    end 
+    end
 
     def description
       @description || 'UNKNOWN'
-    end 
+    end
 
     def description=(description)
       @description = description
-    end 
+    end
 
     def project_page
       @project_page || 'UNKNOWN'
-    end 
+    end
 
     def project_page=(project_page)
       @project_page = project_page
-    end 
+    end
 
     # Return an array of the module's Puppet types, each one is a hash
     # containing :name and :doc.

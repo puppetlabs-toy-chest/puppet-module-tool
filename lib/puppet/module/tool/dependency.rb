@@ -20,7 +20,7 @@ module Puppet::Module::Tool
       result[:repository] = @repository.to_s if @repository && ! @repository.nil?
       result.to_pson(*args)
     end
-    
+
   end
-  
+
 end

@@ -16,7 +16,7 @@
 #OPTIONS=-DDOWN
 
 #
-# By default, the httpd process is started in the C locale; to 
+# By default, the httpd process is started in the C locale; to
 # change the locale in which the server runs, the HTTPD_LANG
 # variable can be set.
 #

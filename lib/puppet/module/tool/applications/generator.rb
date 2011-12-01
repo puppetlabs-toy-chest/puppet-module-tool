@@ -43,7 +43,7 @@ module Puppet::Module::Tool
           end
         end
       end
-      
+
       def destination
         @destination ||= Pathname.new(@metadata.dashed_name)
       end
@@ -114,8 +114,8 @@ module Puppet::Module::Tool
           FileUtils.cp(@source, target)
         end
       end
-      
+
     end
-    
+
   end
 end

@@ -7,7 +7,7 @@ module Puppet::Module::Tool
         @path = Pathname.new(path)
         super(options)
       end
-      
+
       def run
         if metadata_file.exist?
           sums = Checksums.new(@path)
