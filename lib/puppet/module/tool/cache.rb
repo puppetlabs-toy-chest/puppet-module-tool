@@ -21,7 +21,7 @@ module Puppet::Module::Tool
         uri = normalize(url)
         unless cached_file.file?
           if uri.scheme == 'file'
-            FileUtils.cp(uri.path, cached_file)
+            FileUtils.cp(URI.unescape(uri.path), cached_file)
           else
             # TODO: Handle HTTPS; probably should use repository.contact
             data = read_retrieve(uri)

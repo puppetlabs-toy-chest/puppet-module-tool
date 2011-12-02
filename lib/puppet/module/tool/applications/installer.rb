@@ -48,7 +48,7 @@ module Puppet::Module::Tool
           end
         when :filesystem
           repository = Repository.new('file:///')
-          uri = URI.parse("file://#{File.expand_path(@filename)}")
+          uri = URI.parse("file://#{URI.escape(File.expand_path(@filename))}")
           cache_path = repository.retrieve(uri)
           Unpacker.run(cache_path, options)
         else
