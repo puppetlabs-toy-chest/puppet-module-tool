@@ -42,8 +42,8 @@ module Puppet::Module::Tool
             ).start(@uri.host, @uri.port) do |http|
           http.request(request)
         end
-      rescue Errno::ECONNREFUSED, SocketError
-        abort "Could not reach remote repository"
+      rescue Errno::ECONNREFUSED, SocketError => e
+        abort "Could not reach remote repository at #{@uri}: #{e}"
       end
     end
 
