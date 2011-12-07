@@ -13,6 +13,14 @@ describe Puppet::Module::Tool do
       ENV["http_proxy"] = nil
     end
 
+    it "should handle no proxy with defaults" do
+      Puppet.settings.expects(:[]).with(:http_proxy_host).returns('none')
+      Puppet.settings.expects(:[]).with(:http_proxy_port).returns(3128)
+
+      described_class.http_proxy_host.should == nil
+      described_class.http_proxy_port.should == 3128
+    end
+
     it "should support environment variable for port and host" do
       ENV["http_proxy"] = "http://test.com:8011"
       described_class.http_proxy_host.should == "test.com"

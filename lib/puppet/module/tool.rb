@@ -90,7 +90,11 @@ module Puppet
           return env.host
         end
 
-        return Puppet.settings[:http_proxy_host]
+        host = Puppet.settings[:http_proxy_host]
+        if host != "none" then
+          return host
+        end
+        nil
       end
       def self.http_proxy_port
         env = http_proxy_env
