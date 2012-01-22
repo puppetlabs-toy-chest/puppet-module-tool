@@ -1,3 +1,12 @@
+* * *
+# **Important Note: Module merged into core puppet**
+
+This module has been converted to a [puppet face](http://puppetlabs.com/blog/puppet-faces-what-the-heck-are-faces/)
+and merged into the core puppet repository. Any further development should take place in [puppetlabs/puppet](https://github.com/puppetlabs/puppet). 
+
+You can find the code for the new tool here [`puppet/lib/puppet/face/module`](https://github.com/puppetlabs/puppet/tree/master/lib/puppet/face/module).
+* * *
+
 Puppet Module Tool
 ==================
 
@@ -192,22 +201,6 @@ Deleting a module
 
 The tool does not keep track of what modules you have installed. TO delete a
 module just delete the directory the module was extracted into.
-
-Developing or submitting patches
---------------------------------
-
-You need the following RubyGems to run the test suite: `mocha`, `rspec`.
-
-You can run the tests with:
-
-    rake spec
-
-Get involved
-------------
-
-This is new and exciting for us. We have many plans for this and what
-you see now is just the beginning. If you have ideas, please get in
-touch. Puppet Labs can be contacted at: info@puppetlabs.com
 
 Technical disclaimer for techies
 --------------------------------
