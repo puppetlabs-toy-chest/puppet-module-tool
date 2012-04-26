@@ -33,6 +33,8 @@ module Puppet::Module::Tool
           if path == skeleton
             destination.mkpath
           else
+            next if (path.fnmatch?('*/spec*') &&
+                     (@options[:exclude_spec] || @options[:rspec_puppet_generator]))
             node = Node.on(path, self)
             if node
               node.install!
@@ -41,6 +43,13 @@ module Puppet::Module::Tool
               say "Could not generate from #{path}"
             end
           end
+        end
+        if(@options[:rspec_puppet_generator])
+          old_pwd = Dir.pwd
+          Dir.chdir destination
+          require 'rspec-puppet'
+          RSpec::Puppet::Setup.run
+          Dir.chdir old_pwd 
         end
       end
 
