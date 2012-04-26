@@ -19,7 +19,9 @@ class Puppet::Module::Tool::CLI < Thor
     say Puppet::Module::Tool.version
   end
 
-  desc "generate USERNAME-MODNAME", "Generate boilerplate for a new module"
+  desc "generate USERNAME-MODNAME [OPTIONS]", "Generate boilerplate for a new module"
+  method_option :exclude_spec, :aliases => '-X', :type => :boolean, :desc => "Exclude RSpec tests."
+  method_option :rspec_puppet_generator, :aliases => '-R', :type => :boolean, :desc => "Use rspec-puppet generator."
   method_option_repository
   def generate(name)
     Puppet::Module::Tool::Applications::Generator.run(name, options)
